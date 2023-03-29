@@ -1,0 +1,49 @@
+<!--
+title: Active Directory
+description: 
+published: true
+date: 2023-03-15T16:22:47.212Z
+tags: 
+editor: undefined
+dateCreated: 2023-02-28T12:10:35.538Z
+-->
+
+<h1>Active Directory</h1>
+<p>&nbsp;</p>
+<h2>Wiederherstellung eines gelöschten AD-Kontos</h2>
+<p>Dieser Artikel gilt für: <i>Server 2008, Server 2008 R2,&nbsp;2012, Server 2012 R2</i></p>
+<p>Manchmal ist man einfach etwas zu schnell: Nur wenige Klicks und das Benutzer- oder Computerkonto ist gelöscht. Ohne die Papierkorb-Funktion wird man dann schnell hektisch.</p>
+<p>Im Folgenden zeige ich einen schnellen Weg, ein gelöschtes AD-Konto wiederherzustellen.</p>
+<h3>LDAP - dein Freund und Helfer</h3>
+<p>Die ldp.exe bietet nicht nur einen Blick in die komplette Active-Directory Struktur, sondern bietet außerdem einige Möglichkeiten vorhandene Objekte zu bearbeiten.</p>
+<p>Zunächst verbinden wir uns einmal mit dem AD:</p>
+<p><strong>Connection -&gt; Connect... -&gt;</strong> Wenn man sich auf dem DC befindet, kann man hier alle Einstellungen lassen und muss bei Server nichts eintragen:</p>
+<figure class="image"><img src="/ad-konto_wiederherstellen_connect.png"></figure>
+<p>&nbsp;</p>
+<p>Über <strong>Connection -&gt; Bind...</strong> loggt man sich nun als Administrator ein.</p>
+<p>Über <i><strong>View -&gt; Tree</strong></i> lässt man sich die <i><strong>BaseDN DC=Domäne, DC=ENDUNG</strong></i> anzeigen:</p>
+<figure class="image"><img src="/ad-konto_wiederherstellen_tree.png"></figure>
+<p>&nbsp;</p>
+<p>Hier sieht man nun die normale Struktur des AD vor sich:</p>
+<figure class="image"><img src="/ad-konto_wiederherstellen_tree2.png"></figure>
+<p>&nbsp;</p>
+<p>Um sich die gelöschten Objekte anzeigen zu lassen, navigiert man über <i><strong>Options -&gt; Controlls</strong></i> zu folgendem Fenster, wählt unter <i><strong>Load Predefined</strong></i> den Eintrag <i><strong>Returndeleted objects</strong></i> aus und bestätigt mit OK:</p>
+<figure class="image"><img src="/ad-konto_wiederherstellen_options.png"></figure>
+<p>&nbsp;</p>
+<p>Lädt man jetzt über <i><strong>View -&gt; Tree</strong></i> erneut die AD-Baumstruktur, gibt es hier indessen einen Container <i><strong>CN=Deleted Objects, DC=...</strong></i></p>
+<p>Dieser Container enthält die gelöschten Objekte des ADs:</p>
+<figure class="image"><img src="/ad-konto_wiederherstellen_deleted.png"></figure>
+<p>&nbsp;</p>
+<h3>Das Wiederherstellen</h3>
+<p>Über einen Rechtsklick auf das <i><strong>Objekt -&gt; Modify</strong></i> kommt man zu dem eigentlichen Dialogfenster, das man zum Wiederherstellen benötigt:</p>
+<p>Hier erstellt man jetzt eine Liste an Änderungen, die an dem AD-Objekt vorgenommen werden sollen. Hier trägt man nun folgende Änderungen ein:</p>
+<p>Die Löschmarkierung:</p>
+<p>Attribute: isDeleted</p>
+<p>Values: <i>LEER</i></p>
+<p>Operation: Delete</p>
+<p>Korrektur des DN:</p>
+<p>Atrribut: distinguishedName</p>
+<p>Values: <i>DISTINGUISHED_NAME</i></p>
+<p>Operation: Replace</p>
+<p>Hier muss <i>DISTINGUISHED_NAME</i> natürlich mit dem korrekten DN des Benutzers ersetzt werden und <i>LEER</i> bedeutet, dass das Feld wirklich leer sein soll. Es muss zudem der Haken bei <strong>Extended</strong> gesetzt sein.</p>
+<p>Nun führt man die Befehle noch über <i><strong>Run </strong></i>aus. Nach einer Aktualisierung des Trees sollte jetzt das gelöschte Objekt im angegebenen Container vorhanden sein.</p>

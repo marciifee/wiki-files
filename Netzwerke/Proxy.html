@@ -1,0 +1,240 @@
+<!--
+title: Proxy Server
+description: 
+published: true
+date: 2023-03-15T16:25:16.452Z
+tags: 
+editor: undefined
+dateCreated: 2023-03-03T11:14:12.096Z
+-->
+
+<h1>Proxy</h1>
+<h2>Was ist ein Proxy-Server?</h2>
+<p>Ein Proxy-Server ist ein Vermittler zwischen einem Client und einem Webserver der im Internet steht. Bei der Nutzung eines Proxyservers fließt der Internetverkehr in beide Richtungen durch den Proxy Server.</p>
+<p>Je nach Anwendungsfall und Bedarf können Proxy-Server IT-Sicherheitsrichtlinien für den Datenverkehr durchsetzen. Sie können als <a href="https://www.redlings.com/de/ratgeber/firewall">Firewalls</a> und Webfilter arbeiten aber auch Daten in einem Cache speichern, um häufige Anfrage zu beschleunigen. Da Proxy Server als der direkte Kommunikationspartner für den Webserver im Internet auftreten können Sie auch den Datenschutz stärken und sowohl den Zugriff als auch den Download von Malware blockieren.</p>
+<p>&nbsp;</p>
+<figure class="image image_resized" style="width:831px;"><img src="https://www.redlings.com/content/media/guide-proxy-server1.png" alt="Proxy Server als Vermittler zwischen Client und dem Webserver im Internet"></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<ol>
+  <li>Der Client sendet die Webanfrage an die IP-Adresse des Proxyservers.</li>
+  <li>Der Proxy Server leitet die Anfrage an die Zieladresse weiter.</li>
+  <li>Die wird vom Webserver an den Proxy Server zurückgeschickt.</li>
+  <li>Der Proxy Server leitet die angeforderten Daten an den Client zurück, ohne dass der Client jemals direkt mit dem Webserver kommuniziert hat.</li>
+</ol>
+<p>&nbsp;</p>
+<h2>Wie funktioniert ein Proxy Server?</h2>
+<p>Bei einer Anfrage an einen Webserver baut ein Client wie Chrome oder Firefox keine direkte Verbindung mit dem Webserver auf, sondern verbindet sich nur mit dem Proxy Server.</p>
+<p>&nbsp;</p>
+<p>CLIENT &lt;---&gt; PROXY SERVER &lt;---&gt; WEBSERVER &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+<p>&nbsp;</p>
+<p>Der Client teil dem Proxy Server dann mit, welche Webseite geladen werden soll. Der Proxy Server sendet dann diese Anfrage an den Zielserver in Internet. Die Antwort des Webserver läuft dann ebenfalls wieder über den Proxy Server zurück.</p>
+<p>Da der Proxy Server die Webanfragen in beide Richtungen weiterleitet, kann er Änderungen an den gesendeten Daten vorgenommen werden. Ein Proxy-Server kann die Absender-IP-Adresse ändern und andere Anfragefelder anonymisieren, so dass der Webserver nicht genau weiß, wo sich der Client befindet. Auch kann ein Proxy Server den Zugang zu bestimmten Webseiten auf der Grundlage des Domain-Namens oder der IP-Adresse blockieren.</p>
+<h2>Woher bekomme ich einen Proxy Server?</h2>
+<p>Proxy Server können als Dienstleistung gekauft, selbst betrieben und sogar frei benutzt werden.</p>
+<p>&nbsp;</p>
+<ul>
+  <li><strong>Cloudbasierte Proxy-Server:</strong> Üblicherweise wird eine Anwendung des Anbieters auf dem Endgerät installiert. Diese Anwendung stellt die korrekte Kommunikation mit dem Cloud Proxy Server sicher.</li>
+  <li><strong>Eigenes Hosting:</strong> Es gibt eine Reihe von Anbietern die fertig konfigurierte hardwarebasierte und virtuelle Appliances verkaufen die direkt im eigenen Rechenzentrum eingesetzt werden können. Oft werden diese als Web-Proxy vermarktet. Eine bekannte und leistungsfähige Open-Source Softwarelösung ist <a href="http://www.squid-cache.org/">Squid Cache</a>.</li>
+  <li><strong>Offene Proxy Server (bezahlt/unbezahlt):</strong> Manche Anbieter bieten riesige Listen von öffentlich und ohne <a href="https://www.redlings.com/de/ratgeber/authentisierung-authentifizierung-autorisierung">Authentifizierung</a> erreichbaren Proxy Servern an. Häufig wissen die Betreiber dieser Proxy Server gar nicht, dass sie auf diesen Listen stehen. Ohne entsprechende Autorisierung des Betreibers ist die Nutzung solcher Proxy Server illegal.</li>
+</ul>
+<p>&nbsp;</p>
+<h2>Wie wird der Proxy Server eingerichtet?</h2>
+<p>Um einen Proxy Server in Betrieb zu nehmen, müssen alle IT-Systeme und Anwendungen entsprechend konfiguriert werden. In den meisten Fällen erfolgt die Einrichtung mit Hilfe eines automatischen Konfigurationsskripts oder einer Anwendung, die installiert werden muss.</p>
+<h2>Gründe für Unternehmen einen Proxy Server einzusetzen</h2>
+<p>Proxys bieten eine wertvolle Sicherheitsebene für die Benutzer und die Computer im internen Netzwerk. Sie können als Webfilter oder Firewalls eingerichtet werden und können helfen die IT-Systeme vor Internet-Bedrohungen wie Malware zu schützen.</p>
+<p>&nbsp;</p>
+<ol>
+  <li><strong>Verbesserte Sicherheit:</strong> Proxy-Server können verhindern, dass bekannte Webseiten für Malware oder Phishing aus dem Unternehmensnetz einfach zugänglich sind.</li>
+  <li><strong>Durchsetzung der Internetrichtlinien im Unternehmen: </strong>Unternehmen richten ein, um zu kontrollieren und zu überwachen, wie die Mitarbeiter das Internet verwenden. Viele Organisationen wollen nicht, dass während der Arbeitszeit bestimmte Websites genutzt werden. Proxy Server können so konfiguriert werden, dass <strong>Zugriffe ausgewählte Websites</strong> verweigert werden. Anstatt dessen wird ein freundlicher Hinweis eingeblendet. Auch die Protokollierung von Webanfragen kann sich für forensische Zwecke als hilfreich erweisen.</li>
+  <li><strong>Bandbreiteneinsparung: </strong>Unternehmen können mit einem Proxy Server eine bessere Gesamtleistung des Netzwerks erzielen. Proxy Server können beliebte Websites in den Cache stellen und diese dann direkt ausliefern. Das spart Bandbreite und verbessert die Netzwerkleistung.</li>
+  <li><strong>Verbesserung des Datenschutzes:</strong> Einige Proxy Server können als anonyme Proxy Server auftreten und entfernen identifizierende Informationen aus der Webanfrage. Das funktioniert mit Web-Browsern auch recht zuverlässig, auf Anwendungsebene aber oft eher schlecht.</li>
+  <li><strong>Zugang zu gesperrten Ressourcen:</strong> Mit Proxy-Servern können Benutzer die von Unternehmen oder Regierungen auferlegten Inhaltsbeschränkungen umgehen. Der Proxyserver lässt es so aussehen, als wären Sie in den USA. Das kann auch in Ländern mit staatlicher Internetzensur helfen, auch wenn in solchen Fällen oft ein VPN die bessere Lösung ist.</li>
+  <li><strong>Zugang zu lokalisierten Inhalten:</strong> Bei Verwendung eines regionalen Proxy-Servers kann sichergestellt werden, dass man gezielt einem anderen Land zugeordnet ist.</li>
+</ol>
+<p>&nbsp;</p>
+<h2>Arten von Proxy Servern</h2>
+<p>Es ist wichtig den Proxyserver auf den gewünschten Anwendungsfall abzustimmen. Die nacholgende Liste stellt eine Auflistung von Funktionalitäten von modernen Proxyservern dar:</p>
+<h3><strong>FORWARD-PROXY (STANDARDFALL)</strong></h3>
+<p>Ein Forward-Proxy ist der Kommunikationspartner der Clients. Alle Internetkommunikation wird über ihn abgewickelt.</p>
+<p>Ein Forward-Proxy eignet gut für interne Netzwerke, die einen einzigen Zugangspunkt in das Internet benötigen. Durch die stattfindende Network-Address-Translation (NAT) werden die die IPs des internen Netzwerkes nicht preisgegeben.</p>
+<p>Problematisch kann ein solcher Proxy aber sein, wenn eine direkte TCP-Verbindung zwischen einem internen und externen IT-System erforderlich ist.</p>
+<h3><strong>REVERSE PROXY</strong></h3>
+<p>Im Gegensatz zu einem Forward Proxy, der sich bei den Clients befindet, ist ein <strong>Reverse Proxy</strong> vor den Webservern positioniert.</p>
+<p>Ein <strong>Reverse Proxy</strong> nimmt die die Anfragen des Benutzers an den Webservers entgegen und sendet sie an den eigentlichen Webserver weiter. Die Antwort des Webservers wird ebenso wieder zurück zum Client durch den Reverse Proxy zurückgeleitet.</p>
+<p>Ein Reverse Proxy eignet sich gut zur <strong>Filterung und Verteilung</strong> eingehender Lasten. Eine eingehende Verbindung kann auf eine Reihe von Webservern zur Bearbeitung weitergereicht werden. Ebenso können Anfragen vorgefiltert werden, um bösartige und Denial-of-Service Angriffe zu reduzieren.</p>
+<h3><strong>TRANSPARENTER PROXY</strong></h3>
+<p>Ein transparenter Proxy teilt Websites in der Anfrage mit, dass es sich um einen Proxy-Server handelt. Ebenfalls wird die IP-Adresse des Clients an den Webserver mit durchgeleitet.</p>
+<h3><strong>ANONYMER PROXY</strong></h3>
+<p>Im Gegensatz zu transparenten Proxys sorgen anonymer Proxy dafür, dass die IP-Adresse des Clients nicht weitergeleitet wird. Damit können Internetaktivitäten nicht so leicht zurückverfolgt werden.</p>
+<h3><strong>PROXY MIT HOHER ANONYMITÄT</strong></h3>
+<p>Ein <strong>Proxy mit hoher Anonymität</strong> ist ein anonymer Proxy, keine Daten über die Verbindungen zu speichern und eine Rückverfolgung damit faktisch unmöglich zu machen. Oftmals geben sich solche Proxy Server dem Webserver auch nicht als Proxy zu erkennen.</p>
+<h3><strong>ÖFFENTLICHER PROXY</strong></h3>
+<p>Ein öffentlicher Proxy ist für jedermann kostenlos zugänglich. Je nach konfigurierter Anonymität kann auf Webseiten zugegriffen werden, ohne die eigene IP-Adresse offenzulegen.</p>
+<p>Solche öffentlichen Proxys eignen grundsätzlich nur für Nutzer, bei denen Kosten den Ausschlag geben, Sicherheit und Geschwindigkeit aber nicht so wichtig sind. Öffentlich, kostenlos und leicht zugänglich heißt oft auch überlastet und damit langsam. Grundsätzlich ist die Nutzung von öffentlichen Proxy Servern nicht empfohlen.</p>
+<h3><strong>GEMEINSAM GENUTZTER PROXY</strong></h3>
+<p>Die meisten Proxy Server werden gemeinsam genutzt. Das hat Vorteile hinsichtlich der Anonymität und der Kosten.</p>
+<p>Nachteilig bei gemeinsam genutzten Proxys ist die oftmals eingeschränkte Bandbreite. Auch werden alle Nutzer des Proxy-Servers in „Sippenhaft“ genommen für schlechtes Verhalten einiger weniger. Wenn einzelne Webseiten die IP-Adresse des Proxys blockieren, hat das Folgen für alle Benutzer.</p>
+<h3><strong>TLS-PROXY</strong></h3>
+<p>Ein TLS-Proxy (Transport Layer Security) terminiert die TLS-Verbindung zwischen Client und dem Webserver.</p>
+<p>&nbsp;</p>
+<p>CLIENT &lt;--(TLS)--&gt; PROXY SERVER &lt;--(TLS)--&gt; WEBSERVER &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+<p>&nbsp;</p>
+<p>Diese Proxys eignen sich am gut für Unternehmen, die einen soliden Schutz gegen Bedrohungen auf Netzwerkebene benötigen.</p>
+<p>Auch kann der Abfluss von Daten aus dem Unternehmen sehr detailliert überwacht werden (DLP, Data Leakage Prevention).</p>
+<p>Bei der Nutzung eines TLS-Proxys müssen Unternehmen dem Zertifikat des TLS-Proxy auf allen Maschinen vertrauen.</p>
+<h3><strong>ROTIERENDER PROXY</strong></h3>
+<p>Ein rotierender Proxy hat eine große Anzahl von öffentlichen IP-Adressen für die Kommunikation nach außen. Im Optimalfall erhält jeder Benutzer eine eigne IP-Adresse.</p>
+<p>Rotierende Proxys werde gerne genutzt, um Sicherheitsmaßnahmen von Betreibern von Webservern zu unterlaufen. Webseiten haben oftmals einen Schutz gegen Benutzer die wiederholt Daten abfragen oder ganze Webseiten downloaden (Web-Scraping). Falls bei jedem Zugriff eine andere IP-Adresse genutzt wird, wirken diese Mittel oft nicht mehr.</p>
+<p>&nbsp;</p>
+<h2>Forward Proxy</h2>
+<p>&nbsp;</p>
+<h2>Reverse Proxy</h2>
+<p>&nbsp;</p>
+<h2>Anwendung: Squid Proxy</h2>
+<p>&nbsp;</p>
+<h2><strong>Install Proxy Server: Squid Proxy</strong></h2>
+<p><strong>Step1:</strong> Update the server</p>
+<p>sudo yum update -y</p>
+<p><strong>Step 2:</strong> Configure EPEL repo.</p>
+<p>sudo yum -y install epel-release sudo yum -y update sudo yum clean all</p>
+<p><strong>Step 3:</strong> Install squid</p>
+<p>sudo yum -y install squid</p>
+<p><strong>Step 4:</strong> Start and enable squid server.</p>
+<p>sudo systemctl start squid sudo systemctl enable squid</p>
+<p><strong>Step 5:</strong> Check the status of squid server.</p>
+<p>sudo systemctl status squid</p>
+<figure class="image"><img src="https://devopscube.com/wp-content/uploads/2018/08/squid-server-status.png" alt="squid server status" srcset="https://devopscube.com/wp-content/uploads/2018/08/squid-server-status.png 1658w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-status-300x122.png 300w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-status-1024x416.png 1024w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-status-768x312.png 768w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-status-1536x624.png 1536w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-status-380x154.png 380w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-status-800x325.png 800w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-status-1160x472.png 1160w" sizes="100vw" width="1658"></figure>
+<h2><strong>Configure Proxy Server: Squid Proxy</strong></h2>
+<p>All the configurations for the squid server are present in <code>/etc/squid/squid.conf</code> file.</p>
+<h3><strong>Configure proxy Sources To Access Internet</strong></h3>
+<p>First, you need to configure the sources from which squid proxy should accept connections. For example, you might need to access this proxy server only from your home network or from specific CIDR ranges.</p>
+<p>You can add a source IP range with an ACL using the following format.</p>
+<p>acl localnet src 110.220.330.0/24</p>
+<p>Open&nbsp; <code>/etc/squid/squid.conf</code>file and add the source add as shown below. Change the IP to the desired network/IP source based on your needs. In the following example, we have added a single source IP.</p>
+<figure class="image"><img src="https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-configuration.png" alt="squid server configuration" srcset="https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-configuration.png 1504w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-configuration-300x101.png 300w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-configuration-1024x343.png 1024w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-configuration-768x257.png 768w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-configuration-380x127.png 380w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-configuration-800x268.png 800w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-configuration-1160x389.png 1160w" sizes="100vw" width="1504"></figure>
+<p>Restart the proxy server after making the ACL changes.</p>
+<p>sudo systemctl restart squid</p>
+<h3><strong>Test proxy Server Connectivity</strong></h3>
+<p>Test if the proxy server is working using a simple curl request. Use the following curl format. By default squid proxy runs on 3128 port.</p>
+<p>curl -x http://&lt;squid-proxy-server-IP&gt;:3128 &nbsp;-L http://google.com</p>
+<figure class="image"><img src="https://devopscube.com/wp-content/uploads/2018/08/squid-server-connectivity-test.png" alt="/Users/bibin/Downloads/squid server connectivity test" srcset="https://devopscube.com/wp-content/uploads/2018/08/squid-server-connectivity-test.png 1468w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-connectivity-test-300x74.png 300w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-connectivity-test-1024x253.png 1024w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-connectivity-test-768x189.png 768w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-connectivity-test-380x94.png 380w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-connectivity-test-800x197.png 800w, https://devopscube.com/wp-content/uploads/2018/08/squid-server-connectivity-test-1160x286.png 1160w" sizes="100vw" width="1468"></figure>
+<h3><strong>Configure Proxy Authentication</strong></h3>
+<p>Along with access ACL’s, you can add basic authentication to your proxy server for extra security. Follow the steps given below for setting up a basic auth for the squid proxy server.</p>
+<p><strong>Step 1:</strong> Install httpd-tools</p>
+<p>&nbsp;sudo yum -y install httpd-tools</p>
+<p><strong>Step 2:</strong> Create a passwd&nbsp;file and make squid as the file owner.</p>
+<p>sudo touch /etc/squid/passwd &amp;&amp; sudo chown squid /etc/squid/passwd</p>
+<p><strong>Step 3:</strong> Add pxuser&nbsp; to the password file using htpasswd utility. It will prompt for a custom password. Enter a strong password you need. This username and password will be used for all connections through this proxy.</p>
+<p>&nbsp;sudo htpasswd /etc/squid/passwd pxuser</p>
+<figure class="image"><img src="https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication.png" alt="squid proxy aythentication" srcset="https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication.png 1546w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication-300x43.png 300w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication-1024x147.png 1024w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication-768x110.png 768w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication-1536x221.png 1536w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication-380x55.png 380w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication-800x115.png 800w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-aythentication-1160x167.png 1160w" sizes="100vw" width="1546"></figure>
+<p><strong>Step 4:</strong> Open squid config file.</p>
+<p>sudo vi /etc/squid/squid.conf</p>
+<p>Add the following to the config file and save it.</p>
+<p>auth_param basic program /usr/lib64/squid/basic_ncsa_auth /etc/squid/passwd auth_param basic children 5 auth_param basic realm Squid Basic Authentication auth_param basic credentialsttl 2 hours acl auth_users proxy_auth REQUIRED http_access allow auth_users</p>
+<figure class="image"><img src="https://devopscube.com/wp-content/uploads/2018/08/squid-basic-auth.png" alt="squid basic auth" srcset="https://devopscube.com/wp-content/uploads/2018/08/squid-basic-auth.png 1416w, https://devopscube.com/wp-content/uploads/2018/08/squid-basic-auth-300x123.png 300w, https://devopscube.com/wp-content/uploads/2018/08/squid-basic-auth-1024x421.png 1024w, https://devopscube.com/wp-content/uploads/2018/08/squid-basic-auth-768x316.png 768w, https://devopscube.com/wp-content/uploads/2018/08/squid-basic-auth-380x156.png 380w, https://devopscube.com/wp-content/uploads/2018/08/squid-basic-auth-800x329.png 800w, https://devopscube.com/wp-content/uploads/2018/08/squid-basic-auth-1160x477.png 1160w" sizes="100vw" width="1416"></figure>
+<p><strong>Step 5:</strong> Now, restart squid server for the configuration changes to take place.</p>
+<p>sudo systemctl restart squid</p>
+<p><strong>Step 6:</strong> Now if you test the proxy connection using curl, you will get the “authentication required message” as shown below.</p>
+<figure class="image"><img src="https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication.png" alt="squid proxy authentication" srcset="https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication.png 1558w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication-300x63.png 300w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication-1024x214.png 1024w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication-768x161.png 768w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication-1536x321.png 1536w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication-380x80.png 380w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication-800x167.png 800w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-authentication-1160x243.png 1160w" sizes="100vw" width="1558"></figure>
+<p>Now, test the connectivity with proxy user and password we configured in step 3. An example syntax is shown below.</p>
+<p>curl -x http://35.196.101.43:3128 &nbsp;--proxy-user pxuser:12345 &nbsp;-I http://google.com</p>
+<p>&nbsp;</p>
+<h3><strong>Blocking Websites</strong></h3>
+<p>Another great use of the proxy server is restricting the website access. Follow the steps below for creating a block list.</p>
+<p>&nbsp;</p>
+<p><strong>Step 1</strong>: Open a blocked list file.</p>
+<p>sudo vi /etc/squid/blocked_sites</p>
+<p>Add the websites to be blocked in the file. For example,</p>
+<p>facebook.com twitter.com instagram.com</p>
+<p>&nbsp;</p>
+<p><strong>Step 2:</strong> Open the squid config file.</p>
+<p>sudo vi /etc/squid/squid.conf</p>
+<p>Add the following to the ACL list.</p>
+<p>acl blocked_sites dstdomain "/etc/squid/blocked_sites" http_access deny blocked_sites</p>
+<p>&nbsp;</p>
+<p><strong>Step 3:</strong> Restart the squid server.</p>
+<p>sudo systemctl restart squid</p>
+<p>Now if you try to access the blocked site through the proxy, you will get a forbidden message as shown below.</p>
+<figure class="image"><img src="https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites.png" alt="squid proxy blocked sites" srcset="https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites.png 1642w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites-300x38.png 300w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites-1024x131.png 1024w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites-768x98.png 768w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites-1536x196.png 1536w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites-380x49.png 380w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites-800x102.png 800w, https://devopscube.com/wp-content/uploads/2018/08/squid-proxy-blocked-sites-1160x148.png 1160w" sizes="100vw" width="1642"></figure>
+<p>&nbsp;</p>
+<h2>Meine eigene Conf</h2>
+<p>acl localnet src 172.16.0.0/12 # RFC1918 possible internal network</p>
+<p>#acl localnet src 192.168.0.0/16 # RFC1918 possible internal network</p>
+<p>acl localnet src 192.168.88.0/24 &nbsp; &nbsp; &nbsp; &nbsp;# RFC1918 possible internal network</p>
+<p>#acl localnet src fc00::/7 &nbsp; &nbsp; &nbsp; # RFC 4193 local private network range</p>
+<p>#acl localnet src fe80::/10 &nbsp; &nbsp; &nbsp;# RFC 4291 link-local (directly plugged) machines</p>
+<p>&nbsp;</p>
+<p>acl SSL_ports port 443 563</p>
+<p>acl Safe_ports port 80 &nbsp;# http</p>
+<p>acl Safe_ports port 21 &nbsp;# ftp</p>
+<p>acl Safe_ports port 443 &nbsp;# https</p>
+<p>acl Safe_ports port 70 &nbsp;# gopher</p>
+<p>acl Safe_ports port 210 &nbsp;# wais</p>
+<p>acl Safe_ports port 1025-65535 # unregistered ports</p>
+<p>acl Safe_ports port 280 &nbsp;# http-mgmt</p>
+<p>acl Safe_ports port 488 &nbsp;# gss-http</p>
+<p>acl Safe_ports port 591 &nbsp;# filemaker</p>
+<p>acl Safe_ports port 777 &nbsp;# multiling http</p>
+<p>acl CONNECT method CONNECT</p>
+<p>&nbsp;</p>
+<p># auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwords</p>
+<p>auth_param basic realm Squid proxy-caching web server</p>
+<p># acl authenticated proxy_auth REQUIRED</p>
+<p>&nbsp;</p>
+<p>#http_access allow auth_users</p>
+<p>http_access allow all</p>
+<p>&nbsp;</p>
+<p>#http_access deny !Safe_ports</p>
+<p>http_access allow !Safe_ports</p>
+<p>&nbsp;</p>
+<p># Deny CONNECT to other than secure SSL ports</p>
+<p>http_access deny CONNECT !SSL_ports</p>
+<p>&nbsp;</p>
+<p># Only allow cachemgr access from localhost</p>
+<p>http_access allow all manager</p>
+<p>http_access deny manager</p>
+<p>&nbsp;</p>
+<p># We strongly recommend the following be uncommented to protect innocent</p>
+<p># web applications running on the proxy server who think the only</p>
+<p># one who can access services on "localhost" is a local user</p>
+<p>#http_access deny to_localhost</p>
+<p>http_access allow to_localhost</p>
+<p>&nbsp;</p>
+<p>#</p>
+<p># INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS</p>
+<p>#</p>
+<p>&nbsp;</p>
+<p># And finally deny all other access to this proxy</p>
+<p>#http_access allow authenticated</p>
+<p>&nbsp;</p>
+<p># Squid normally listens to port 3128</p>
+<p>http_port 3128</p>
+<p>&nbsp;</p>
+<p>#dns_v4_first on</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p># Uncomment and adjust the following to add a disk cache directory.</p>
+<p>cache_dir null /tmp</p>
+<p>&nbsp;</p>
+<p>#Default:</p>
+<p># access_log daemon:/var/log/squid/access.log squid</p>
+<p>access_log none</p>
+<p>&nbsp;</p>
+<p># cache_log /var/log/squid/cache.log</p>
+<p>cache_log /dev/null</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p># Leave coredumps in the first cache dir</p>
+<p>coredump_dir /var/spool/squid</p>
+<p>&nbsp;</p>
+<p># store_id_bypass on</p>
+<p>cache deny all</p>
+<p>refresh_pattern ^ftp: &nbsp;1440 20% 10080</p>
+<p>refresh_pattern ^gopher: 1440 0% 1440</p>
+<p>refresh_pattern -i (/cgi-bin/|\?) 0 0% 0</p>
+<p>refresh_pattern (Release|Packages(.gz)*)$ &nbsp; &nbsp; &nbsp;0 &nbsp; &nbsp; &nbsp; 20% &nbsp; &nbsp; 2880</p>
+<p>refresh_pattern . &nbsp;0 20% 4320</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Anwendung: Nginx Reverse Proxy</h2>

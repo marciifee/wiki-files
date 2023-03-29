@@ -1,0 +1,102 @@
+<!--
+title: DNS
+description: 
+published: true
+date: 2023-03-15T16:23:06.894Z
+tags: 
+editor: undefined
+dateCreated: 2023-02-28T12:14:18.611Z
+-->
+
+<h1>DNS</h1>
+<p>Domain Name System (DNS) ist ein hierarchisches verteiltes System, das dazu dient, Domainnamen wie "google.com" in IP-Adressen wie "172.217.5.110" zu übersetzen, die von Computern zur Identifizierung und Kommunikation im Internet verwendet werden.</p>
+<p>Das DNS-System besteht aus einer globalen Hierarchie von Nameservern, die zusammenarbeiten, um Anfragen von Clients zu beantworten. Jede Domain hat mindestens einen Nameserver, der für die Verwaltung der DNS-Einträge der Domain verantwortlich ist.</p>
+<p>DNS-Einträge sind Informationen, die einem Domainnamen zugeordnet sind und Informationen darüber enthalten, welche IP-Adresse mit diesem Namen verknüpft ist. Zu den häufigsten DNS-Einträgen gehören A-Records, die Domainnamen direkt mit IP-Adressen verknüpfen, und MX-Records, die E-Mail-Server für eine Domain identifizieren.</p>
+<p>DNS ist ein entscheidender Bestandteil des Internets, da es die Adressierung von Ressourcen durch menschenlesbare Namen ermöglicht, anstatt dass Benutzer sich an zufällige numerische IP-Adressen erinnern müssen. Es ist auch ein wichtiger Faktor für die Sicherheit des Internets, da DNS-Spoofing-Angriffe die Funktion des Systems beeinträchtigen und Benutzer auf gefälschte Websites umleiten können.</p>
+<p>&nbsp;</p>
+<h2>DNS-Server einrichten</h2>
+<figure class="image"><img src="/dns_bild1.png"></figure>
+<p>Die Forward Einträge des Active Directory, darüber ist das joinen in die Domäne möglich. <strong>Reverse Einträge sind nicht zwingend notwendig für den .local</strong> Hauptsache der A-Record verweist auf die richtige IP und die Netzwerkkarte hat denselben Eintrag.</p>
+<p>Erkennbar an der Stelle: (identische mit übergeordnete …) in dem Feld <strong>muss nichts</strong> eingetragen werden, darauf folgt dann die IP-Adresse: 192.168.1.14</p>
+<p>&nbsp;</p>
+<h3>Netzwerkschnittstelle anpassen</h3>
+<figure class="image"><img src="/dns_bild5.png"></figure>
+<p>Die Schnittstellen deaktivieren: IPv6 deaktivieren und IPv4 unter Eigenschaften bearbeiten</p>
+<figure class="image"><img src="/dns_bild6.png"></figure>
+<p>Dem geben wir jetzt die feste IP: 192.168.1.14</p>
+<p>DNS: sich selbst zweimal: 127.0.0.01 und <strong>192.168.1.14</strong>, damit der später auch mal <strong>richtig erkannt wird</strong>.&nbsp;<br>Hat man einen anderen primären DNS-Server, dann trägt man den stattdessen ein und entfernt auch die 127.0.0.1.<br><br>Jetzt sollte unter den Aktiven Netzwerke anzeigen: SV14.local erscheinen als Domänennetzwerk.<br>&nbsp;</p>
+<figure class="image"><img src="/dns_bild7.png"></figure>
+<p>&nbsp;</p>
+<h2>Eine neue Zone hinzufügen</h2>
+<figure class="image"><img src="/dns__bild4.png"></figure>
+<p>&nbsp;</p>
+<figure class="image"><img src="/dns_bild2.png"></figure>
+<p>Die Zone ITB17.de Forward Einträge mit CNAME Einträge für die Namen w, ww, www, und für mich noch ein Wildcard-Eintrag mit dem *</p>
+<p>&nbsp;</p>
+<h2>Reverse-Lookupzonen überprüfen</h2>
+<figure class="image"><img src="/dns_bild3.png"></figure>
+<p>Reverse Einträge, optional könnte man auch 168.192.in-addr.apra nehmen, wenn man mit größeren IP-Bereichen arbeitet.</p>
+<p>&nbsp;</p>
+<h2>NSLOOKUP Test</h2>
+<p>Befehl: nslookup&nbsp;</p>
+<figure class="image"><img src="/dns_bild8.png"></figure>
+<figure class="image"><img src="/dns_bild9.png"></figure>
+<figure class="image"><img src="/dns_bild10.png"></figure>
+<figure class="image"><img src="/dns_bild11.png"></figure>
+<p>&nbsp;</p>
+<hr>
+<h2 style="text-align:justify;"><strong>Konfiguration des DNS bei mehr als einer Netzwerkkarte im Server</strong></h2>
+<p style="text-align:justify;">Befindet sich in einem Server mehr als eine Netzwerkkarte, so muss besonderes Augenmerk auf die Konfiguration der zweiten Netzwerkkarte gelegt werden. Wird dies unterlassen, so kann es vorkommen, dass das DNS System die IP des Servers falsch zurückliefert.</p>
+<p style="text-align:justify;">&nbsp;</p>
+<figure class="image"><img src="/dns_mehrere_netzwerkkarten1.png"></figure>
+<p style="text-align:justify;">&nbsp;</p>
+<h3 style="text-align:justify;"><strong>Lösung:</strong></h3>
+<h3 style="text-align:justify;"><strong>1. IP-Konfiguration der Karten</strong></h3>
+<p style="text-align:justify;">Während die "Schulnetzkarte" nach Microsoft-Standard konfiguriert werden kann, sind auf der Routerkarte weitergehende Einstellungen nötig, um zu verhindern, dass sich die Karte automatisch im DNS registriert. Die unten abgebildeten IP-Adressen müssen Sie natürlich auf ihre Verhältnisse anpassen:</p>
+<p style="text-align:justify;">&nbsp;</p>
+<figure class="table" style="text-align:justify;">
+  <table style="border-bottom:currentcolor;border-left:currentcolor;border-right:currentcolor;border-top:currentcolor;">
+    <tbody>
+      <tr>
+        <td style="background-color:transparent;border-bottom:1pt solid windowtext;border-left:1pt solid windowtext;border-right:1pt solid windowtext;border-top:1pt solid windowtext;padding:0cm 5.4pt;vertical-align:top;width:151pt;">Schul-Netz</td>
+        <td style="background-color:transparent;border-bottom:1pt solid windowtext;border-left:0px none rgb(0, 0, 0);border-right:1pt solid windowtext;border-top:1pt solid windowtext;padding:0cm 5.4pt;vertical-align:top;width:151.05pt;">Router-Netz</td>
+      </tr>
+      <tr>
+        <td style="background-color:transparent;border-bottom:1pt solid windowtext;border-left:1pt solid windowtext;border-right:1pt solid windowtext;border-top:0px none rgb(0, 0, 0);padding:0cm 5.4pt;vertical-align:top;width:151pt;">
+          <figure class="image"><img src="/dns_mehrere_netzwerkkarten_schulnetz1.jpg"></figure>
+        </td>
+        <td style="background-color:transparent;border-bottom:1pt solid windowtext;border-left:0px none rgb(0, 0, 0);border-right:1pt solid windowtext;border-top:0px none rgb(0, 0, 0);padding:0cm 5.4pt;vertical-align:top;width:151.05pt;">
+          <figure class="image"><img src="/dns_mehrere_netzwerkkarten_routernetz1.jpg"></figure>
+        </td>
+      </tr>
+      <tr>
+        <td style="background-color:transparent;border-bottom:1pt solid windowtext;border-left:1pt solid windowtext;border-right:1pt solid windowtext;border-top:0px none rgb(0, 0, 0);padding:0cm 5.4pt;vertical-align:top;width:151pt;">
+          <figure class="image"><img src="/dns_mehrere_netzwerkkarten_schulnetz2.jpg"></figure>
+        </td>
+        <td style="background-color:transparent;border-bottom:1pt solid windowtext;border-left:0px none rgb(0, 0, 0);border-right:1pt solid windowtext;border-top:0px none rgb(0, 0, 0);padding:0cm 5.4pt;vertical-align:top;width:151.05pt;">
+          <figure class="image"><img src="/dns_mehrere_netzwerkkarten_routernetz2.jpg"></figure>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+<p style="text-align:justify;">&nbsp;</p>
+<h3 style="text-align:justify;"><strong>2. Konfiguration des DNS-Systems</strong></h3>
+<p style="text-align:justify;">Weiterhin muss das DNS über einen Registry-Key so konfiguriert werden, dass nur die IP der Karte des Schulnetzes bei DNS Anfragen zurückgeliefert wird:</p>
+<ul>
+  <li style="text-align:justify;">Öffnen Sie den Registryeditor des Servers.</li>
+  <li style="text-align:justify;">Wechseln Sie in den Knoten:</li>
+</ul>
+<p style="text-align:justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HKLM\SYSTEM\CurrentControlSet\Services\DNS\Parameters</p>
+<ul>
+  <li style="text-align:justify;">Erstellen oder ändern Sie den Eintrag:</li>
+</ul>
+<p style="text-align:justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PublishAddresses</p>
+<ul>
+  <li style="text-align:justify;">Tragen Sie die schulnetzseitige IP-Adresse des Servers ein (hier: 192.168.13.3).</li>
+</ul>
+<p style="text-align:justify;">&nbsp;</p>
+<figure class="image"><img src="/dns_mehrere_netzwerkkarten2.jpg"></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

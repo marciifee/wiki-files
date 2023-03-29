@@ -1,0 +1,100 @@
+<!--
+title: Domäne Controller
+description: 
+published: true
+date: 2023-03-15T16:27:51.873Z
+tags: 
+editor: undefined
+dateCreated: 2023-03-15T16:04:03.727Z
+-->
+
+<h1>Domain Controller einrichten</h1>
+<p>&nbsp;</p>
+<p style="text-align:justify;"><strong><u>Inhaltsverzeichnis</u></strong></p>
+<p style="text-align:justify;">1.&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Betriebssystem einrichten und IP sowie Namen festlegen<br>1.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Betriebssystem installieren und aktualisieren<br>1.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Einstellung der Netzwerkkarte<br>1.3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Servername festlegen</p>
+<p style="text-align:justify;">2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Einrichtung des Active-Directory<br>2.1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Installation des Active-Directory<br>2.2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Konfiguration des Active-Directory<br><br>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Einrichtung des DNS</p>
+<p style="text-align:justify;">&nbsp;</p>
+<h1 style="text-align:justify;"><strong>1.&nbsp;Betriebssystem einrichten und Namen sowie IP festlegen</strong></h1>
+<h2 style="text-align:justify;"><strong>1.1.&nbsp;Betriebssystem installieren und aktualisieren</strong></h2>
+<p style="text-align:justify;">Auf dem Server muss zuerst das Betriebssystem und alle zur Verfügung stehenden Aktualisierungen über die Windows-Update-Funktion installiert und eingerichtet werden.</p>
+<p style="text-align:justify;">Für alle angebundenen Geräte sollten entweder die passenden Treiber installiert sein, oder das Gerät sollte deaktiviert werden.<br>Die Überprüfung kann im Gerätemanager in Windows vorgenommen werden. Gestartet wird dieser z.B. über „devmgmt.msc“.</p>
+<p style="text-align:justify;">Nach der Installation sollten Sie darüber hinaus bestätigen, dass sich der Server in einem privaten Netzwerk befindet.<br>Dazu bestätigen Sie die entsprechende Meldung mit "Ja".<br><br>&nbsp;</p>
+<p style="text-align:justify;">Nach der Einrichtung des Servers als Domänencontroller (s. 2.&nbsp;Einrichtung des Active-Directory) wird die Einstellung automatisch auf ein „Domänennetzwerk“ umgestellt.</p>
+<figure class="image"><img src="/dc_einrichten1.png"></figure>
+<p style="text-align:justify;">Abbildung 1</p>
+<p style="text-align:justify;">&nbsp;</p>
+<h2 style="text-align:justify;"><strong>1.2.&nbsp;Einstellung der Netzwerkkarte</strong></h2>
+<p style="text-align:justify;">Ein Domänencontroller muss <strong>zwingend </strong>eine feste statische IP-Adresse bekommen und darf <strong>nicht </strong>per DHCP versorgt werden, sonst kann DNS auf diesem Server nicht richtig funktionieren!<br>Eventuell vorhandene zusätzliche, nicht benötigte Netzwerkkarten sind (mindestens) zu deaktivieren, besser auszubauen. Wir empfehlen darüber hinaus die<strong> Deaktivierung des IPv6-Protokolls</strong> ihrer Netzwerkkarte (siehe Abbildung 2, rote Markierung).<br>&nbsp;</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;">Die Einstellungen für die Netzwerkkonfiguration finden Sie am schnellsten über die Eingabe von „<strong>ncpa.cpl</strong>“ im Suchfeld des Startmenüs, im folgenden Fenster:<br>Doppelklick auf die Netzwerkkarte -&gt; Eigenschaften -&gt; Doppelklick auf Internetprotokoll, Version 4.</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;"><strong>IP-Adresse</strong>:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Die neue IP-Adresse Ihres Servers</p>
+<p style="text-align:justify;"><strong>Subnetzmaske:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Wird in der Regel vom System automatisch eingetragen, kann aber von Ihrer Netzwerkumgebung abhängig sein</p>
+<p style="text-align:justify;"><strong>Standartgateway:</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Ihr Router</p>
+<p style="text-align:justify;"><strong>Bevorzugter DNS-Server:</strong>&nbsp; Ein dauerhaft laufender DNS-Server im Internet (hier ein google-DNS-Server 8.8.8.8).</p>
+<figure class="image"><img src="/dc_einrichten2.png"></figure>
+<p>Abbildung2</p>
+<p>&nbsp;</p>
+<h2 style="text-align:justify;"><strong>1.3.&nbsp;Servername festlegen</strong></h2>
+<p style="text-align:justify;">Den Computernamen können Sie ändern, wenn Sie im Suchfeld den Begriff „PC“ eingeben und dann das angezeigte Element „PC-Infos“ anklicken.<br>Im neuen Fenster wählen Sie "Diesen PC umbenennen" aus.<br>Geben Sie nun als PC-Namen ihren zukünftigen "Servernamen" (Hier im Beispiel "PaedNetServer") ein, bestätigen mit "Weiter" und starten den Server neu.</p>
+<figure class="image"><img src="/dc_einrichten3.png"></figure>
+<p>Abbildung 3</p>
+<p>&nbsp;</p>
+<h1 style="text-align:justify;"><strong>2.&nbsp;Einrichtung des Active-Directory</strong></h1>
+<h2 style="text-align:justify;"><strong>2.1.&nbsp;Installation des Active Directory</strong></h2>
+<p style="text-align:justify;">Nun kann der Active-Directory-Domänendienst installiert werden.<br>Die Installation erfolgt über den Server-Manager unter "Verwalten -&gt; Rollen und Features hinzufügen".<br><br>a) Im Fenster "Vorbereitung" wählen Sie weiter und als "Installationstyp" wählen Sie "Rollenbasierte oder feature basierte Installation" aus (Abb. 4).</p>
+<p>&nbsp;</p>
+<figure class="image"><img src="/dc_einrichten4.png"></figure>
+<p>Abbildung 4</p>
+<p>&nbsp;</p>
+<p style="text-align:justify;">b) Wählen Sie bei "Serverauswahl" ihren Server aus.<br>Installieren Sie bei "Serverrolle" den "Acitve-Directory-Domänendienste" inklusive der „Verwaltungstools“.<br>&nbsp;</p>
+<p style="text-align:justify;">Durch die Installation werden nur die Installationsdateien von Active Directory auf dem Server installiert. Es findet jetzt noch keinerlei Konfiguration statt.</p>
+<p style="text-align:justify;">&nbsp;</p>
+<figure class="image"><img src="/dc_einrichten5.png"></figure>
+<p>Abbildung 5</p>
+<p>&nbsp;</p>
+<p>Bestätigen Sie so lange mit Klick auf „Weiter“, bis Sie zu folgendem Fenster gelangen.<br>Klicken Sie auf „Zielserver bei Bedarf automatisch neu starten“ und bestätigen Sie die Einstellung durch Klick auf „Ja“ im Bestätigungsfenster:</p>
+<p>&nbsp;</p>
+<figure class="image"><img src="/dc_einrichten6.png"></figure>
+<p>Abbildung 6</p>
+<p>&nbsp;</p>
+<p style="text-align:justify;">c) Schließen sie das Installationsfenster mit "Schließen".</p>
+<p style="text-align:justify;">Nachdem die Serverrolle installiert ist, beginnt die Konfiguration des Active-Directory auf dem Server. Dieser Vorgang wird im Server-Manager über das Wartungssymbol mit klicken auf „Server zu einem Domänencontroller heraufstufen“ gestartet.&nbsp;</p>
+<figure class="image"><img src="/dc_einrichten7.png"></figure>
+<p>Abbildung 7</p>
+<p>&nbsp;</p>
+<h2 style="text-align:justify;"><strong>2.2.&nbsp;&nbsp;&nbsp;&nbsp; Konfiguration des Active-Directory</strong></h2>
+<p style="text-align:justify;">Beim Erstellen der ersten Domäne für die Gesamtstruktur wählen Sie die Option "Neue Gesamtstruktur hinzufügen" aus.<br>Eine Gesamtstruktur ist die Grundlage von Active Directory.</p>
+<p>Als nächstes wird der DNS-Name der Domäne festgelegt (hier als Beispiel "sph.local"):</p>
+<p>&nbsp;</p>
+<figure class="image"><img src="/dc_einrichten8.png"></figure>
+<p>Abbildung 8</p>
+<p>&nbsp;</p>
+<p>Im Folgefenster prüfen Sie, dass das Häkchen bei DNS-Server gesetzt ist (muss noch installiert werden).<br>Des Weiteren wird hier auch das Kennwort für den Verzeichnisdienst-Wiederherstellungsmodus angegeben, hierbei handelt es sich um das Kennwort des lokalen Administrators.<br>Klicken Sie dann auf „Weiter“.</p>
+<p>&nbsp;</p>
+<figure class="image"><img src="/dc_einrichten9.png"></figure>
+<p>Abbildung 9</p>
+<p>&nbsp;</p>
+<p style="text-align:justify;">Klicken Sie dann so lange auf „Weiter“, bis Sie zu den Voraussetzungsüberprüfungen kommen.</p>
+<p style="text-align:justify;">- In einer Domäne mit nur einem DNS-Server überspringen Sie die Meldung "Für den DNS-Server kann keine Delegierung erstellt werden..." mit "Weiter".</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;">- In den nächsten Fenstern geben Sie den NetBIOS-Namen der neuen Domäne an und legen den Speicherort der Datenbank und der Protokolle auf dem Server fest.</p>
+<p style="text-align:justify;">Als NetBIOS-Name wird in der Regel eine Abkürzung des DNS-Namens verwendet. Normalerweise schlägt Active-Directory automatisch einen Namen vor.</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;">- Im Anschluss muss noch der Ordner festgelegt werden, der als Netlogon- und SYSVOL-Freigabe verwendet wird.<br>In diesem Ordner werden die Anmeldeskripts und später die Gruppenrichtlinien gespeichert und zwischen den Domänencontrollern repliziert.<br>In den meisten Fällen können Sie den Standard-Ordner verwenden, den der Assistent auch vorschlägt.<br>&nbsp;</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;">Zum Abschluss testet der Assistent den Server, und prüft, ob Active Directory fehlerfrei installiert werden kann. Danach beginnt das Heraufstufen zum Domänencontroller.&nbsp;</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;">Der Server startet dann ggfs. neu.</p>
+<p style="text-align:justify;">&nbsp;</p>
+<figure class="image"><img src="/dc_einrichten10.png"></figure>
+<p>Abbildung 10</p>
+<p>&nbsp;</p>
+<p>Sollten Sie in der Voraussetzungsüberprüfung folgende Fehlermeldung sehen, dann entspricht das Passwort des lokalen Administrators nicht den Microsoft Komplexitätsvoraussetzungen.<br>- Um das Passwort zu ändern, drücken Sie Strg+Alt+Entf.<br>- Klicken Sie auf „Kennwort ändern“<br>- Ändern Sie das Kennwort.<br>-&nbsp;Gehen Sie dann in dem Konfigurationsassistenten einen Schritt zurück&nbsp;… und dann wieder einen Schritt nach vorne… um die Voraussetzungen erneut zu überprüfen:</p>
+<p>&nbsp;</p>
+<figure class="image"><img src="/dc_einrichten11.png"></figure>
+<p style="text-align:justify;">Abbildung 11</p>
+<p style="text-align:justify;">&nbsp;</p>
+<h1 style="text-align:justify;"><strong>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Einrichtung des DNS</strong></h1>
+<p style="text-align:justify;">&nbsp;</p>

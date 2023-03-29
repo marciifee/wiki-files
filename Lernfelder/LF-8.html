@@ -1,0 +1,114 @@
+<!--
+title: Lernfeld 8
+description: 
+published: true
+date: 2023-03-15T16:25:05.743Z
+tags: 
+editor: undefined
+dateCreated: 2023-03-02T15:31:16.658Z
+-->
+
+<h1>Lernfeld 8</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2><strong>Grundbegriffe von Relationalen Datenbanken</strong></h2>
+<p>&nbsp;</p>
+<h3>1. Grundbegriffe des Relationenmodells&nbsp;</h3>
+<p>Daten/Informationen lassen sich sehr anschaulich in Form von Tabellen darstellen. Betrachten wir als Beispiel die folgende Tabelle, die Daten von Mitarbeitern beinhaltet.&nbsp;</p>
+<figure class="image"><img src="/grundbegriffe_relationenmodells_bild1.jpg"></figure>
+<p style="text-align:right;">&nbsp;</p>
+<p><strong>Welche Merkmale einer Tabelle lassen sich hier finden?&nbsp;</strong></p>
+<p>Die Tabelle besitzt einen Tabellennamen namens <i>MITARBEITER.&nbsp;</i></p>
+<p>Die Spalten stellen Merkmale bzw. Attribute eines Mitarbeiters dar. Attribute sind Eigenschaften eines Objektes (hier ein Mitarbeiter), die für die Datenverarbeitung relevant sind und das Objekt entsprechend auszeichnet. In diesem Beispiel ist es für die Datenverarbeitung nur wichtig, den Namen und den Ort (Wohnort) eines Mitarbeiters zu kennen (weitere Attribute sind natürlich denkbar).&nbsp;</p>
+<p>Damit die Mitarbeiter eindeutig unterscheidbar sind, wird ein weiteres Attribut namens <i>ID</i> hinzugefügt. Die ID ist vergleichbar mit einer Mitarbeiternummer und wird einmalig vergeben. Angenommen es existieren zwei Mitarbeiter namens Müller, die beide in Düsseldorf wohnen, so können diese dank der ID unterschieden werden. Aufgrund dieser Eigenschaft erklären wird die ID zum Schlüssel.&nbsp;</p>
+<p>Schlüsselmerkmale sollen in Zukunft mit einem Unterstrich dargestellt werden.&nbsp; &nbsp;</p>
+<figure class="image"><img src="/grundbegriffe_relationenmodells_bild2.jpg"></figure>
+<p style="text-align:right;">&nbsp;<strong>&nbsp;</strong></p>
+<p>&nbsp;</p>
+<p><strong>Eindeutigkeit und Minimalität eines Schlüssels&nbsp;</strong></p>
+<p>Ein Schlüssel hat die Aufgabe einen Datensatz (Zeile, auch Tupel genannt) eindeutig zu identifizieren. Hieraus lassen sich zwei wichtige Schlüsseleigenschaften herleiten:&nbsp;</p>
+<ul>
+  <li>Jeder Wert des Schlüssels ist einmalig. D.h. zwei Tupel können nicht denselben Schlüsselwert aufweisen.&nbsp;</li>
+  <li>Ein Schlüssel muss nicht immer eine Nummer sein und nur aus einem Attribut bestehen. Es kommt schon mal vor, dass sich der Schlüssel aus zwei oder drei Attributen zusammensetzt. Diese&nbsp;</li>
+</ul>
+<p>Kombination muss jedoch minimal sein. Kein Merkmal darf gelöscht werden, ohne dass die Eindeutigkeit eines Tupels verlorengeht.&nbsp;</p>
+<p>&nbsp;</p>
+<p>Im obigen Beispiel kann das Attribut <i><strong>ID</strong></i> als <strong>künstlicher Schlüssel</strong> bezeichnet werden, da dieses Attribut nicht zu den „natürlichen“ Eigenschaften eines Mitarbeiters gehört – es wurde künstlich hinzugefügt.&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>Beispiel für einen natürlichen Schlüssel:&nbsp;</strong></p>
+<p>Wir befinden uns in einem Tierheim. Hier gibt es Hunde, Katzen, Vögel, evtl. auch Meerschweinchen. Welche Merkmale eines Tieres sind in diesem Szenario von Bedeutung? Ein Tier hat gewiss einen Namen, die Tierart/Rasse ist wichtig zu kennen und das Alter sollte erfasst werden. Weitere Merkmale sind denkbar.&nbsp;</p>
+<p>&nbsp;<strong>TIERE</strong></p>
+<figure class="table">
+  <table>
+    <tbody>
+      <tr>
+        <td><strong><u>Name</u></strong></td>
+        <td><strong>Tierarzt</strong></td>
+        <td><strong>Rasse</strong></td>
+        <td><strong>Alter</strong></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+<p><br>Damit das Arbeiten in dem Tierheim ohne große Missverständnisse abläuft, achtet das Personal darauf, dass jedes Tier einen eindeutigen Namen erhält. Wird der Name „Kira“ erwähnt, weiß jeder Angestellte im Tierheim, dass es sich um die Pudeldame handelt, die 3 Jahre alt ist. Das Attribut <i>Name</i> kann somit als Schlüssel dienen, da kein Name mehrfach vorkommt.&nbsp;</p>
+<p>Jetzt kann es jedoch passieren, dass in dem Tierheim eine neue Katze namens Kira abgegeben wird. Damit die Identifikation der Tiere eindeutig bleibt, müsste eines der beiden Tiere einen neuen Namen erhalten. Das möchte man natürlich nicht, da die Tiere sich schließlich an ihren Namen gewöhnt haben. Also einigen sich die Mitarbeiter darauf, in Zukunft von „Kira die Hündin“ und „Kira die Katze“ zu sprechen. Der Schlüssel ist jetzt also eine Kombination aus den Attributen <i>Name</i> und <i>Tierart</i>.&nbsp;</p>
+<p><strong>TIERE</strong></p>
+<figure class="table">
+  <table>
+    <tbody>
+      <tr>
+        <td><strong><u>Name</u></strong></td>
+        <td><strong><u>Tierarzt</u></strong></td>
+        <td><strong>Rasse</strong></td>
+        <td><strong>Alter</strong></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>Zusammenfassung&nbsp;</h3>
+<p>Eine Tabelle bzw. eine Relation ist eine Menge von Tupeln, die tabellenförmig dargestellt werden.&nbsp;</p>
+<p>Folgende Eigenschaften muss die Tabelle erfüllen:&nbsp;</p>
+<ul>
+  <li>Eine Tabelle besitzt einen eindeutigen Tabellennamen&nbsp;</li>
+  <li>Die Spalten stellen die Merkmale eines Objektes/Sachverhaltes dar. Die Merkmalsbezeichnung ist eindeutig.&nbsp;</li>
+  <li>Die Anzahl der Attribute ist beliebig und die Anordnung der Spalten innerhalb der Tabelle ist bedeutungslos.&nbsp;</li>
+  <li>Eines der Attribute oder eine Merkmalskombination identifiziert eindeutig die Tupel innerhalb einer Tabelle und wird als <strong>Primärschlüssel</strong> bezeichnet.&nbsp;</li>
+  <li>Die Anzahl der Tupel ist beliebig und die Anordnung der Zeilen innerhalb der Tabelle ist bedeutungslos.&nbsp;</li>
+</ul>
+<p>&nbsp;</p>
+<h3>2. Datenbankmodelle</h3>
+<p>&nbsp;Wir behandeln im Unterricht ausschließlich das Relationale Datenbankmodell. Der Vollständigkeit halber werden an dieser Stelle kurz zwei andere Datenbanksysteme genannt. Datenbanken lassen sich grundsätzlich in drei Hauptkategorien einteilen:&nbsp;</p>
+<p>• Hierarchische Datenbank&nbsp;</p>
+<p>• Relationale Datenbank&nbsp;</p>
+<p>• Objektorientierte Datenbank&nbsp;</p>
+<p>Das <strong>hierarchische </strong>Datenbankmodell ist das älteste Datenbankmodell und wird als hierarchische Baumstruktur dargestellt. Viele Dateisysteme von Betriebssystemen benutzen dieses Modell, um Ihre Daten abzubilden. Heute ist dieses Datenbankmodell weitestgehend von anderen Modellen abgelöst worden.&nbsp;</p>
+<p>Die <strong>objektorientierten </strong>Datenbanken sind aus der objektorientierten Programmierung entstanden. Anders als bei den relationalen Datenbanken wird hier nicht mit Tabellen, sondern mit Objekten gearbeitet. Bisher konnten sich diese Datenbanken auf dem Markt noch nicht wirklich durchsetzen.&nbsp;</p>
+<p>Das <strong>Relationale </strong>Datenbankmodell ist das am weitverbreitetste Datenmodell, welches in der Datenbankentwicklung als Standard genutzt wird. Das relationale Datenbankmodell besteht aus drei wichtigen Bausteinen:&nbsp;</p>
+<p>• Tabellen&nbsp;</p>
+<p>• Attributen&nbsp;</p>
+<p>• Beziehungen&nbsp;</p>
+<p>Ein Relationales Datenbankmodell ist eine Ansammlung von Tabellen, die miteinander in Beziehung stehen. Jede Zeile (auch Tupel genannt) in einer Tabelle ist ein Datensatz. Jedes Tupel besteht aus einer großen Reihe von Eigenschaften (Attributen), den Spalten der Tabelle. Die Beziehungen zwischen den Tabellen werden über die sogenannten Primärschlüssel und Fremdschlüssel hergestellt. Den Primärschlüssel kennen Sie bereits. Was es mit dem Fremdschlüssel auf sich hat, erfahren Sie in den nächsten Kapiteln.</p>
+<p>&nbsp;</p>
+<h2><strong>Aufbau von Relationalen Datenbanken</strong></h2>
+<p>&nbsp;</p>
+<h2><strong>Normalisierung</strong></h2>
+<p>&nbsp;</p>
+<h2><strong>Entity Relationship Diagramme</strong></h2>
+<p>&nbsp;</p>
+<h2><strong>Einstieg in MySQL</strong></h2>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

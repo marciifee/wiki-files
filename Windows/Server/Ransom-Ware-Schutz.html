@@ -1,0 +1,113 @@
+<!--
+title: Windows Server vor Ransom Ware-Angriffen schützen 
+description: 
+published: true
+date: 2023-03-15T16:23:26.351Z
+tags: 
+editor: undefined
+dateCreated: 2023-02-28T12:19:28.811Z
+-->
+
+<h1 style="text-align:justify;"><strong>Windows 2022-Server vor Ransomware-Angriffen schützen!</strong></h1>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;"><strong>1. Vorbereitungen auf den</strong> <strong>Server</strong></p>
+<p style="text-align:justify;">Öffnen Sie die Windows-Powershell und geben Sie folgenden Befehl ein:&nbsp;</p>
+<p style="text-align:justify;">set-executionpolicy remotesigned<br>&nbsp;</p>
+<p style="text-align:justify;">Bestätigen Sie die Abfrage durch Eingabe des Buchstabens „J“.</p>
+<p style="text-align:justify;">Drücken Sie dann auf „Enter“.:<br><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage.png"></figure>
+<p style="text-align:justify;">Abb. 1</p>
+<p style="text-align:justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br><strong>2. Download der notwendigen Tools</strong></p>
+<p style="text-align:justify;">Erstellen Sie auf dem Server ein Verzeichnis „C:\Download\Block-SMBShare“</p>
+<p style="text-align:justify;">Laden Sie aus dem Anhang dieses Helpdeskartikels das Paket<br>„RansomWareShield für Windows Server“ in das Verzeichnis „C:\Download\BlockSMBShare“ Ihres Servers.</p>
+<p style="text-align:justify;">Packen Sie das Paket dort aus:<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(1).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 2<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>Laden Sie von der Webseite:<br>https://github.com/nexxai/CryptoBlocker<br>&nbsp;<br>das Archiv „CryptoBlocker-master.zip“ in den Ordner „C:\Download\Block-SMBShare“.<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(2).png"></figure>
+<p style="text-align:justify;">Abb. 3</p>
+<p style="text-align:justify;"><br>Packen Sie das Paket dort aus. Es entsteht dadurch ein Ordner „CryptoBlocker-master“:</p>
+<figure class="image"><img src="/cbimage_(3).png"></figure>
+<p style="text-align:justify;">Abb. 4</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;"><strong>3. Grundkonfiguration des Ressourcenmanagers für Dateiserver</strong></p>
+<p style="text-align:justify;">Klicken Sie mit der rechten Maustaste auf „DeployCryptoBlocker“. Wählen Sie „Mit PowerShell ausführen“:<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(4).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 5</p>
+<p style="text-align:justify;">Es läuft nun ein PowerShell-Script ab, das Ihren Server so einrichtet, dass er vor Ransomware-Angriffen geschützt ist:<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(5).png"></figure>
+<p style="text-align:justify;">Abb. 6<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>Öffnen Sie nun unter Start/Verwaltung den „Ressourcen-Manager für Dateiserver":<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(6).png"></figure>
+<p style="text-align:justify;">Abb. 7</p>
+<p style="text-align:justify;">Erweitern Sie die „Dateiprüfungsverwaltung" und klicken Sie auf „Dateiprüfungen“. Sie sehen nun, dass alle Ihre Serverpartitionen und alle Partitionen, auf denen Freigaben eingerichtet sind, vor Ransomware-Angriffen geschützt sind. Sollte dies nicht der Fall sein, arbeiten Sie bitte Kapitel 4 durch. Sonst gehen Sie zu Kapitel 5.</p>
+<figure class="image"><img src="/cbimage_(7).png"></figure>
+<p style="text-align:justify;">Abb. 8 &nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;"><strong>4. Passive Prüfungen auf „Aktiv“ setzen</strong></p>
+<p style="text-align:justify;">Wählen Sie die betroffene Partition aus und klicken Sie sie mit der rechten Maustaste an. Wählen Sie: „Dateiprüfungseigenschaften bearbeiten“:<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(8).png"></figure>
+<p style="text-align:justify;">Abb. 9</p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;">Aktivieren Sie im folgenden Fenster „Aktives Prüfen…“:<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(9).png"></figure>
+<p style="text-align:justify;">Abb. 10</p>
+<p style="text-align:justify;"><br><strong>5. Protokollierung konfigurieren</strong></p>
+<p style="text-align:justify;"><br>Wählen Sie Ihre PaedNet-Partition aus und klicken Sie sie mit der rechten Maustaste an.</p>
+<p style="text-align:justify;">Wählen Sie: „Dateiprüfungseigenschaften bearbeiten“:</p>
+<p style="text-align:justify;"><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(10).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 11</p>
+<p style="text-align:justify;">Öffnen Sie im folgenden Fenster den Reiter „E-Mail-Nachricht“.&nbsp;</p>
+<p style="text-align:justify;">Wählen Sie den Haken bei "E-Mail an..." ab.</p>
+<figure class="image"><img src="/cbimage_(11).png"></figure>
+<p style="text-align:justify;">Abb. 12</p>
+<p style="text-align:justify;"><br>Öffnen Sie im folgenden Fenster den Reiter „Ereignisprotokoll“.&nbsp;<br>Editieren Sie im Dialog „Protokolleintrag“ den vorhandenen Text, bis er die folgende Form angenommen hat.</p>
+<p style="text-align:justify;">[Source lo Owner];[Source File Path]<br>&nbsp;<br>Achten Sie bei den Protokolleinträgen auf die Trennung durch ein Semikolon. &nbsp;<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(12).png"></figure>
+<p style="text-align:justify;">Abb. 13</p>
+<p style="text-align:justify;">&nbsp;&nbsp;&nbsp;&nbsp;<br>Klicken Sie auf „OK“</p>
+<p style="text-align:justify;">Öffnen Sie den Reiter „Befehl“.</p>
+<p style="text-align:justify;">Wählen Sie den Befehlspfad nach Abb. 13 und geben Sie das Befehlsargument:</p>
+<p style="text-align:justify;">/c C:\Download\Block-SMBShare\block.cmd<br>&nbsp;<br>ein.<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(13).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 14</p>
+<p style="text-align:justify;">Öffnen Sie den Reiter „Bericht“.&nbsp;</p>
+<p style="text-align:justify;">Generieren Sie einen Bericht zur „Überwachung der Dateiprüfung“<br><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(14).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 15</p>
+<p style="text-align:justify;">Bestätigen Sie alles mit Klick auf OK.&nbsp;</p>
+<p style="text-align:justify;">6. Prüfung der Funktionalität:</p>
+<p style="text-align:justify;">Erstellen Sie auf einem Client eine Datei mit der Endung *.xxx. Versuchen Sie sie über ein Netzlaufwerk auf den Server zu abspeichern. Sie sollten folgende Meldung erhalten:<br><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(15).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 16</p>
+<p style="text-align:justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>In der Ereignisanzeige finden Sie unter Windows-Protokolle/Anwendung nun eine Warnung mit dem Hinweis auf die geblockte Datei.<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(16).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 17 &nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;<br>Außerdem finden Sie nach einigen Minuten im Ordner „c:\download\BlockSMBShare“ eine Logdatei mit dem Hinweis auf die kryptische Datei und den Benutzer, der Sie ablegen wollte:</p>
+<figure class="image"><img src="/cbimage_(17).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 18 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </p>
+<p style="text-align:justify;">&nbsp;</p>
+<p style="text-align:justify;"><strong>7. Ransomware Filterliste aktualisieren</strong></p>
+<p style="text-align:justify;"><br>Die Liste mit den Dateiendungen, die Ransomware verwendet, wird im Internet täglich aktualisiert und sollte auch auf dem zu schützenden Server immer aktuell sein. Darum wird sie über einen Scheduler täglich aktualisiert.</p>
+<p style="text-align:justify;">Öffnen Sie die Computerverwaltung Ihres Servers:<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(18).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 19</p>
+<p style="text-align:justify;">Gehen Sie in der Computerverwaltung auf „Aufgabenplanung“&nbsp;<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(19).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 20<br>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>Klicken Sie in der rechten Seitenleiste auf „Einfache Aufgabe erstellen“ und geben wie auf der Abb. 21 zu sehen, die entsprechenden Zeilen ein und bestätigen Sie mit Klick auf „Weiter“.<br><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(20).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 21</p>
+<p style="text-align:justify;">Wählen Sie „täglich“ aus und bestätigen Sie mit „Weiter“.<br><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(21).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 22<br>&nbsp;<br>Stellen Sie Ihre gewünschte Zeit, und „Wiederholung alle 1 Tage“ ein, an der die Filterliste aktualisiert werden soll. Bestätigen Sie mit „Weiter“.<br><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(22).png"></figure>
+<p style="text-align:justify;">Abb. 23</p>
+<p style="text-align:justify;">Wählen Sie „Programm starten“ und bestätigen Sie mit „Weiter“.<br><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(23).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 24</p>
+<p style="text-align:justify;"><br>Klicken Sie unter „Programm/Skript“ auf „Durchsuchen…“ und wählen Sie dort unter „C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe“.</p>
+<p style="text-align:justify;">Bei „Argumente hinzufügen (optional)“ geben Sie bitte „C:\download\BlockSMBShare\CryptoBlocker-master\DeployCryptoBlocker.ps1“ ein.&nbsp;</p>
+<p style="text-align:justify;">Bestätigen Sie mit Klick auf „OK“.<br><br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(24).png"></figure>
+<p style="text-align:justify;">&nbsp;Abb. 25</p>
+<p style="text-align:justify;">Klicken Sie auf „Fertig stellen“.<br>&nbsp;</p>
+<figure class="image"><img src="/cbimage_(25).png"></figure>
+<p style="text-align:justify;">Abb. 26<br><br>Sie können jetzt die Computerverwaltung schließen.</p>

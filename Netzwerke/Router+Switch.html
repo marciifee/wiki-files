@@ -1,0 +1,509 @@
+<!--
+title: Router und Switch
+description: 
+published: true
+date: 2023-03-15T16:25:58.637Z
+tags: 
+editor: undefined
+dateCreated: 2023-03-03T22:28:16.975Z
+-->
+
+<h1>Router und Switch</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p># feb/21/2023 19:35:37 by RouterOS 7.6</p>
+<p># software id = 54U1-5IZK</p>
+<p>#</p>
+<p># model = RB760iGS</p>
+<p># serial number = E1F10F9051BD</p>
+<p>/caps-man configuration</p>
+<p>add country="united states" distance=indoors installation=indoor mode=ap \</p>
+<p>&nbsp; &nbsp;name=cfg1</p>
+<p>/interface bridge</p>
+<p>add add-dhcp-option82=yes dhcp-snooping=yes disabled=yes name=bridge-cap</p>
+<p>add add-dhcp-option82=yes dhcp-snooping=yes igmp-snooping=yes \</p>
+<p>&nbsp; &nbsp;ingress-filtering=no name=bridge-dmz pvid=30 vlan-filtering=yes</p>
+<p>add add-dhcp-option82=yes admin-mac=DC:2C:6E:9D:17:9B auto-mac=no comment=\</p>
+<p>&nbsp; &nbsp;defconf dhcp-snooping=yes name=bridge-lan</p>
+<p>/interface ethernet</p>
+<p>set [ find default-name=ether5 ] poe-out=off</p>
+<p>set [ find default-name=sfp1 ] disabled=yes</p>
+<p>/caps-man interface</p>
+<p>add disabled=yes mac-address=00:00:00:00:00:00 master-interface=none name=\</p>
+<p>&nbsp; &nbsp;"THEBLAQCAT AP" radio-mac=00:00:00:00:00:00 radio-name=""</p>
+<p>add disabled=yes mac-address=02:00:00:00:00:00 master-interface=\</p>
+<p>&nbsp; &nbsp;"THEBLAQCAT AP" name="THEBLAQCAT AP hotspot" radio-mac=00:00:00:00:00:00 \</p>
+<p>&nbsp; &nbsp;radio-name=""</p>
+<p>add disabled=yes mac-address=02:00:00:00:00:01 master-interface=\</p>
+<p>&nbsp; &nbsp;"THEBLAQCAT AP" name="THEBLAQCAT AP private" radio-mac=00:00:00:00:00:00 \</p>
+<p>&nbsp; &nbsp;radio-name=""</p>
+<p>/interface wireguard</p>
+<p>add listen-port=13231 mtu=1420 name=wireguard1</p>
+<p>add disabled=yes listen-port=13231 mtu=1420 name=wireguard2-aws-tokio</p>
+<p>/interface vlan</p>
+<p>add disabled=yes interface=ether1 name=vlan1 vlan-id=1</p>
+<p>add interface=bridge-lan name=vlan10 vlan-id=10</p>
+<p>add interface=ether5 name=vlan20 use-service-tag=yes vlan-id=20</p>
+<p>add interface=bridge-dmz name=vlan30 vlan-id=30</p>
+<p>/interface list</p>
+<p>add comment=defconf name=WAN</p>
+<p>add comment=defconf name=LAN</p>
+<p>/interface wireless security-profiles</p>
+<p>set [ find default=yes ] supplicant-identity=MikroTik</p>
+<p>/ip hotspot profile</p>
+<p>set [ find default=yes ] html-directory=hotspot</p>
+<p>/ip pool</p>
+<p>add name="hotspot private dhcp" ranges=192.168.89.2-192.168.89.254</p>
+<p>add name="wireguard1 dhcp" ranges=10.10.10.2-10.10.10.254</p>
+<p>add name="server dhcp" ranges=192.168.5.2-192.168.5.254</p>
+<p>add name="hotspot public dhcp" ranges=10.10.50.2-10.10.50.254</p>
+<p>/ip dhcp-server</p>
+<p>add address-pool="hotspot public dhcp" bootp-support=dynamic interface=\</p>
+<p>&nbsp; &nbsp;bridge-cap name="hotspot public dhcp"</p>
+<p>add address-pool="server dhcp" interface=bridge-dmz name="DHCP DMZ"</p>
+<p>/ip pool</p>
+<p>add name=dhcp next-pool="server dhcp" ranges=192.168.88.10-192.168.88.254</p>
+<p>/ip dhcp-server</p>
+<p>add address-pool=dhcp interface=bridge-lan name="dhcp defconf"</p>
+<p>/ipv6 dhcp-server</p>
+<p>add address-pool="" interface=bridge-lan name=bridge-lan-ipv6-dhcp</p>
+<p>/lora servers</p>
+<p>add address=eu.mikrotik.thethings.industries down-port=1700 name=TTN-EU \</p>
+<p>&nbsp; &nbsp;up-port=1700</p>
+<p>add address=us.mikrotik.thethings.industries down-port=1700 name=TTN-US \</p>
+<p>&nbsp; &nbsp;up-port=1700</p>
+<p>add address=eu1.cloud.thethings.industries down-port=1700 name=\</p>
+<p>&nbsp; &nbsp;"TTS Cloud (eu1)" up-port=1700</p>
+<p>add address=nam1.cloud.thethings.industries down-port=1700 name=\</p>
+<p>&nbsp; &nbsp;"TTS Cloud (nam1)" up-port=1700</p>
+<p>add address=au1.cloud.thethings.industries down-port=1700 name=\</p>
+<p>&nbsp; &nbsp;"TTS Cloud (au1)" up-port=1700</p>
+<p>add address=eu1.cloud.thethings.network down-port=1700 name="TTN V3 (eu1)" \</p>
+<p>&nbsp; &nbsp;up-port=1700</p>
+<p>add address=nam1.cloud.thethings.network down-port=1700 name="TTN V3 (nam1)" \</p>
+<p>&nbsp; &nbsp;up-port=1700</p>
+<p>add address=au1.cloud.thethings.network down-port=1700 name="TTN V3 (au1)" \</p>
+<p>&nbsp; &nbsp;up-port=1700</p>
+<p>/port</p>
+<p>set 0 name=serial0</p>
+<p>/ppp profile</p>
+<p>set *FFFFFFFE local-address=192.168.89.1 remote-address=\</p>
+<p>&nbsp; &nbsp;"hotspot private dhcp"</p>
+<p>/user group</p>
+<p>set read policy="local,telnet,ssh,reboot,read,test,winbox,password,sniff,sensi\</p>
+<p>&nbsp; &nbsp;tive,api,romon,rest-api,!ftp,!write,!policy,!web"</p>
+<p>set write policy="local,telnet,ssh,reboot,read,write,test,winbox,password,snif\</p>
+<p>&nbsp; &nbsp;f,sensitive,api,romon,rest-api,!ftp,!policy,!web"</p>
+<p>/user-manager profile</p>
+<p>add name=prof1 name-for-users=prof1</p>
+<p>/user-manager user</p>
+<p>add name=admin</p>
+<p>/user-manager user group</p>
+<p>set [ find default-name=default ] attributes=\</p>
+<p>&nbsp; &nbsp;Mikrotik-Group:admin,Mikrotik-Host-IP: name=Hotspot_Users_Only</p>
+<p>/interface bridge port</p>
+<p>add bridge=bridge-lan comment=defconf interface=ether2 pvid=10</p>
+<p>add bridge=bridge-dmz comment=defconf ingress-filtering=no interface=ether3 \</p>
+<p>&nbsp; &nbsp;pvid=30 trusted=yes</p>
+<p>add bridge=bridge-dmz comment=defconf interface=ether4 pvid=30 trusted=yes</p>
+<p>add bridge=bridge-dmz comment=defconf interface=ether5 pvid=30 trusted=yes</p>
+<p>add bridge=bridge-lan comment=defconf disabled=yes interface=sfp1</p>
+<p>/ip neighbor discovery-settings</p>
+<p>set discover-interface-list=LAN</p>
+<p>/ip settings</p>
+<p>set tcp-syncookies=yes</p>
+<p>/ipv6 settings</p>
+<p>set disable-ipv6=yes</p>
+<p>/interface bridge vlan</p>
+<p>add bridge=bridge-cap vlan-ids=1,20</p>
+<p>add bridge=bridge-dmz vlan-ids=30</p>
+<p>add bridge=bridge-lan vlan-ids=10</p>
+<p>/interface l2tp-server server</p>
+<p>set enabled=yes use-ipsec=yes</p>
+<p>/interface list member</p>
+<p>add comment=defconf interface=bridge-lan list=LAN</p>
+<p>add comment=defconf interface=ether1 list=WAN</p>
+<p>add interface=bridge-cap list=LAN</p>
+<p>add interface=vlan20 list=LAN</p>
+<p>add interface=vlan1 list=LAN</p>
+<p>add interface=wireguard1 list=LAN</p>
+<p>add interface=wireguard2-aws-tokio list=LAN</p>
+<p>add interface=bridge-dmz list=LAN</p>
+<p>add interface=vlan30 list=LAN</p>
+<p>/interface wireguard peers</p>
+<p>add allowed-address=10.10.10.3/32,::/0,0.0.0.0/0 comment=iphone1 \</p>
+<p>&nbsp; &nbsp;endpoint-address=192.168.1.1 endpoint-port=13231 interface=wireguard1 \</p>
+<p>&nbsp; &nbsp;persistent-keepalive=30s public-key=\</p>
+<p>&nbsp; &nbsp;"AbRsFWt4SoZ4ox9V6S063jE7+KGz99D1oymUFWY8dDY="</p>
+<p>add allowed-address=::/0,0.0.0.0/0,10.10.10.2/32 comment=nb03-win11-marc \</p>
+<p>&nbsp; &nbsp;endpoint-address=192.168.1.1 endpoint-port=13231 interface=wireguard1 \</p>
+<p>&nbsp; &nbsp;persistent-keepalive=30s public-key=\</p>
+<p>&nbsp; &nbsp;"7H/nshs2j9cKW0uE2jNGN6oS3kSJv/eLaNAti5/ClGw="</p>
+<p>add allowed-address=::/0,0.0.0.0/0,10.10.5.2/32,10.10.5.3/32,10.10.5.1/32 \</p>
+<p>&nbsp; &nbsp;comment="cloud router tokio" disabled=yes endpoint-address=54.168.120.47 \</p>
+<p>&nbsp; &nbsp;endpoint-port=13231 interface=wireguard1 persistent-keepalive=30s \</p>
+<p>&nbsp; &nbsp;public-key="ExGFbpd9x8S+tWPcPogKiQVzGk7pIk7oxzD40C9srCU="</p>
+<p>/ip address</p>
+<p>add address=192.168.88.1/24 comment="defconf IP-Pool" interface=bridge-lan \</p>
+<p>&nbsp; &nbsp;network=192.168.88.0</p>
+<p>add address=192.168.5.1/24 comment="Server IP-Pool" interface=bridge-dmz \</p>
+<p>&nbsp; &nbsp;network=192.168.5.0</p>
+<p>add address=10.5.50.1/24 comment="Hotspot Public IP-Pool" interface=\</p>
+<p>&nbsp; &nbsp;"THEBLAQCAT AP hotspot" network=10.5.50.0</p>
+<p>add address=10.10.10.1/24 comment="Wireguard IP-Pool" interface=wireguard1 \</p>
+<p>&nbsp; &nbsp;network=10.10.10.0</p>
+<p>add address=192.168.89.1/24 comment="Hotspot Private IP-Pool" interface=\</p>
+<p>&nbsp; &nbsp;bridge-cap network=192.168.89.0</p>
+<p>add address=10.10.5.2/24 comment=wireguard2-tokio interface=wireguard1 \</p>
+<p>&nbsp; &nbsp;network=10.10.5.0</p>
+<p>/ip arp</p>
+<p>add address=192.168.5.253 comment=THEBLAQCAT-NAS1 interface=bridge-dmz \</p>
+<p>&nbsp; &nbsp;mac-address=00:11:32:2D:1A:89</p>
+<p>add address=192.168.5.254 comment=DC01 interface=bridge-dmz mac-address=\</p>
+<p>&nbsp; &nbsp;74:2B:62:F3:E4:EB</p>
+<p>add address=192.168.5.252 comment=\</p>
+<p>&nbsp; &nbsp;"OROID M1 - Petitboot Modus //\r\</p>
+<p>&nbsp; &nbsp;\n blaq-linux-srv01 - docker" disabled=yes interface=bridge-dmz \</p>
+<p>&nbsp; &nbsp;mac-address=66:99:CD:B5:F0:43</p>
+<p>add address=192.168.5.251 comment=blaq-srv02 disabled=yes interface=\</p>
+<p>&nbsp; &nbsp;bridge-dmz mac-address=00:0C:29:F1:F7:FD</p>
+<p>/ip cloud</p>
+<p>set ddns-enabled=yes ddns-update-interval=4m</p>
+<p>/ip cloud advanced</p>
+<p>set use-local-address=yes</p>
+<p>/ip dhcp-client</p>
+<p>add comment=defconf interface=ether1</p>
+<p>/ip dhcp-relay</p>
+<p>add dhcp-server=192.168.5.1 interface=ether2 name=dhcp-relay1</p>
+<p>/ip dhcp-server lease</p>
+<p>add address=192.168.5.252 mac-address=D2:30:FB:39:D3:C8</p>
+<p>/ip dhcp-server network</p>
+<p>add address=10.10.10.0/24 comment="Wireguard1 DHCP" dns-server=10.10.10.1 \</p>
+<p>&nbsp; &nbsp;gateway=10.10.10.1 netmask=24</p>
+<p>add address=192.168.5.0/24 comment="Server IP-Pool DHCP" dns-server=\</p>
+<p>&nbsp; &nbsp;192.168.5.1,192.168.5.252 gateway=192.168.5.1 netmask=24</p>
+<p>add address=192.168.88.0/24 comment=defconf dns-server=\</p>
+<p>&nbsp; &nbsp;192.168.5.252,192.168.88.1 gateway=192.168.88.1,192.168.5.1 netmask=24</p>
+<p>add address=192.168.89.0/24 comment="Hotspot Private IP-Pool DHCP" \</p>
+<p>&nbsp; &nbsp;dns-server=192.168.89.1 gateway=192.168.89.1 netmask=24</p>
+<p>/ip dns</p>
+<p>set allow-remote-requests=yes</p>
+<p>/ip dns static</p>
+<p>add address=192.168.88.1 comment=defconf name=router.lan</p>
+<p>/ip firewall address-list</p>
+<p>add comment="Deny access to the router and local network, from IP addresses fr\</p>
+<p>&nbsp; &nbsp;om this list." list=BlackList</p>
+<p>add address=acme-staging-v02.api.letsencrypt.org list=LetsEncrypt</p>
+<p>add address=acme-v02.api.letsencrypt.org list=LetsEncrypt</p>
+<p>add address=letsencrypt.org list=LetsEncrypt</p>
+<p>/ip firewall filter</p>
+<p>add action=passthrough chain=input comment="Erlaube Monitoring" src-address=\</p>
+<p>&nbsp; &nbsp;20.224.228.24</p>
+<p>add action=accept chain=input comment="Erlaube Monitoring" protocol=tcp \</p>
+<p>&nbsp; &nbsp;src-address=20.224.228.24</p>
+<p>add action=accept chain=input comment="Erlaube mir selbst alles" src-address=\</p>
+<p>&nbsp; &nbsp;37.24.23.66</p>
+<p>add action=accept chain=forward comment="Intranetz erlaubt" content=intranetz \</p>
+<p>&nbsp; &nbsp;disabled=yes src-address=192.168.5.0/24 src-address-list=WhiteList</p>
+<p>add action=accept chain=forward comment="Intranetz erlaubt" content=intranetz \</p>
+<p>&nbsp; &nbsp;disabled=yes src-address=192.168.88.0/24 src-address-list=WhiteList</p>
+<p>add action=add-src-to-address-list address-list=bruteforce_blacklist \</p>
+<p>&nbsp; &nbsp;address-list-timeout=1d chain=input comment="Blacklist -- Bruteforce" \</p>
+<p>&nbsp; &nbsp;connection-state=new dst-port=22 protocol=tcp src-address-list=\</p>
+<p>&nbsp; &nbsp;connection3</p>
+<p>add action=add-src-to-address-list address-list=connection3 \</p>
+<p>&nbsp; &nbsp;address-list-timeout=1h chain=input comment="Third attempt -- Bruteforce" \</p>
+<p>&nbsp; &nbsp;connection-state=new dst-port=22 protocol=tcp src-address-list=\</p>
+<p>&nbsp; &nbsp;connection2,!secured</p>
+<p>add action=add-src-to-address-list address-list=connection2 \</p>
+<p>&nbsp; &nbsp;address-list-timeout=15m chain=input comment=\</p>
+<p>&nbsp; &nbsp;"Second attempt -- Bruteforce" connection-state=new dst-port=22 protocol=\</p>
+<p>&nbsp; &nbsp;tcp src-address-list=connection1</p>
+<p>add action=add-src-to-address-list address-list=connection1 \</p>
+<p>&nbsp; &nbsp;address-list-timeout=5m chain=input comment="First attempt -- Bruteforce" \</p>
+<p>&nbsp; &nbsp;connection-state=new dst-port=22 protocol=tcp</p>
+<p>add action=accept chain=input comment="First attempt -- Bruteforce" dst-port=\</p>
+<p>&nbsp; &nbsp;22 protocol=tcp src-address-list=!bruteforce_blacklist</p>
+<p>add action=return chain=detect-ddos comment="DDoS Protection" dst-limit=\</p>
+<p>&nbsp; &nbsp;32,32,src-and-dst-addresses/10s</p>
+<p>add action=jump chain=forward comment="DDoS Protection" connection-state=new \</p>
+<p>&nbsp; &nbsp;jump-target=detect-ddos</p>
+<p>add action=add-dst-to-address-list address-list=ddos-targets \</p>
+<p>&nbsp; &nbsp;address-list-timeout=10m chain=detect-ddos comment="DDoS Protection"</p>
+<p>add action=add-src-to-address-list address-list=ddos-attackers \</p>
+<p>&nbsp; &nbsp;address-list-timeout=10m chain=detect-ddos comment="DDoS Protection" \</p>
+<p>&nbsp; &nbsp;src-address=!192.168.88.0/24</p>
+<p>add action=return chain=detect-ddos comment="SYN-ACK Flood" dst-limit=\</p>
+<p>&nbsp; &nbsp;32,32,src-and-dst-addresses/10s protocol=tcp tcp-flags=syn,ack</p>
+<p>add action=add-src-to-address-list address-list=BlackList \</p>
+<p>&nbsp; &nbsp;address-list-timeout=10h chain=input comment=" \"Block TCP port scanning\"\</p>
+<p>&nbsp; &nbsp;: add a device scanning an unused port to BlackList." connection-state=\</p>
+<p>&nbsp; &nbsp;new dst-port=\</p>
+<p>&nbsp; &nbsp;20-26,110,123,161,445,3128,3306,3333,3389,7547,2511,5001,5000 protocol=\</p>
+<p>&nbsp; &nbsp;tcp</p>
+<p>add action=accept chain=input comment="erlaube port 80 f\FCr let's encrypt" \</p>
+<p>&nbsp; &nbsp;dst-port=80 in-interface-list=WAN protocol=tcp src-address-list=\</p>
+<p>&nbsp; &nbsp;LetsEncrypt</p>
+<p>add action=accept chain=input comment=\</p>
+<p>&nbsp; &nbsp;"Erlaube Ethernet1/LAN Zugriff auf Router - Goldene Regel" \</p>
+<p>&nbsp; &nbsp;connection-mark="" in-interface-list=LAN src-address-list=""</p>
+<p>add action=accept chain=forward comment=\</p>
+<p>&nbsp; &nbsp;"defconf: accept established,related, untracked" connection-state=\</p>
+<p>&nbsp; &nbsp;established,related,untracked</p>
+<p>add action=fasttrack-connection chain=forward comment="defconf: fasttrack" \</p>
+<p>&nbsp; &nbsp;connection-state=established,related hw-offload=yes</p>
+<p>add action=accept chain=input comment=\</p>
+<p>&nbsp; &nbsp;"defconf: accept established,related,untracked" connection-state=\</p>
+<p>&nbsp; &nbsp;established,related,untracked</p>
+<p>add action=accept chain=input comment="allow IPsec NAT" dst-port=4500 \</p>
+<p>&nbsp; &nbsp;protocol=udp</p>
+<p>add action=accept chain=input comment="allow IKE" dst-port=500 protocol=udp</p>
+<p>add action=accept chain=input comment="allow l2tp" dst-port=1701 protocol=udp</p>
+<p>add action=accept chain=input comment="defconf: accept ICMP" protocol=icmp</p>
+<p>add action=accept chain=input comment=\</p>
+<p>&nbsp; &nbsp;"defconf: accept to local loopback (for CAPsMAN)" dst-address=127.0.0.1</p>
+<p>add action=accept chain=forward comment="defconf: accept in ipsec policy" \</p>
+<p>&nbsp; &nbsp;ipsec-policy=in,ipsec</p>
+<p>add action=accept chain=forward comment="defconf: accept out ipsec policy" \</p>
+<p>&nbsp; &nbsp;ipsec-policy=out,ipsec</p>
+<p>add action=accept chain=forward comment="Portainer blaq-srv02" disabled=yes \</p>
+<p>&nbsp; &nbsp;dst-port=9443 protocol=tcp</p>
+<p>add action=accept chain=input comment="erlaube winbox" dst-port=8291 \</p>
+<p>&nbsp; &nbsp;protocol=tcp</p>
+<p>add action=accept chain=forward comment="WoL akzeptieren" connection-state="" \</p>
+<p>&nbsp; &nbsp;dst-port=9 in-interface-list=all log=yes protocol=udp</p>
+<p>add action=accept chain=forward comment="ssh akzeptieren" connection-state="" \</p>
+<p>&nbsp; &nbsp;disabled=yes dst-port=22 in-interface-list=all log=yes protocol=tcp</p>
+<p>add action=accept chain=forward comment="RustDesk Server" dst-port=\</p>
+<p>&nbsp; &nbsp;21115-21119 in-interface-list=all protocol=tcp</p>
+<p>add action=accept chain=forward comment="RustDesk Server" dst-port=\</p>
+<p>&nbsp; &nbsp;21115-21119 in-interface-list=all protocol=udp</p>
+<p>add action=accept chain=forward comment="openLDAP Server" dst-port=636 \</p>
+<p>&nbsp; &nbsp;in-interface-list=all protocol=udp</p>
+<p>add action=accept chain=forward comment="openLDAP Server" dst-port=636 \</p>
+<p>&nbsp; &nbsp;in-interface-list=all protocol=tcp</p>
+<p>add action=log chain=input comment=\</p>
+<p>&nbsp; &nbsp;"DEBUG LOG - nur aktivieren um Probleme zu l\F6sen" disabled=yes</p>
+<p>add action=drop chain=input comment="defconf: drop all not coming from LAN - g\</p>
+<p>&nbsp; &nbsp;ilt auch f\FCr FritzBox Wifi und Wireguard und NAS Zugriff auf extern oder\</p>
+<p>&nbsp; &nbsp;\_wlan" disabled=yes in-interface-list=!LAN log=yes</p>
+<p>add action=accept chain=input comment="allow all coming from wireguard" \</p>
+<p>&nbsp; &nbsp;disabled=yes in-interface=wireguard1 log=yes</p>
+<p>add action=drop chain=input comment="defconf: drop invalid" connection-state=\</p>
+<p>&nbsp; &nbsp;invalid</p>
+<p>add action=drop chain=forward comment="defconf: drop invalid" \</p>
+<p>&nbsp; &nbsp;connection-state=invalid</p>
+<p>add action=drop chain=forward comment=\</p>
+<p>&nbsp; &nbsp;"defconf: drop all from WAN not DSTNATed" connection-nat-state=!dstnat \</p>
+<p>&nbsp; &nbsp;connection-state=new in-interface-list=WAN</p>
+<p>add action=drop chain=input comment="WAN -&gt; Firewall | Ping blockieren" \</p>
+<p>&nbsp; &nbsp;in-interface=ether1 protocol=icmp</p>
+<p>add action=passthrough chain=input comment=\</p>
+<p>&nbsp; &nbsp;"# akzeptiere mich selbst \FCber .254 #" disabled=yes in-interface-list=\</p>
+<p>&nbsp; &nbsp;all src-address=192.168.88.254</p>
+<p>/ip firewall nat</p>
+<p>add action=masquerade chain=srcnat comment="defconf: masquerade" \</p>
+<p>&nbsp; &nbsp;ipsec-policy=out,none out-interface-list=WAN</p>
+<p>add action=masquerade chain=srcnat comment="masq. hotspot private traffic" \</p>
+<p>&nbsp; &nbsp;src-address=192.168.89.0/24</p>
+<p>add action=masquerade chain=srcnat comment="vpn masquerade" out-interface=\</p>
+<p>&nbsp; &nbsp;wireguard1</p>
+<p>add action=dst-nat chain=dstnat comment="Nur Alternativ DNS Server erzwingen" \</p>
+<p>&nbsp; &nbsp;disabled=yes dst-port=53 in-interface-list=all protocol=tcp src-address=\</p>
+<p>&nbsp; &nbsp;!192.168.5.252 to-addresses=192.168.5.252</p>
+<p>add action=dst-nat chain=dstnat comment="Nur Alternativ DNS Server erzwingen" \</p>
+<p>&nbsp; &nbsp;disabled=yes dst-port=53 in-interface-list=all protocol=udp src-address=\</p>
+<p>&nbsp; &nbsp;!192.168.5.252 to-addresses=192.168.5.252</p>
+<p>add action=dst-nat chain=dstnat comment="WoL remote" dst-port=9 \</p>
+<p>&nbsp; &nbsp;in-interface-list=all protocol=udp to-addresses=192.168.5.254 to-ports=9</p>
+<p>add action=dst-nat chain=dstnat comment="ssh aktivieren" disabled=yes \</p>
+<p>&nbsp; &nbsp;dst-port=22 in-interface-list=all protocol=tcp to-addresses=192.168.5.253 \</p>
+<p>&nbsp; &nbsp;to-ports=22</p>
+<p>add action=masquerade chain=srcnat comment=\</p>
+<p>&nbsp; &nbsp;"Hairpin NAT / Loopback f\FCr NAS1" disabled=yes dst-address=\</p>
+<p>&nbsp; &nbsp;192.168.5.253 out-interface=bridge-dmz protocol=tcp src-address=\</p>
+<p>&nbsp; &nbsp;192.168.5.0/24</p>
+<p>add action=masquerade chain=srcnat comment=\</p>
+<p>&nbsp; &nbsp;"Hairpin NAT / Loopback f\FCr NAS1" disabled=yes dst-address=\</p>
+<p>&nbsp; &nbsp;192.168.5.253 out-interface=bridge-dmz protocol=tcp src-address=\</p>
+<p>&nbsp; &nbsp;192.168.88.0/24</p>
+<p>add action=masquerade chain=srcnat comment=\</p>
+<p>&nbsp; &nbsp;"Hairpin NAT / Loopback f\FCr DC01" disabled=yes dst-address=\</p>
+<p>&nbsp; &nbsp;192.168.5.254 out-interface=bridge-dmz protocol=tcp src-address=\</p>
+<p>&nbsp; &nbsp;192.168.88.0/24</p>
+<p>add action=dst-nat chain=dstnat comment="NAS-Server http -- nicht aktivieren, \</p>
+<p>&nbsp; &nbsp;macht port 80 probleme + deaktiv f\FCr nginx proxy" disabled=yes \</p>
+<p>&nbsp; &nbsp;dst-port=80 in-interface-list=WAN protocol=tcp to-addresses=192.168.5.253 \</p>
+<p>&nbsp; &nbsp;to-ports=80</p>
+<p>add action=dst-nat chain=dstnat comment=\</p>
+<p>&nbsp; &nbsp;"NAS-Server https -- deaktivieren f\FCr nginx proxy" disabled=yes \</p>
+<p>&nbsp; &nbsp;dst-port=443 in-interface-list=WAN protocol=tcp to-addresses=\</p>
+<p>&nbsp; &nbsp;192.168.5.253 to-ports=443</p>
+<p>add action=dst-nat chain=dstnat comment="NAS-Server dsm" disabled=yes \</p>
+<p>&nbsp; &nbsp;dst-port=2511 in-interface-list=WAN protocol=tcp to-addresses=\</p>
+<p>&nbsp; &nbsp;192.168.5.253 to-ports=2511</p>
+<p>add action=dst-nat chain=dstnat comment="DC01 - IIS http" connection-mark="" \</p>
+<p>&nbsp; &nbsp;disabled=yes dst-port=808 in-interface-list=WAN packet-mark="" protocol=\</p>
+<p>&nbsp; &nbsp;tcp to-addresses=192.168.5.254 to-ports=8080</p>
+<p>add action=dst-nat chain=dstnat comment="nginx reverse proxy" dst-port=443 \</p>
+<p>&nbsp; &nbsp;in-interface-list=WAN protocol=tcp to-addresses=192.168.5.252 to-ports=\</p>
+<p>&nbsp; &nbsp;443</p>
+<p>add action=dst-nat chain=dstnat comment="nginx reverse proxy -- deaktivieren f\</p>
+<p>&nbsp; &nbsp;\FCr let's encrypt zertifikat erneuern bitte" dst-port=80 \</p>
+<p>&nbsp; &nbsp;in-interface-list=WAN protocol=tcp to-addresses=192.168.5.252 to-ports=80</p>
+<p>add action=dst-nat chain=dstnat comment="nginx reverse proxy -- admin console \</p>
+<p>&nbsp; &nbsp;- nur aktivieren wenn public erreichbar machen" disabled=yes dst-port=81 \</p>
+<p>&nbsp; &nbsp;in-interface-list=WAN protocol=tcp to-addresses=192.168.5.254 to-ports=81</p>
+<p>add action=dst-nat chain=dstnat comment="portainer blaq-srv02" disabled=yes \</p>
+<p>&nbsp; &nbsp;dst-port=9443 in-interface-list=all protocol=tcp to-addresses=\</p>
+<p>&nbsp; &nbsp;192.168.5.251 to-ports=9443</p>
+<p>add action=dst-nat chain=dstnat comment="RustDesk Server" dst-port=\</p>
+<p>&nbsp; &nbsp;21115-21119 in-interface-list=all protocol=tcp to-addresses=192.168.5.252 \</p>
+<p>&nbsp; &nbsp;to-ports=21115-21119</p>
+<p>add action=dst-nat chain=dstnat comment="RustDesk Server" dst-port=\</p>
+<p>&nbsp; &nbsp;21115-21119 in-interface-list=all protocol=udp to-addresses=192.168.5.252 \</p>
+<p>&nbsp; &nbsp;to-ports=21115-21119</p>
+<p>add action=dst-nat chain=dstnat comment="openLDAP Server" dst-port=636 \</p>
+<p>&nbsp; &nbsp;in-interface-list=all protocol=udp to-addresses=192.168.5.252 to-ports=\</p>
+<p>&nbsp; &nbsp;636</p>
+<p>add action=dst-nat chain=dstnat comment="openLDAP Server" dst-port=636 \</p>
+<p>&nbsp; &nbsp;in-interface-list=all protocol=tcp to-addresses=192.168.5.252 to-ports=\</p>
+<p>&nbsp; &nbsp;636</p>
+<p>/ip firewall raw</p>
+<p>add action=drop chain=prerouting comment=\</p>
+<p>&nbsp; &nbsp;"BlackList: reject the connection with a device from the Blacklist." \</p>
+<p>&nbsp; &nbsp;dst-limit=1,5,dst-address/1m40s limit=1,5:packet src-address-list=\</p>
+<p>&nbsp; &nbsp;BlackList</p>
+<p>add action=add-dst-to-address-list address-list=BlackList \</p>
+<p>&nbsp; &nbsp;address-list-timeout=1h10m chain=output comment="Bruteforce: add a device \</p>
+<p>&nbsp; &nbsp;performing unsuccessful authorization to BlackList." content=\</p>
+<p>&nbsp; &nbsp;"invalid user name or password" dst-limit=1,5,dst-address/1m40s limit=\</p>
+<p>&nbsp; &nbsp;1,5:packet psd=21,3s,3,1 time=0s-1d,sun,mon,tue,wed,thu,fri,sat</p>
+<p>add action=drop chain=prerouting comment="DDoS Protection" dst-address-list=\</p>
+<p>&nbsp; &nbsp;ddos-targets src-address-list=ddos-attackers</p>
+<p>add action=accept chain=prerouting comment=\</p>
+<p>&nbsp; &nbsp;"WhiteList mit allen Ger\E4ten die erlaubt sind " src-address-list=\</p>
+<p>&nbsp; &nbsp;WhiteList</p>
+<p>/ip firewall service-port</p>
+<p>set ftp disabled=yes</p>
+<p>/ip route</p>
+<p>add comment=wireguard-aws-tokio disabled=yes distance=1 dst-address=\</p>
+<p>&nbsp; &nbsp;54.168.120.47/32 gateway=192.168.1.1 pref-src="" routing-table=main \</p>
+<p>&nbsp; &nbsp;scope=30 suppress-hw-offload=no target-scope=10</p>
+<p>add comment=wireguard-aws-tokio disabled=yes distance=1 dst-address=0.0.0.0/0 \</p>
+<p>&nbsp; &nbsp;gateway=wireguard1 pref-src="" routing-table=main scope=30 \</p>
+<p>&nbsp; &nbsp;suppress-hw-offload=no target-scope=10</p>
+<p>/ip service</p>
+<p>set telnet disabled=yes</p>
+<p>set ftp disabled=yes</p>
+<p>set www-ssl certificate=letsencrypt-autogen_2022-12-08T21:46:40Z disabled=no</p>
+<p>set api disabled=yes</p>
+<p>set api-ssl disabled=yes</p>
+<p>/ip upnp</p>
+<p>set enabled=yes</p>
+<p>/ip upnp interfaces</p>
+<p>add interface=bridge-lan type=internal</p>
+<p>add interface=ether1 type=external</p>
+<p>/ipv6 address</p>
+<p># address pool error: pool not found: DHCPv6-Pool/56 (4)</p>
+<p>add address=::de2c:6eff:fe9d:179b from-pool=DHCPv6-Pool/56 interface=\</p>
+<p>&nbsp; &nbsp;bridge-lan</p>
+<p>add from-pool=DHCPv6-Pool/56 interface=bridge-cap</p>
+<p>/ipv6 dhcp-client</p>
+<p>add add-default-route=yes interface=ether1 pool-name=DHCPv6-Pool/56 \</p>
+<p>&nbsp; &nbsp;rapid-commit=no request=prefix</p>
+<p>/ipv6 firewall address-list</p>
+<p>add address=::/128 comment="defconf: unspecified address" list=bad_ipv6</p>
+<p>add address=::1/128 comment="defconf: lo" list=bad_ipv6</p>
+<p>add address=fec0::/10 comment="defconf: site-local" list=bad_ipv6</p>
+<p>add address=::ffff:0.0.0.0/96 comment="defconf: ipv4-mapped" list=bad_ipv6</p>
+<p>add address=::/96 comment="defconf: ipv4 compat" list=bad_ipv6</p>
+<p>add address=100::/64 comment="defconf: discard only " list=bad_ipv6</p>
+<p>add address=2001:db8::/32 comment="defconf: documentation" list=bad_ipv6</p>
+<p>add address=2001:10::/28 comment="defconf: ORCHID" list=bad_ipv6</p>
+<p>add address=3ffe::/16 comment="defconf: 6bone" list=bad_ipv6</p>
+<p>/ipv6 firewall filter</p>
+<p>add action=accept chain=input comment=\</p>
+<p>&nbsp; &nbsp;"defconf: accept established,related,untracked" connection-state=\</p>
+<p>&nbsp; &nbsp;established,related,untracked</p>
+<p>add action=drop chain=input comment="defconf: drop invalid" connection-state=\</p>
+<p>&nbsp; &nbsp;invalid</p>
+<p>add action=accept chain=input comment="defconf: accept ICMPv6" protocol=\</p>
+<p>&nbsp; &nbsp;icmpv6</p>
+<p>add action=accept chain=input comment="defconf: accept UDP traceroute" port=\</p>
+<p>&nbsp; &nbsp;33434-33534 protocol=udp</p>
+<p>add action=accept chain=input comment=\</p>
+<p>&nbsp; &nbsp;"defconf: accept DHCPv6-Client prefix delegation." dst-port=546 protocol=\</p>
+<p>&nbsp; &nbsp;udp src-address=fe80::/10</p>
+<p>add action=accept chain=input comment="defconf: accept IKE" dst-port=500,4500 \</p>
+<p>&nbsp; &nbsp;protocol=udp</p>
+<p>add action=accept chain=input comment="defconf: accept ipsec AH" protocol=\</p>
+<p>&nbsp; &nbsp;ipsec-ah</p>
+<p>add action=accept chain=input comment="defconf: accept ipsec ESP" protocol=\</p>
+<p>&nbsp; &nbsp;ipsec-esp</p>
+<p>add action=accept chain=input comment=\</p>
+<p>&nbsp; &nbsp;"defconf: accept all that matches ipsec policy" ipsec-policy=in,ipsec</p>
+<p>add action=drop chain=input comment=\</p>
+<p>&nbsp; &nbsp;"defconf: drop everything else not coming from LAN" in-interface-list=\</p>
+<p>&nbsp; &nbsp;!LAN</p>
+<p>add action=accept chain=forward comment=\</p>
+<p>&nbsp; &nbsp;"defconf: accept established,related,untracked" connection-state=\</p>
+<p>&nbsp; &nbsp;established,related,untracked</p>
+<p>add action=drop chain=forward comment="defconf: drop invalid" \</p>
+<p>&nbsp; &nbsp;connection-state=invalid</p>
+<p>add action=drop chain=forward comment=\</p>
+<p>&nbsp; &nbsp;"defconf: drop packets with bad src ipv6" src-address-list=bad_ipv6</p>
+<p>add action=drop chain=forward comment=\</p>
+<p>&nbsp; &nbsp;"defconf: drop packets with bad dst ipv6" dst-address-list=bad_ipv6</p>
+<p>add action=drop chain=forward comment="defconf: rfc4890 drop hop-limit=1" \</p>
+<p>&nbsp; &nbsp;hop-limit=equal:1 protocol=icmpv6</p>
+<p>add action=accept chain=forward comment="defconf: accept ICMPv6" protocol=\</p>
+<p>&nbsp; &nbsp;icmpv6</p>
+<p>add action=accept chain=forward comment="defconf: accept HIP" protocol=139</p>
+<p>add action=accept chain=forward comment="defconf: accept IKE" dst-port=\</p>
+<p>&nbsp; &nbsp;500,4500 protocol=udp</p>
+<p>add action=accept chain=forward comment="defconf: accept ipsec AH" protocol=\</p>
+<p>&nbsp; &nbsp;ipsec-ah</p>
+<p>add action=accept chain=forward comment="defconf: accept ipsec ESP" protocol=\</p>
+<p>&nbsp; &nbsp;ipsec-esp</p>
+<p>add action=accept chain=forward comment=\</p>
+<p>&nbsp; &nbsp;"defconf: accept all that matches ipsec policy" ipsec-policy=in,ipsec</p>
+<p>add action=drop chain=forward comment=\</p>
+<p>&nbsp; &nbsp;"defconf: drop everything else not coming from LAN" in-interface-list=\</p>
+<p>&nbsp; &nbsp;!LAN</p>
+<p>/ipv6 nd</p>
+<p>set [ find default=yes ] disabled=yes</p>
+<p>add interface=bridge-lan other-configuration=yes</p>
+<p>add interface=bridge-cap other-configuration=yes</p>
+<p>/ppp secret</p>
+<p>add name=vpn</p>
+<p>/system clock</p>
+<p>set time-zone-name=Europe/Berlin</p>
+<p>/system identity</p>
+<p>set name="MikroTik HexS"</p>
+<p>/system routerboard settings</p>
+<p>set auto-upgrade=yes boot-protocol=dhcp</p>
+<p>/tool graphing interface</p>
+<p>add interface=wireguard1</p>
+<p>add interface=bridge-cap</p>
+<p>add interface=bridge-lan</p>
+<p>add interface=bridge-dmz</p>
+<p>add interface=ether1</p>
+<p>/tool graphing queue</p>
+<p>add</p>
+<p>/tool graphing resource</p>
+<p>add</p>
+<p>/tool mac-server</p>
+<p>set allowed-interface-list=LAN</p>
+<p>/tool mac-server mac-winbox</p>
+<p>set allowed-interface-list=LAN</p>
+<p>/user-manager</p>
+<p>set certificate=*0 use-profiles=yes</p>
+<p>/user-manager advanced</p>
+<p>set paypal-allow=yes</p>
+<p>/user-manager router</p>
+<p>add address=127.0.0.1 name=router1</p>
+<p>/user-manager user-profile</p>
+<p>add profile=prof1 user=admin</p>
+<p>&nbsp;</p>

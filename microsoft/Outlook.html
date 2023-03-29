@@ -1,0 +1,311 @@
+<!--
+title: Microsoft Outlook
+description: 
+published: true
+date: 2023-03-26T20:39:41.944Z
+tags: 
+editor: undefined
+dateCreated: 2023-03-08T13:03:55.215Z
+-->
+
+<h1>Outlook</h1>
+<p>&nbsp;</p>
+<h2>Fix: GMail in Outlook</h2>
+<h3>Fehler "Dieser Webbrowser unterstützt JavaScript nicht, oder Skripts werden blockiert" beim Hinzufügen eines Google Workspace-Kontos</h3>
+<p><i>Outlook für Microsoft 365</i></p>
+<p><i>Letzte Aktualisierung: 26. Mai 2022</i></p>
+<p><strong>PROBLEM</strong></p>
+<p>Beim Hinzufügen eines Google Workspace-Kontos zum Outlook-Desktop tritt die Fehlermeldung "Der Browser, den Sie verwenden, unterstützt nicht JavaScript oder hat JavaScript deaktiviert."&nbsp;</p>
+<figure class="image"><img src="https://support.content.office.net/de-de/media/318855d6-8e0f-4bdd-92ed-f91dba3e63cd.png" alt="Browserfehler: Der von Ihnen verwendete Browser unterstützt JavaScript nicht"></figure>
+<p><strong>PROBLEMUMGEHUNG</strong></p>
+<blockquote>
+  <p><strong>Warnung:&nbsp;</strong>Diese Aufgabe enthält Schritte, mit denen Sie erfahren, wie Sie die Registrierung ändern. Es können jedoch schwerwiegende Probleme auftreten, wenn Sie die Registrierung falsch ändern. Stellen Sie daher sicher, dass Sie diese Schritte sorgfältig ausführen. Sichern Sie für zusätzlichen Schutz <a href="https://support.microsoft.com/en-us/topic/how-to-back-up-and-restore-the-registry-in-windows-855140ad-e318-2a13-2829-d428a2ab0692">die Registrierung</a> , bevor Sie sie ändern. Anschließend können Sie die Registrierung wiederherstellen, wenn ein Problem auftritt.</p>
+</blockquote>
+<p>Geben Sie im Startmenü <i><strong>regedit.exe</strong></i> in das Suchfeld ein, und drücken Sie dann die <strong>EINGABETASTE</strong>.<br><br>Wenn Sie zur Eingabe eines Administratorkennworts oder zur Bestätigung aufgefordert werden, geben Sie das Kennwort ein, oder geben Sie eine Bestätigung ein.</p>
+<p>Navigieren <strong>Sie im Registrierungs-Editor</strong> zu: <i><strong>HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION</strong></i></p>
+<p>Suchen Sie die <strong>REG_DWORD OUTLOOK.EXE</strong> , und doppelklicken Sie zum Bearbeiten.</p>
+<p>Wählen Sie <strong>"Dezimal"</strong> und dann "11001" aus, und wählen Sie <strong>"OK</strong>" aus.</p>
+<p>Schließen Sie <strong>den Registrierungs-Editor</strong> , und starten Sie Outlook neu.</p>
+<figure class="image"><img src="/gmail_in_outlook_2.png"></figure>
+<blockquote>
+  <p><strong>Hinweis:&nbsp;</strong>Bei Verwendung dieser Problem Umgehung zeigt das <strong>Outlook Today-Feature</strong> möglicherweise keine Informationen ordnungsgemäß an.</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2>Add-Ins aktiviert lassen</h2>
+<p>Programme in Office 2013 und höheren Versionen bieten Add-In-Resilienz, was bedeutet, dass Apps ein Add-In deaktivieren, wenn es langsam ist. Sie können Add-Ins jedoch erneut aktivieren und verhindern, dass Add-Ins von anderen Office-Programmen automatisch deaktiviert werden.</p>
+<h3><strong>Verhindern der Deaktivierung von Add-Ins</strong></h3>
+<p>Auch wenn die meisten Add-Ins nicht durch das Add-In-Deaktivierungsfeature deaktiviert werden, möchten Sie nicht, dass Ihr Add-In ständig deaktiviert wird.</p>
+<p>Es folgen einige Vorschläge zur Verbesserung der Add-In-Leistung:</p>
+<ul>
+  <li>Native COM-Add-Ins gegenüber verwalteten Add-Ins bevorzugen, da verwaltete Add-Ins den Mehraufwand für das Laden der .NET Framework während des Outlook-Starts verursachen müssen.</li>
+  <li>Wenn Sie Aufgaben mit langer Ausführungszeit haben, z. B. Herstellen einer teuren Verbindung mit einer Datenbank, verschieben Sie diese Aufgaben auf einen Zeitpunkt nach dem Start.</li>
+  <li>Wenn möglich, sollten Sie Daten lokal zwischenspeichern, anstatt teure Netzwerkaufrufe während der Ereignisse <strong>FolderSwitch</strong> und <strong>BeforeFolderSwitch</strong> eines Explorers oder der <strong>Open</strong>-Ereignisse eines Elements auszuführen.</li>
+  <li>Beachten Sie, dass alle Aufrufe an das Outlook-Objektmodell im Hauptvordergrundthread von Outlook ausgeführt werden. Vermeiden Sie nach Möglichkeit langwierige Outlook-Objektmodellaufrufe.</li>
+  <li>In Outlook 2013 geben Aufrufe des Outlook-Objektmodells E_RPC_WRONG_THREAD zurück, wenn das Outlook-Objektmodell aus einem Hintergrundthread aufgerufen wird.</li>
+  <li>Der Abruf ist ein aufwändiger Vorgang. Ziehen Sie daher immer ein ereignisgesteuertes Modell gegenüber dem Abruf vor.</li>
+</ul>
+<h3><strong>Systemadministratorsteuerung über Add-Ins</strong></h3>
+<p>Der Benutzer kann steuern, welche Add-Ins auf seinem Computer ausgeführt werden. Ab Office 2013 können Systemadministratoren mithilfe von Gruppenrichtlinien eine erweiterte Steuerungsebene für Add-Ins konfigurieren. Gruppenrichtlinien setzen Benutzer Einstellungen immer außer Kraft, und Benutzer werden daran gehindert, Add-In-Einstellungen für Add-Ins zu ändern, die von der <strong>Gruppenrichtlinienliste der verwalteten Add-Ins</strong> konfiguriert wurden.</p>
+<p>Für Outlook werden die Registrierungsschlüssel und -einstellungen in den folgenden Tabellen beschrieben.</p>
+<figure class="table" style="width:860px;">
+  <table style="background-color:rgb(255, 255, 255);border-bottom:1px solid var(--theme-table-border-dark);border-left:1px solid var(--theme-table-border-dark);border-right:1px solid var(--theme-table-border-dark);border-top:1px solid var(--theme-table-border-dark);">
+    <thead>
+      <tr>
+        <th style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Name</th>
+        <th style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Beschreibung</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Key</td>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Office 2013:<br>HKEY_CURRENT_USER\Software\Policies\Microsoft\Office\15.0\Outlook\Resiliency\AddinList<br><br>Office 2016/2019/365:<br>HKEY_CURRENT_USER\Software\Policies\Microsoft\Office\16.0\Outlook\Resiliency\AddinList</td>
+      </tr>
+      <tr>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Beschreibung</td>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Mit dieser Richtlinieneinstellung können Sie die Liste der verwalteten Add-Ins angeben, die immer aktiviert, immer deaktiviert (blockiert) oder vom Benutzer konfigurierbar sind.<br><br><strong>HINWEIS</strong>: Hier bezieht sich der Begriff "verwaltet" auf Add-Ins, die von der Gruppenrichtlinie behandelt werden, und bezieht sich nicht auf Add-Ins, die in verwalteten Programmiersprachen entwickelt werden.</td>
+      </tr>
+      <tr>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;"><strong>String</strong></td>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">ProgID des Add-Ins</td>
+      </tr>
+      <tr>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Werte</td>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Geben Sie den Wert wie folgt an:<br>0 = immer deaktiviert (blockiert)<br>1 = immer aktiviert<br>2 = vom Benutzer konfigurierbar und nicht durch die Richtlinieneinstellung <strong>Alle nicht verwalteten Add-Ins blockieren</strong> , wenn sie aktiviert ist.</td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+<blockquote>
+  <p><strong>Hinweis</strong></p>
+  <p>Verwenden Sie zum Abrufen der ProgID für ein Add-In den Windows-Registrierungs-Editor auf dem Clientcomputer, auf dem das Add-In installiert ist. Kopieren Sie die Registrierungsschlüsselnamen unter gefunden: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Office&lt;Anwendung&gt;\Addins oder HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office&lt;Anwendung&gt;\Addins. Bei Registrierungsschlüsselnamen wird <strong>die Groß-/Kleinschreibung beachtet</strong>.</p>
+  <ul>
+    <li>Wenn Sie diese Richtlinieneinstellung deaktivieren oder nicht aktivieren, wird die Liste der verwalteten Add-Ins gelöscht. Wenn die Richtlinieneinstellung <strong>Alle nicht verwalteten Add-Ins blockieren</strong> aktiviert ist, werden alle Add-Ins blockiert.</li>
+    <li>Add-Ins, die durch diese Richtlinie deaktiviert sind, werden nie vom Deaktivierungsfeature für Add-Ins von Outlook deaktiviert, das Add-Ins aus Gründen der Leistung, Stabilität oder Zuverlässigkeit deaktiviert.</li>
+    <li>Wenn der Benutzer "Dieses Add-In immer aktivieren" auswählt, wird die Registrierung aktualisiert, um Details zum Add-In einzuschließen, das von der automatischen Deaktivierungsfunktion ausgenommen werden soll.</li>
+  </ul>
+</blockquote>
+<figure class="table" style="width:860px;">
+  <table style="background-color:rgb(255, 255, 255);border-bottom:1px solid var(--theme-table-border-dark);border-left:1px solid var(--theme-table-border-dark);border-right:1px solid var(--theme-table-border-dark);border-top:1px solid var(--theme-table-border-dark);">
+    <thead>
+      <tr>
+        <th style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Name</th>
+        <th style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Beschreibung</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Key</td>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">HKEY_CURRENT_USER\Software\Microsoft\Office\x.0\Outlook\Resiliency\DoNotDisableAddinList</td>
+      </tr>
+      <tr>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Beschreibung</td>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Dieser Schlüssel verhindert, dass von Ihnen angegebene Add-Ins durch das Deaktivierungsfeature des Add-Ins deaktiviert werden.</td>
+      </tr>
+      <tr>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;"><strong>DWORD</strong></td>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">ProgID des Add-Ins</td>
+      </tr>
+      <tr>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Werte</td>
+        <td style="border-top:1px solid var(--theme-table-border-dark);padding:0.5rem;vertical-align:top;">Ein Hex-Wert zwischen 1 und A, der angibt, warum das Add-In ursprünglich deaktiviert wurde:<br>0x00000001 Startladevorgang (LoadBehavior = 3)<br>0x00000002 Lastbedarf (LoadBehavior = 9)<br>0x00000003 Absturz<br>0x00000004 Handling FolderSwitch-Ereignis<br>0x00000005 Behandlung des BeforeFolderSwitch-Ereignisses<br>0x00000006 Element geöffnet<br>0x00000007 Iterationsanzahl<br>0x00000008 Herunterfahren<br>0x00000009 Absturz, aber nicht deaktiviert, da das Add-In in der Zulassungsliste enthalten ist<br>0x0000000A Absturz, aber nicht deaktiviert, da der Benutzer im Dialogfeld "Deaktivieren" "Nein" ausgewählt hat<br><br><strong>HINWEIS</strong>: Der x.0-Platzhalter stellt die Version von Office (16.0 = Office 2016/2019/365, 15.0 = Office 2013) dar.</td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+<blockquote>
+  <p><strong>Hinweis</strong></p>
+  <p>Wenn Sie ein Add-In erneut aktivieren, das gleichzeitig ein Leistungsproblem verursacht hat, können benutzer in Zukunft Leistungsprobleme im Office-Programm auftreten, für das das Add-In geladen wird.</p>
+</blockquote>
+<p>Zum Blockieren von Add-Ins, die nicht durch diese Richtlinieneinstellung verwaltet werden, müssen Sie auch die Richtlinieneinstellung <strong>Alle nicht verwalteten Add-Ins blockieren</strong> konfigurieren.</p>
+<p>&nbsp;</p>
+<hr>
+<h1><strong>Dragon Naturally Speaking AddIn</strong></h1>
+<figure class="image"><img src="/e3fc56c0-1844-4115-9ec0-f9d615b72bf6.jpg"></figure>
+<p>&nbsp;</p>
+<h3><strong>Wenn das Diktieren in einer bestimmten Anwendung eingeschränkt oder deaktiviert ist</strong></h3>
+<p>Zur vollständigen Unterstützung des Diktierens in gewissen Anwendungen verfügt Dragon Legal Group über <strong>Kompatibilitätsmodule</strong>, die auch als <strong>Anwendungs-Add-ins</strong> bekannt sind. Gelegentlich wird ein Add-in unter Umständen deaktiviert. Dann kann Dragon mit einer bestimmten Anwendung nicht mehr normal interagieren. Wenn ein Anwendungs-Kompatibilitätsmodul deaktiviert ist, zeigt Dragon eine Warnmeldung mit Hinweisen zur Lösung des Problems an.</p>
+<p>Dieses Problem äußert sich auf verschiedene Weisen:</p>
+<ul>
+  <li>Es ist nicht möglich, in einer Anwendung Text einzugeben.</li>
+  <li>Die Texteingabe ist möglich, Dragon hat jedoch keine volle Textsteuerung</li>
+</ul>
+<p>Um die Funktionalität wiederherzustellen, müssen Sie das Anwendungs-Kompatibilitätsmodul unter Umständen manuell registrieren. So gehen&nbsp;Sie vor:</p>
+<p><strong>Schritt 1: Schließen Sie alle Programme einschließlich Dragon Legal Group.</strong></p>
+<p><strong>Schritt 2: Öffnen Sie das Dialogfenster "Ausführen".</strong></p>
+<p><strong>Unter Windows 8.1 / Windows 10:</strong></p>
+<ol>
+  <li>Drücken Sie gleichzeitig <strong>Windows-Taste+X-Taste</strong>.</li>
+  <li>Wählen Sie <strong>Eingabeaufforderung (Administrator)</strong> oder <strong>Ausführen</strong> aus.</li>
+</ol>
+<p><strong>Schritt 3: Führen Sie den Registrierungsbefehl für die gewünschte Anwendung aus.</strong></p>
+<p>Geben Sie in das Dialogfenster den entsprechenden Befehl von der unten stehenden Liste ein (oder kopieren und fügen Sie diesen ein). Klicken Sie auf <strong>OK</strong>.</p>
+<p>Wird die Anwendung auf einem 32-Bit-Betriebssystem installiert, beginnt der standardmäßige Installationspfad mit <code>C:\Program Files\Nuance</code> anstatt <code>C:\ Program Files (x86)\Nuance</code>.</p>
+<figure class="table" style="width:883px;">
+  <table>
+    <thead>
+      <tr>
+        <th style="border-bottom:1px solid rgb(192, 192, 192);border-right:1px solid rgb(192, 192, 192);padding:1px 5px;">Anwendung:</th>
+        <th style="border-bottom:1px solid rgb(192, 192, 192);padding:1px 5px;">Befehl in der Eingabeaufforderung:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);border-right:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">Microsoft Outlook</td>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">regsvr32 "C:\Programme (x86)\Nuance\NaturallySpeaking14\Program\dgnoutlook.dll"</td>
+      </tr>
+      <tr>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);border-right:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">Microsoft Word</td>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">regsvr32 "C:\Programme (x86)\Nuance\NaturallySpeaking14\Program\dgnword.dll"</td>
+      </tr>
+      <tr>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);border-right:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">Microsoft Excel</td>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">regsvr32 "C:\Programme (x86)\Nuance\NaturallySpeaking14\Program\dgnexcel.dll"</td>
+      </tr>
+      <tr>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);border-right:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">Corel WordPerfect</td>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">regsvr32 "C:\Programme (x86)\Nuance\NaturallySpeaking14\Program\dgnwp9.dll"</td>
+      </tr>
+      <tr>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);border-right:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">Microsoft Internet&nbsp;Explorer</td>
+        <td style="background-color:rgb(255, 255, 255);border-bottom:1px solid rgb(192, 192, 192);padding:5px;vertical-align:top;">regsvr32 "C:\Programme (x86)\Nuance\NaturallySpeaking14\Program\web_ie.dll"</td>
+      </tr>
+    </tbody>
+  </table>
+</figure>
+<p>&nbsp;</p>
+<h3>Information on running Dragon NaturallySpeaking in virtualized environments</h3>
+<blockquote>
+  <p><strong>Information:</strong></p>
+  <p>Running Dragon software in virtualized environments such as Virtual PC, VMWare, WINE or "Click-to-Run"&nbsp;are not currently supported.</p>
+  <p><strong>Note:</strong> Storing user profiles on a virtual file system for use with the networked Roaming User Profile feature is supported.</p>
+</blockquote>
+<hr>
+<h2>AutoDiscover</h2>
+<h3>Autodiscover für Office 365 deaktivieren</h3>
+<p>Die zwei Autodiscover Einstellungen von Outlook, welche in der Standardeinstellung aktiv sind, verursachen gerne Probleme bei der Einrichtung von Outlook Konten. In der Standardeinstellung versucht Outlook immer auch Autodiscover Einstellungen von Microsoft 365 abzurufen, dies führt bei On-Prem Exchange Servern gerne zu Problemen. Des Weiteren versucht Outlook die Autodiscover Einstellungen auch von der Root Domain abzurufen (beispielsweise https://frankysweb.de/autodiscover/autodiscover.xml), dies schlägt in der Regel ebenfalls fehl und verzögert den Prozess nur unnötig.</p>
+<p>&nbsp;</p>
+<p>Dieses Verhalten lässt sich aber mit geringem Aufwand via Gruppenrichtlinie oder Registry-Eintrag lösen.</p>
+<h3>Autodiscover und Registry</h3>
+<p>Um keine Autodiscover Einstellungen von Microsoft 365 und der Root Domain abzufragen, können diese beiden Registry Einträge gesetzt werden. Dieser Weg bietet sich bei Rechnern an, welche nicht via Gruppenrichtlinie erreicht werden können:</p>
+<p>Pfad: HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Autodiscover</p>
+<ul>
+  <li>DWORD: ExcludeExplicitO365Endpoint</li>
+  <li>Wert: 1</li>
+  <li>DWORD: ExcludeHttpsRootDomain</li>
+  <li>Wert: 1</li>
+</ul>
+<p>Sollte der Schlüssel „Autodiscover“ nicht existieren, kann er einfach erzeugt werden. In der Regel ist eine Anpassung der Version im Pfad (16.0) nicht nötig, da Office 2016, 2019 und 2021 die Version 16.0 verwenden:</p>
+<figure class="image"><img src="/autodiscover_image-46.png"></figure>
+<p>Nach dem Erstellen der Registry Einträge ist nur ein Neustart von Outlook erforderlich, es muss nicht der ganze Rechner neu gestartet werden.</p>
+<h3>Einstellungen via Gruppenrichtlinie</h3>
+<p>Diese Werte lassen sich auch via GPO setzen, entweder direkt als Registry Eintrag, oder noch einfacher mit „Administrative Template files for Office“. Mit den „Administrative Template files for Office“ lassen auch viele weitere Einstellungen zu den Office-Produkten festlegen. Hier findet sich der Download:</p>
+<ul>
+  <li><a href="https://www.microsoft.com/en-us/download/details.aspx?id=49030">Administrative Template files (ADMX/ADML) for Microsoft 365 Apps for enterprise/Office LTSC 2021/Office 2019/Office 2016</a></li>
+</ul>
+<p>Nachdem die Template files heruntergeladen und entpackt wurden, kann der Inhalt des Unterverzeichnisses „admx“ auf einem Domain-Controller in den Ordner „c:\Windows\PolicyDefinitions“ kopiert werden:</p>
+<figure class="image"><img src="/autodiscover_image-47-1024x578.png"></figure>
+<p>Im Gruppenrichtlinien Editor lässt sich nun eine neue Gruppenrichtlinie erstellen und die Autodiscover Einstellungen entsprechend setzen:</p>
+<figure class="image"><img src="/autodiscover_image-48-1024x583.png"></figure>
+<p>Sobald die Gruppenrichtlinie auf den Rechnern angewendet wurde, reicht ein Outlook Neustart, um die Einstellungen zu übernehmen.</p>
+<p><u>Bei Problemen hier schauen:</u><br>in HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Outlook\AutoDiscover<br>und nicht in<br>HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office\16.0\Outlook\AutoDiscover</p>
+<p>&nbsp;</p>
+<hr>
+<h3><strong>Unerwartetes Verhalten der Autoermittlung, wenn Sie Registrierungseinträge unter dem Schlüssel \Autoermittlung haben</strong></h3>
+<p>Wenn Microsoft Outlook versucht, AutoErmittlung-Informationen von einem Server abzurufen, auf dem Microsoft Exchange Server ausgeführt wird, können unerwartete Ergebnisse auftreten, wenn Sie einen oder mehrere der verfügbaren Registrierungswerte verwenden, die zum Steuern der AutoErmittlung verwendet werden können.</p>
+<h3><strong>Ursache</strong></h3>
+<p>Wenn Outlook versucht, den AutoErmittlungsdienst auf dem Exchange-Server mit der CAS-Rolle (Clientzugriffsserver) zu kontaktieren, kann es je nach Client-Server-Topologie mehrere verschiedene Methoden verwenden, um den Dienst zu erreichen. Die derzeit implementierten Methoden, die von Outlook verwendet werden, sind die folgenden:</p>
+<ul>
+  <li>SCP-Suche</li>
+  <li>HTTPS-Stammdomänenabfrage</li>
+  <li>HTTPS-AutoErmittlung-Domänenabfrage</li>
+  <li>Lokale XML-Datei</li>
+  <li>HTTP-Umleitungsmethode</li>
+  <li>SRV-Datensatzabfrage</li>
+  <li>Zwischengespeicherte URL im Outlook-Profil (neu für Outlook 2010 Version 14.0.7140.5001 und neuere Versionen)</li>
+  <li>Direkte Verbindung mit Microsoft 365 (neu für Outlook 2016, Version 16.0.6741.2017 und neuere Versionen)</li>
+</ul>
+<p>Standardmäßig versucht Outlook eine oder mehrere dieser Methoden, wenn die AutoErmittlung nicht erreicht werden kann. In einem Szenario mit einem Computer, der nicht mit einer Domäne verbunden ist, versucht Outlook beispielsweise, mithilfe von DNS eine Verbindung mit den vordefinierten URLs herzustellen (z.&nbsp;B. <code>https://autodiscover.contoso.com/autodiscover/autodiscover.xml</code>). Wenn dies fehlschlägt, versucht Outlook die HTTP-Umleitungsmethode. Wenn dies ebenfalls fehlschlägt, versucht Outlook, die Suchmethode für SRV-Einträge zu verwenden. Wenn alle Suchmethoden fehlschlagen, kann Outlook keine Outlook Anywhere-Konfiguration und keine URL-Einstellungen abrufen.</p>
+<p>Weitere Informationen zu den verschiedenen von Outlook verwendeten AutoErmittlungs-Verbindungsmethoden finden Sie in den folgenden Exchange AutoErmittlungsdienst-Dokumenten:</p>
+<ul>
+  <li><a href="https://learn.microsoft.com/de-de/exchange/autodiscover-service-for-exchange-2013">Exchange 2013 AutoErmittlungsdienst</a></li>
+  <li><a href="https://learn.microsoft.com/de-de/previous-versions/office/exchange-server-2010-technical-article/jj591328(v=exchg.141)">Whitepaper: Grundlegendes zum Exchange 2010 AutoErmittlungsdienst</a></li>
+  <li><a href="https://learn.microsoft.com/de-de/previous-versions/office/exchange-server-2007-technical-articles/bb332063(v=exchg.80)">Whitepaper: Exchange 2007 AutoErmittlungsdienst</a></li>
+</ul>
+<p>In einigen Szenarien können Sie jedoch AutoErmittlungs-bezogene Registrierungs-/Richtlinienwerte verwenden, um die Methode(n) zu steuern, die Outlook verwendet, um die AutoErmittlung zu erreichen. Wenn Sie jedoch die Registrierungs-/Richtlinienwerte der AutoErmittlung falsch konfigurieren, kann dies verhindern, dass Outlook Informationen zur AutoErmittlung abruft.</p>
+<h3><strong>Lösung</strong></h3>
+<p>Um dieses Problem zu beheben, überprüfen Sie die AutoErmittlungs-bezogenen Registrierungsdaten, die Sie möglicherweise auf Ihrem Outlook-Client haben, um sicherzustellen, dass die Daten ordnungsgemäß konfiguriert sind. Wenn Sie sich nicht sicher sind, ob die Registrierungsdaten benötigt werden, können Sie die Daten für einen dieser Registrierungswerte in Null (0) ändern und dann Outlook testen, um festzustellen, ob das für die AutoErmittlung einen Unterschied macht.</p>
+<blockquote>
+  <p><strong>Wichtig</strong></p>
+  <p>Dieser Abschnitt, diese Methode bzw. diese Aufgabe enthält eine Beschreibung der Schritte zum Bearbeiten der Registrierung. Durch die falsche Bearbeitung der Registrierung können schwerwiegende Probleme verursacht werden. Daher ist es wichtig, bei der Ausführung der folgenden Schritte sorgfältig vorzugehen. Für zusätzlichen Schutz sichern Sie die Registrierung, bevor Sie sie ändern. Sie können die Registrierung wiederherstellen, wenn ein Problem auftritt. Weitere Informationen zur Sicherung und Wiederherstellung der Registrierung finden Sie im folgenden Artikel der Microsoft Knowledge Base: <a href="https://support.microsoft.com/help/322756"><strong>322756 Sichern und Wiederherstellen der Registrierung in Windows</strong></a></p>
+</blockquote>
+<ul class="todo-list">
+  <li><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description">Starten Sie den Registrierungs-Editor.</span></label></li>
+  <li><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description">Klicken Sie auf den folgenden Registrierungsunterschlüssel:</span></label></li>
+</ul>
+<p><code>HKEY_CURRENT_USER\Software\Microsoft\Office\x.0\Outlook\AutoDiscover</code></p>
+<blockquote>
+  <p><strong>Hinweis</strong></p>
+  <p>Der Eintrag „x.0“ in diesem Registrierungspfad entspricht der Outlook-Version (16.0 = Outlook 2016, 15.0 = Outlook 2013, 14.0 = Outlook 2010, 12.0 = Outlook 2007).</p>
+</blockquote>
+<ul class="todo-list">
+  <li><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description">&nbsp; Überprüfen Sie die folgenden möglichen DWORD-Werte, die sich möglicherweise unter dem Unterschlüssel \Autodiscover befinden.</span></label></li>
+</ul>
+<ul>
+  <li>PreferLocalXML</li>
+  <li>PreferProvidedEmailInAutoDiscoverAuthPrompts<br>Mit diesem Wert können Exchange-Administratoren angeben, ob Benutzer in AutoErmittlungsszenarien mithilfe der konfigurierten Konto-E-Mail oder des Benutzerprinzipalnamens (UPN) authentifiziert werden. Weitere Informationen finden Sie unter <a href="https://support.microsoft.com/topic/november-5-2019-update-for-outlook-2016-kb4484139-9f986a96-8075-7ded-ccf4-d4ba69e8efeb">5. November 2019, Update für Outlook 2016 (KB4484139)</a>.</li>
+  <li>ExcludeHttpRedirect</li>
+  <li>ExcludeHttpsAutoDiscoverDomain</li>
+  <li>ExcludeHttpsRootDomain</li>
+  <li>ExcludeScpLookup</li>
+  <li>ExcludeSrvRecord</li>
+  <li>ExcludeLastKnownGoodURL (gilt nur für Outlook 2010 Version 14.0.7140.5001 und neuere Versionen)</li>
+  <li>ExcludeExplicitO365Endpoint (gilt nur für Outlook 2016 Version 16.0.6741.2017 und neuere Versionen)</li>
+</ul>
+<blockquote>
+  <p><strong>Hinweis</strong></p>
+  <p>In einer der Dokumentationen wird behauptet, dass der Wert von ExcludeSrvLookup in diesem Szenario von Outlook verwendet wird. Diese Dokumentation ist leider fehlerhaft, da der Wert ExcludeSrvLookup nicht im Outlook-Code vorhanden ist. Nur der Wert ExcludeSrvRecordregistry wird von Outlook verwendet, um das SRV-Recordlookup für AutoErmittlung zu steuern. Wenn Sie daher einen Wert namens ExcludeSrvLookup unter dem Unterschlüssel \Autodiscover finden, können Sie seinen Wert ohne Probleme in 0 ändern.</p>
+</blockquote>
+<ul class="todo-list">
+  <li><label class="todo-list__label"><input type="checkbox" disabled="disabled"><span class="todo-list__label__description">Wiederholen Sie Schritt 3 mit dem folgenden Registrierungsunterschlüssel:</span></label></li>
+</ul>
+<p><code>HKEY_CURRENT_USER\Software\Policies\Microsoft\Office\x.0\Outlook\AutoDiscover</code></p>
+<blockquote>
+  <p><strong>Hinweis</strong></p>
+  <p>Der Eintrag „x.0“ in diesem Registrierungspfad entspricht der Outlook-Version (16.0 = Outlook 2016, 15.0 = Outlook 2013, 14.0 = Outlook 2010, 12.0 = Outlook 2007).</p>
+</blockquote>
+<p>&nbsp;</p>
+<h3><strong>Weitere Informationen</strong></h3>
+<p>Sie können die folgenden Schritte in Outlook verwenden, um die Methode zu bestimmen, mit der Outlook versucht, AutoErmittlungs-Informationen aus Exchange abzurufen:</p>
+<ol>
+  <li>Starten Sie Outlook.</li>
+  <li>Drücken Sie die STRG-Taste, klicken Sie mit der rechten Maustaste auf das Outlook-Symbol im Infobereich, und klicken Sie dann auf „E-Mail-Autokonfiguration testen“.</li>
+  <li>Überprüfen Sie, ob die E-Mail-Adresse korrekt in das Feld „E-Mail-Adresse“ eingegeben wurde.</li>
+  <li>Geben Sie Ihr Kennwort ein, wenn Sie nicht in einer Domäne angemeldet sind, oder wenn Sie auf ein Postfach zugreifen, das sich von Ihrem Postfach unterscheidet.</li>
+  <li>Klicken Sie in die Kontrollkästchen „Guessmart verwenden“ und „Sichere Guessmart-Authentifizierung“, um beide zu deaktivieren.</li>
+  <li>Klicken Sie auf „Test“.</li>
+  <li>Überprüfen Sie die Details auf der Registerkarte <strong>Protokoll</strong>.</li>
+</ol>
+<p>Die folgende Abbildung zeigt die Registerkarte <strong>Protokoll</strong>, wobei die Werte ExcludeScpLookup und ExcludeHttpsAutoDiscoverDomain auf 1 festgelegt wurden.</p>
+<figure class="image"><img src="https://learn.microsoft.com/de-de/outlook/troubleshoot/client/profiles-and-accounts/media/unexpected-autodiscover-behavior/log-tab-excludescplookup-excludehttpsautodiscoverdomain-1.png" alt="Der Screenshot zeigt die Registerkarte „Protokoll“, wobei die Werte ExcludeScpLookup und ExcludeHttpsAutoDiscoverDomain auf 1 festgelegt wurden."></figure>
+<p>Vergleichen Sie diese Informationen, wenn nur der ExcludeScpLookup-Wert auf 1 festgelegt ist.</p>
+<figure class="image"><img src="https://learn.microsoft.com/de-de/outlook/troubleshoot/client/profiles-and-accounts/media/unexpected-autodiscover-behavior/log-tab-excludescplookup-1.png" alt="Der Screenshot zeigt Informationen auf der Registerkarte „Protokoll“, wobei der Wert von ExcludeScpLookup auf 1 festgelegt wurde."></figure>
+<blockquote>
+  <p><strong>Hinweis</strong></p>
+  <p>Ignorieren Sie die angezeigten Fehler in diesen Abbildungen, da diese Informationen nur die verschiedenen Suchversuche anzeigen sollen, die von Outlook durchgeführt werden.</p>
+</blockquote>
+<p>Wenn Sie die Protokollierung in Outlook (2007 oder 2010) aktivieren, finden Sie außerdem die verschiedenen AutoErmittlungs-Suchversuche in der Datei <i>%temp%\Olkdisc.log</i>. Diese Protokolldatei enthält auch all die Registrierungseinstellungen, die Sie konfiguriert haben, um bestimmte AutoErmittlungs-Suchmethoden auszuschließen. In der folgenden Abbildung können Sie deutlich sehen, dass die Werte ExcludeScpLookup und ExcludeHttpsAutoDiscoverDomain beide auf 1 festgelegt sind.</p>
+<figure class="image"><img src="https://learn.microsoft.com/de-de/outlook/troubleshoot/client/profiles-and-accounts/media/unexpected-autodiscover-behavior/log-file.png" alt="Der Screenshot zeigt die Protokolldatei, in der ExcludeScpLookup und ExcludeHttpsAutoDiscoverDomain beide aktiviert sind."></figure>
+<hr>
+<p>&nbsp;</p>
+<h2>Windows-Suchmodul ist deaktiviert</h2>
+<h3>Fehlermeldung auch, wenn der HyperW7Svc-Dienst aktiviert ist</h3>
+<p>In Microsoft Outlook möglicherweise die folgende Fehlermeldung angezeigt werden.</p>
+<p>Das Windows-Suchmodul ist zurzeit deaktiviert. Outlook wird nicht in der Lage sein, schnelle Suchergebnisse mithilfe der Funktionalität zur Sofortsuche zu liefern, wenn dieser Dienst nicht ausgeführt wird.</p>
+<figure class="image"><img src="/ed8b4f13-b932-8aaa-5d83-6bb5a4ff4550.jpg"></figure>
+<p>Hinweis: Dieses Dialogfeld wird nicht angezeigt, wenn Sie zuvor das Kontrollkästchen: <strong>Diese Meldung nicht mehr anzeigen</strong> ausgewählt. Wenn diese Meldung angezeigt wird, ist eine Suchabfrage nicht alle erwarteten Elemente finden.</p>
+<h3>Ursache</h3>
+<p>Dieses Problem tritt auf, wenn der HyperW7Svc-Dienst den Status des Windows-Suchdienstes von <strong>Automatisch</strong> auf <strong>deaktiviert </strong>wechselt.</p>
+<h3>Problem Umgehung</h3>
+<p>Um dieses Problem zu umgehen, deinstallieren Sie die Software, die den HyperW7Svc-Dienst installiert hat. Oder Sie können versuchen, die Einstellung für den <strong>Starttyp </strong>des HyperW7Svc-Dienstes in <strong>deaktiviert </strong>zu ändern, anstatt ihn zu deinstallieren.</p>
+<hr>
+<p>&nbsp;</p>

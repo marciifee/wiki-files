@@ -1,0 +1,146 @@
+<!--
+title: Proxmox
+description: 
+published: true
+date: 2023-03-15T16:23:46.983Z
+tags: 
+editor: undefined
+dateCreated: 2023-03-02T08:45:04.980Z
+-->
+
+<h1>Proxmox</h1>
+<p>&nbsp;</p>
+<h1><strong>Wie richtet man Linux Container ein?</strong></h1>
+<p><strong>Update-Historie (letztes Update: 13.01.2023)</strong></p>
+<p><strong>Inhalt</strong></p>
+<p>1 LXC vs virtuelle Maschinen</p>
+<p>2 Vorbereitung: Container-Template herunterladen</p>
+<p>3 LXC-Maschine erstellen</p>
+<p>4 Start des LXC-Containers und Zugriff per SSH</p>
+<p>5 Das Arbeiten mit LXC-Containern</p>
+<p>5.1 Update des LXC-Containers</p>
+<p>5.2 Festplatte eines LXC-Containers nachträglich vergrößern</p>
+<p>5.3 Einen unprivilegierten LXC-Container in einen privilegierten Container umwandeln</p>
+<p>5.4 Eigene LXC-Templates erstellen<br>&nbsp;</p>
+<h2><strong>LXC vs virtuelle Maschinen</strong></h2>
+<p>Zunächst soll kurz auf die Unterschiede zwischen einem LXC-Container und einer virtuellen Maschine eingegangen werden. Wie der Name schon sagt, handelt es sich bei LXC um eine Art der Virtualisierung, die auf Containern basiert. Bei diesem Begriff wird der eine oder andere sicherlich gleich an Docker denken, denn dadurch hat das Konzept der Container erst richtig Fahrt aufgenommen. Ziel dieser (Docker-)Container ist es meistens, eine spezielle Anwendung auf eine einfache Art und Weise deployen zu können. Einen LXC-Container kann man sich nun in etwa wie einen Docker-Container vorstellen, nur dass LXC das Betriebssystem an sich nicht so strikt wegkapselt. Das Arbeiten per SSH auf einer LXC-Maschine ist im Gegensatz zu einem Docker-Container ganz normal und fühlt sich an wie auf einer echten Maschine – man arbeitet quasi direkt auf dem Betriebssystem des LXC-Containers. Dies grenzt diese Technologie von Docker ab. Im Vergleich zu einer „echten“ VM ist ein LXC-Container sehr leichtgewichtig. Dies ist darin begründet, weil diese Container nativ auf dem Host-Betriebssystem laufen. D.h. vereinfacht ausgedrückt: Ein LXC-Container nutzt den Kernel des Host-Systems und bringt daher keinen eigenen Kernel mit. Für einen LXC-Container muss daher auch keine Hardware aufwändig emuliert werden (wie dies bei einer VM notwendig ist). Durch dieses Konzept entsteht kaum Overhead durch die Virtualisierung und ein LXC-Container benötigt viel weniger Ressourcen als eine schwergewichtige VM. Warum virtualisiert man dann nicht gleich alle Maschinen über LXC? Der VM-Host stellt für jeden LXC-Container eine Isolierte Umgebung bereit, jedoch ist der Grad der Isolation nicht so vollständig wie bei einer VM. Hier wird zunächst zwischen privilegierten und unprivilegierten LXC-Containern unterschieden. Bei unprivilegierten Containern ist die Isolationsstufe zwar höher, allerdings sind einige Features nicht verfügbar: Alle Komponenten, die bestimmte Kernel-Module benötigen sind auf einem unprivilegierten Container nicht lauffähig. Beispielsweise ist es bei hier nicht möglich, einen NFS-Server aufzusetzen, da das benötigte Paket (nfs-kernel-server) ein Kernel-Modul darstellt. Um hier z.B. trotzdem einen NFS-Server aufsetzen zu können, muss es sich um einen privilegierten LXC-Container handeln. Dies bricht allerdings die Isolation zwischen Host und LXC-Container etwas auf. Wem also gerade die Isolierung des Systems wichtig ist, sollte eher eine virtuelle Maschine einsetzen.</p>
+<p>Zu guter Letzt ist man bei der Nutzung von LXC-Containern – wie der Name ja bereits andeutet – auf die Linux-Welt beschränkt. Ein Windows lässt sich nicht mittels LXC virtualisieren. Nach diesem kleinen Exkurs über die Unterschiede zwischen LXC-Container und virtuellen Maschinen soll es nun an die Praxis gehen.</p>
+<p>Vorbereitung: Container-Template herunterladen Für eine LXC-Maschine benötigt man zunächst ein Container-Template. Diese Templates sind nichts anderes als tar-Archive, die alles beinhalten, um einen Container in Betrieb nehmen zu können. Dazu wählen wir in der Weboberfläche von Proxmox einfach einen Storage, der zum Speichern von Templates genutzt werden kann. Hier findet man dann den Eintrag Container-Templates.</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_containertemplates-1024x210.png" alt=""></figure>
+<p><i>Proxmox: Verwaltung von LXC-Container-Templates auf dem lokalen Storage</i> Mit einem Klick auf Templates kann man sich die verfügbaren Templates anzeigen lassen. Zur Auswahl stehen hier verschiedene Templates, die auf den unterschiedlichsten Distributionen basieren. Da wir einen Ubuntu Server (20.04 LTS) als LXC-Container betreiben wollen, wählen wir hier den Eintrag ubuntu-20.04-standard:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_downloadubuntutemplate.png" alt=""></figure>
+<p><i>Proxmox: Download des Templates für Ubuntu 20.04 LTS</i> Der Download geht dabei recht schnell, da das Template lediglich ca. 200 MB groß ist. Das Fenster mit der Fortschrittsanzeige des Downloads kann man auch schließen, der Download läuft dann im Hintergrund weiter. Anschließend wird dieses Template dann in der Template-Übersicht angezeigt.</p>
+<p>Diese Container-Templates werden von Zeit zu Zeit auch aktualisiert. Um die Liste mit den Templates zu aktualisieren, ist auch dem Proxmox-Host folgender Befehl in der Kommandozeile einzugeben: <strong>pveam update</strong></p>
+<p><strong>LXC-Maschine erstellen</strong> Da nun ein LXC-Template verfügbar ist, können wir die Maschine nun anlegen. Der Einrichtungsprozess unterscheidet sich hierbei deutlich von der Einrichtung einer virtuellen Maschine und gestaltet sich viel einfacher.</p>
+<p>Rechts oben findet man dazu den Button Erstelle CT:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_cterstellen-1024x241.png" alt=""></figure>
+<p><i>Proxmox: Eine neue LXC-Maschine erstellen</i> Beim Erstellen einer LXC-Maschine gibt es wieder einige Optionen zu beachten. Im Folgenden werden wieder sämtliche relevanten Funktionen erklärt und ggf. eine Empfehlung genannt.</p>
+<p>Im ersten Schritt werden die allgemeinen Einstellungen festgelegt. Hier sollten wieder die erweiterten Optionen (unten rechts) eingeschaltet werden:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_erstellen_allgemein.png" alt=""></figure>
+<p><i>Proxmox: LXC erstellen (Allgemein)</i></p>
+<p>Knoten: Gibt die Proxmox-Instanz im Rechenzentrum an, auf dem die Maschine laufen soll.</p>
+<p>CT ID: Die ID des LXC-Container. Diese kann beliebig gesetzt werden, muss aber eindeutig sein.</p>
+<p>Hostname: Der Hostname des LXC-Systems.</p>
+<p>Unprivilegierter Container: Dies ist ein Sicherheits-Feature, welches dafür sorgt, dass UID des Users root (im Container) auf einen unprivilegierten Benutzer (am Host) gemappt wird. Damit wird generell verhindert, dass der LXC-Gast auf irgendeine Art auf das Host-System zugreifen kann. Diese Option sollte eigentlich immer aktiviert werden, es sei denn, ein Programm/Feature innerhalb des Containers ist in einem solchen unprivilegierten Container nicht lauffähig.</p>
+<p>Hinweis: Diese Option ist einer der wenigen, die nach der Einrichtung eines LXC-Containers nicht mehr geändert werden kann. Weiter unten zeige ich allerdings eine Möglichkeit, wie man einen unprivilegiertem in einen privilegierten Container umwandeln kann.</p>
+<p>Nesting: Erlaubt es, im Container selbst wiederum Virtualisierung-Features zu nutzen. Dies ist in der Regel nur sinnvoll, wenn man innerhalb eines LXC-Containers z.B. Docker-Container betreiben möchte. Hier wäre dann eine VM vermutlich aber die bessere Wahl, daher kann diese Option in den meisten Fällen deaktiviert werden.</p>
+<p>Kennwort: Das Passwort des root-Users der LXC-Maschine.</p>
+<p>Öffentlicher SSH-Schlüssel: Wenn man einen SSH-Key zum Verbinden auf den Container nutzen möchte, kann man diesen hier angeben.</p>
+<p>Anschließend wird das zu verwendende Template angegeben:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_erstellen_template.png" alt="[[Proxmox: LXC erstellen (Template)]]"></figure>
+<p><i>Proxmox: LXC erstellen (Template)</i> Hier wählt man einfach den Storage, auf dem das gewünschte Template gespeichert ist und wählt anschließend das Template selbst aus.</p>
+<p>Im nächsten Schritt werden die Festplatten des Systems konfiguriert:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_erstellen_disks.png" alt="Proxmox: LXC erstellen (Disks)"></figure>
+<p><i>Proxmox: LXC erstellen (Disks)</i></p>
+<p>Storage: Gibt den Storage an, auf dem die virtuelle Festplatte gespeichert werden soll.</p>
+<p>Disk-Größe: Die Größe der Festplatte. Hier können sehr viel kleinere Größen als bei VMs gewählt werden, da die Grundinstallation eines LXC-Containers meist sehr klein ist.</p>
+<p>Hinweis: Die Disk-Größe kann auch nach der Erstellung des LXC-Containers ganz einfach angepasst werden (s.u.).</p>
+<p>Mount Optionen: Legt die Optionen fest, mit der die Festplatte im LXC-Container gemountet wird. Hier spielt das Speichermedium, auf dem die virtuelle Festplatte gespeichert ist, eine entscheidende Rolle. Handelt es sich dabei um einen Flash-Speicher (SSD, NVMe, etc.), dann kann man hier die Option noatime setzen. Dies reduziert in der Theorie deutlich die Schreibzugriffe auf das Medium, da die Zugriffszeiten nicht bei jedem Dateizugriff gespeichert sind. Jedoch funktionieren damit u.U. einige Programme nicht richtig. Meine Empfehlung ist hier die Option lazytime, bei der Zugriffe gespeichert werden, dies allerdings im RAM geschieht und damit den Flash-Speicher nicht belasten sollte.</p>
+<p>Die dritte Option nosuid sorgt dafür, dass SUID und SGID nicht berücksichtigt werden. Diese Option wird meistens nicht benötigt.</p>
+<p>ACLs: Wenn ACLs (Access Control Lists) im Container zum Einsatz kommen sollen, kann diese Option hier explizit aktiviert werden.</p>
+<p>Anschließend werden die CPU-Optionen festgelegt:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_erstellen_cpu.png" alt="Proxmox: LXC erstellen (CPU)"></figure>
+<p><i>Proxmox: LXC erstellen (CPU)</i> Hier ist eigentlich nur die Anzahl der virtualisierten CPU-Kerne wichtig. Dies ist in den meisten Fällen von den Anforderungen der LXC-Maschine abhängig.</p>
+<p>Es folgt die Festlegung des Speichers des LXC-Systems:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_erstellen_speicher.png" alt="Proxmox: LXC erstellen (Speicher)"></figure>
+<p><i>Proxmox: LXC erstellen (Speicher)</i> Hier wird die Größe von Speicher und Swap-File angegeben. Dies ist wiederum sehr vom Einsatzzweck des Systems abhängig. Dennoch gilt auch hier: Ein LXC-Container benötigt in der Regel sehr viel weniger Systemressourcen, daher kann der Speicher hier auch eher knapp bemessen werden. Bei Bedarf kann der zur Verfügung stehende Speicher jederzeit erhöht werden.</p>
+<p>Nun werden die Netzwerk-Einstellungen konfiguriert:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_erstellen_netzwerk.png" alt="Proxmox: LXC erstellen (Netzwerk)"></figure>
+<p><i>Proxmox: LXC erstellen (Netzwerk)</i> Hier gibt es im Normalfall auch nicht viel zu beachten, es sollte lediglich eine statische IPv4-Adresse vergeben werden. Diese muss hier in der CIDR-Notation angegeben werden. Ebenfalls muss die IP des Gateways hinterlegt werden (meist die IP des Routers). Alternativ kann man hier DHCP verwenden, was aber dafür sorgen kann, dass die IP-Adresse des Systems nach einem Neustart ändert (für Webanwendungen o.ä. eher nicht zu empfehlen). Die Einstellungen für IPv6 können im Allgemeinen einfach leer gelassen werden, es sei denn, man braucht für den LXC-Container eine IPv6-Adresse.</p>
+<p>Im letzten Schritt können noch DNS-Einstellungen festgelegt werden:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_erstellen_dns.png" alt="Proxmox: LXC erstellen (DNS)"></figure>
+<p><i>Proxmox: LXC erstellen (DNS)</i> Hier ist die Voreinstellung verwende Werte vom Host meist schon korrekt. Man kann hier aber auch einen anderen DNS-Server eintragen, um beispielsweise einen im Netzwerk verfügbaren Pi-hole explizit nicht zu verwenden.</p>
+<p>Ganz am Ende werden die gewählten Einstellungen des Containers noch einmal aufgelistet und man kann die Erstellung mit einem Klick auf Abschließen fertig stellen.</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_erstellen_besta%CC%88tigen.png" alt="
+Proxmox: LXC erstellen (Bestätigen)"></figure>
+<p><i>Proxmox: LXC erstellen (Bestätigen)</i> Nun werden die Inhalte des LXC-Templates extrahiert und nach einer kurzen Wartezeit ist der LXC-Container verfügbar.</p>
+<p>Sämtliche Optionen können (wie auch schon bei VMs) noch nachträglich in den Optionen des LXC-Containers geändert werden.</p>
+<p>&nbsp;</p>
+<h2><strong>Start des LXC-Containers und Zugriff per SSH</strong></h2>
+<p>Nach der Einrichtung kann der LXC-Container auch gleich gestartet werden. Dies funktioniert wieder analog zu virtuellen Maschinen mit einem Klick auf Start:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_start_lxc-1024x370.png" alt="Start des LXC-Containers"></figure>
+<p><i>Start des LXC-Containers</i> Der Button Konsole öffnet nach dem Start eine Konsole in einem neuen Browser-Fenster:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:lxc_zugriff_ssh_browser.png" alt="SSH-Zugriff auf den LXC-Container (Browser)"></figure>
+<p><i>SSH-Zugriff auf den LXC-Container (Browser)</i> Der Benutzername lautet hier immer root (diesen konnten wir ja beim Erstellen des LXC-Containers gar nicht explizit angeben).</p>
+<p>Da man aber nicht immer über die „Browser-Konsole“ gehen, sondern die SSH-Verbindung direkt im Terminal aufbauen möchte, ist hier noch etwas Nacharbeit notwendig. Denn beim Versuch, sich direkt per SSH mit der Maschine zu verbinden, erhalten wir eine Fehlermeldung „Permission denied“.</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:lxc_ssh_permissiondenied.png" alt="
+Fehlermeldung &quot;Permission denied&quot; beim direkten Zugriff per SSH"></figure>
+<p><i>Fehlermeldung „Permission denied“ beim direkten Zugriff per SSH</i> Begründet liegt dies darin, dass der SSH-Zugriff mit dem User root standardmäßig unterbunden wird. Hier haben wir nun zwei Möglichkeiten (beides muss zunächst über die Browser-Konsole durchgeführt werden): Empfohlen ist, das Anlegen eines neuen Benutzers und ggf. das Hinzufügen dieses Users in die sudo-Gruppe.</p>
+<p><strong>adduser max_mustermann</strong></p>
+<p>Nach der Festlegung des User-Passworts werden noch einige Informationen zum User abgefragt. Anschließend kann der User dann noch in die „sudoers“ mit aufgenommen werden, damit dieser dann Befehle mit Root-Rechten ausführen kann:</p>
+<p><strong>usermod -aG sudo max_mustermann</strong></p>
+<p>Anschließend kann sich der User „max_mustermann“ auch über das Terminal mit dem LXC-Container verbinden.</p>
+<p><strong>Alternativ</strong> kann man den SSH-Zugriff für den User root zulassen. Dazu muss die Konfiguration des SSH-Dienstes angepasst werden:</p>
+<p><strong>nano /etc/ssh/sshd_config</strong></p>
+<p>Hier wird die Option PermitRootLogin folgendermaßen angepasst:</p>
+<p><strong>PermitRootLogin yes</strong></p>
+<p>Es fehlt noch ein Neustart des SSH-Dienstes, anschließend kann man sich auch direkt per root-User auf der Maschine anmelden:</p>
+<p><strong>service sshd restart</strong></p>
+<p>Nun kann man gewohnt per SSH auf der Maschine arbeiten, ganz so, als wäre es eine echte virtuelle Maschine – eben nur mit den eingangs erwähnten Unterschieden.</p>
+<p><strong>Das Arbeiten mit LXC-Containern</strong></p>
+<p>Wir haben nun einen ersten LXC-Container erfolgreich in Betrieb genommen. Es folgen nun ein paar Punkte, die man beim Arbeiten mit LXC-Containern beachten sollte. Ebenso werden einige Tätigkeiten beschrieben, die beim Umgang mit LXC-Containern interessant sein könnten.</p>
+<p><strong>Update des LXC-Containers</strong></p>
+<p>Nach der Installation und dem Start des Containers sollte dieser erst einmal mit Updates versehen werden. Die wird genauso wie bei einer normalen Ubuntu-Installation durchgeführt:</p>
+<p><strong>apt update &amp;&amp; apt upgrade -V &amp;&amp; apt autoremove</strong></p>
+<p>Das erste Update dürfte dabei etwas länger dauern, da vermutlich viele Pakete ein Update bereits stellen. Wenn ein Distributions-Update ansteht (z.B. von Ubuntu 20.04 auf 22.04), kann dieses Update auch die gewohnte Art und Weise durchgeführt werden:</p>
+<p><strong>do-release-upgrade</strong></p>
+<p>Da es sich „nur“ im einen LXC-Container handelt, laufen diese Updates in der Regel auch deutlich schneller als auf einer echten Maschine ab.</p>
+<p>&nbsp;</p>
+<h2><strong>Festplatte eines LXC-Containers nachträglich vergrößern</strong></h2>
+<p>Wie weiter oben bereits erwähnt, kann man die Größe der Festplatte eines LXC-Containers nachträglich noch anpassen. Daher ist es auch nicht weiter schlimm, wenn man sich bei der initialen Festplatten-Größe etwas verschätzt hat und der Container nun deutlich mehr Platz brauchen sollte. Das Ganze funktioniert übrigens im laufenden Betrieb, d.h. die LXC-Maschine muss dazu nicht einmal heruntergefahren werden.</p>
+<p>Dazu geht man einfach in die Ressourcen-Übersicht eines LXC-Containers:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_ressourcen_disk-1024x239.png" alt="
+Festplatten-Einstellungen eines LXC-Containers"></figure>
+<p><i>Festplatten-Einstellungen eines LXC-Containers</i> Hier wählt man nun die zu ändernde Festplatte aus und Klick anschließend auf Resize Disk. Im daraufhin erscheinenden Dialog kann man nun die Größe wählen, um die die Festplatte geändert werden soll:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_resizedisk.png" alt="Vergrößerung der Festplatte bei einem LXC-Container"></figure>
+<p><i>Vergrößerung der Festplatte bei einem LXC-Container</i> Mit der Bestätigung der Größen-Änderung ist der Prozess auch schon abgeschlossen und die Maschine verfügt sofort über mehr Platz auf der Festplatte.</p>
+<p>&nbsp;</p>
+<h2><strong>Einen unprivilegierten LXC-Container in einen privilegierten Container umwandeln</strong></h2>
+<p>Wie gesagt sollte man einen LXC-Container eigentlich immer als unprivilegierten Container laufen lassen. Nun kann es aber vorkommen, dass man nachträglich nun doch z.B. einen NFS-Server auf den Container betreiben möchte. Hier braucht man normalerweise nur das Paket nfs-sever installieren:</p>
+<p><strong>apt install nfs-server</strong></p>
+<p>Wenn man dies jedoch in einem unprivilegierten Container versucht, bekommt man die recht seltsame Fehlermeldung „Dependency failed for RPC security service for NFS client and server“ (oben sieht man noch den Inhalt des Syslogs):</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:lxc_unprivilegiert_nfs_server-1024x979.png" alt="Fehler beim Ausführen eines NFS-Servers auf einem unprivilegierten LXC-Container"></figure>
+<p><i>Fehler beim Ausführen eines NFS-Servers auf einem unprivilegiertem LXC-Container</i> Dies liegt nun einfach daran, dass der NFS-Server über ein Kernel-Modul bereitgestellt wird. Und dies ist bei einem unprivilegierten Container nun mal nicht möglich.</p>
+<p>Als müsste man auf diesem Container nun einen privilegierten Container machen. Das Flag unprivilegiert/privilegiert kann allerdings nicht einfach in den Optionen eines LXC-Containers umgestellt werden. Es gibt allerdings doch eine Möglichkeit, diese Umwandlung vorzunehmen. Diese ist jedoch nicht gerade einleuchtend, daher möchte ich euch die Schritte zeigen, die dazu notwendig sind.</p>
+<p>Dazu muss zunächst ein Backup des umzuwandelnden Containers erstellt werden. Der Storage, auf dem dieses Backup angefertigt wird, ist dabei egal. Nun kann bei der Wiederherstellung des Backups die Privilegien Stufe ausgewählt werden:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_wiederherstellung_privilegiertercontainer-1024x626.png" alt="Wiederherstellung als privilegierter LXC-Container"></figure>
+<p><i>Wiederherstellung als privilegierter LXC-Container</i> Auf diese Weise kann man einen unprivilegierten Container schnell und einfach einen privilegierten Container umwandeln.</p>
+<p>Hat man nun einen privilegierten Container, kann man hier nun einfach in den Optionen unter Features die Option NFS setzen und schon kann auch auf einem LXC-Container ein NFS-Server installiert werden (s.o. – hier wird nun aber keine Fehlermeldung mehr erscheinen).</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_feature_nfs_lxc-1024x480.png" alt="Hinzufügen des Features NFS bei einem privilegierten Container"></figure>
+<p><i>Hinzufügen des Features NFS bei einem privilegierten Container</i></p>
+<p>&nbsp;</p>
+<h2><strong>Eigene LXC-Templates erstellen</strong>&nbsp;</h2>
+<p>Wenn man nun häufiger LXC-Container mit einem bestimmten Feature-Umfang benötigt, besteht die Möglichkeit, eigene LXC-Templates zu erstellen. Als Beispiel nehme ich hier den oben genutzten Container mit Ubuntu 20.04 als Basis. Auf diesen wurde nun ein LEMP-Stack (Linux, nginx, MariaDB, PHP) installiert, damit verschiedene Webanwendungen schnell deployt und getestet werden können. Nun gibt es zwei Möglichkeiten, aus diesem Container ein Template zu erzeugen, welches als Basis von weiteren Containern dienen kann.</p>
+<p><strong>Variante 1:</strong> Der bestehende Container kann über einen Rechtsklick einfach in ein Template umgewandelt werden.</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_lxc_konvertieren_template.png" alt="LXC-Container in Template umwandeln"></figure>
+<p><i>LXC-Container in Template umwandeln</i> Das so erzeugte Template bleibt im Rechenzentrum bestehen und sieht hier erst einmal aus wie ein normaler LXC-Container. Jedoch kann man das Template nicht mehr starten, da es nun ja kein Container mehr ist. Um aus diesem Template nun einen neuen Container zu erstellen, kann man dieses Template klonen (wieder mit einem Rechtsklick auf das Template).</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:lcx-container_aus_eigenem_template-1024x461.png" alt="LXC-Container per Klon aus einem Template erstellen"></figure>
+<p><i>LXC-Container per Klon aus einem Template erstellen</i> Hier wird dann hauptsächlich eine neue ID und ein Hostname für den zu erstellenden LXC-Container vergeben. Unter Modus kann man wählen, ob es sich um einen komplett unabhängigen Klon handelt (Option vollständiger Klon), oder um einen verknüpften Klon. Ein verknüpfter Klon ist in der Regel schneller erstellt, denn es müssen nicht sämtliche Daten kopiert werden. Wenn man den neuen Container allerdings auf einem anderen Storage speichern möchte, sollte man die Option vollständiger Klon wählen.</p>
+<p><strong>Variante 2:</strong> Das gezeigte Vorgehen unterscheidet sich nun ein wenig von der Erstellung eines LXC-Containers auf einem „offiziellen Template“. Jedoch kann man auch ein eigenständiges Template erstellen, was sich dann wie ein normales Template verhält.</p>
+<p>Dazu muss von einem bestehenden LXC-Container zunächst ein Backup erstellt werden. Dazu wählt man mit aktiviertem LXC-Container die Option Backup. Wichtig ist hier unter Kompression die Option GZIP zu wählen. Da man das Backup anschließend herunterladen muss, habe ich hier der Einfachheit halber, das Backup auf einem Samba-Share erstellt, welches zuvor in Proxmox als Storage eingebunden wurde. Hier ist es aber auch möglich, das Backup aus Proxmox selbst herunterzuladen. Dies kann man z.B. mit SFTP bewerkstelligen (der konkrete Speicherort des Backups wird während der Erstellung des Backups angezeigt).</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:backup_lxc_samba_gzip-1024x323.png" alt="Backup eines LXC-Container auf einen Samba-Share erstellen"></figure>
+<p><i>Backup eines LXC-Containers auf einen Samba-Share erstellen</i> Da ich das Backup hier auf einem NAS erstellt habe, kann ich dieses nun einfach von hier herunterladen. Nun wählt man in Proxmox einen Storage, auf dem Templates gespeichert werden können. Hier gibt es nun einfach Hochladen und gibt das heruntergeladene Backup an. An dieser Stelle kann man gleich noch einen individuellen Dateinamen vergeben.</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:proxmox_template_hochladen.png" alt="Proxmox: Template hochladen"></figure>
+<p><i>Proxmox: Template hochladen</i> Nun befindet sich das Template in der Liste der bekannten Templates und kann einfach beim Erstellen eines LXC-Containers gewählt werden:</p>
+<figure class="image"><img src="https://theblaqcat.com/it-wiki/lib/exe/fetch.php?media=proxmox:linux_container:lxc-container_eigenes_template-1024x728.png" alt="LXC-Container aus einem eigenen Template erstellen"></figure>
+<p><i>LXC-Container aus einem eigenen Template erstellen</i> Mit beiden gezeigten Varianten kann man nun schnell und einfach neue LXC-Container aus eigenen Templates erstellen. Die zweite Variante ist zwar etwas aufwändiger, fügt sich aber nahtlos in den Prozess der Erstellung von LXC-Containern ein.</p>
