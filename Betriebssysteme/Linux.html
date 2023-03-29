@@ -1,0 +1,273 @@
+<!--
+title: Linux
+description: 
+published: true
+date: 2023-03-26T20:53:16.094Z
+tags: 
+editor: undefined
+dateCreated: 2023-03-03T22:33:26.866Z
+-->
+
+<h1>Linux</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1>ODROID einrichten:</h1>
+<p>Befehle:</p>
+<p>udhcpc</p>
+<p>netboot_default</p>
+<p>exit</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>sudo reboot</p>
+<p>sudo -s</p>
+<p>docker restart NAME DES CONTAINERS</p>
+<p>---</p>
+<p>sudo dhclient -r eth0</p>
+<p>sudo dhclient -v eth0</p>
+<p>---</p>
+<p>sudo nano /etc/netplan/01-netcfg.yaml</p>
+<p>&nbsp;</p>
+<p>network:</p>
+<p>&nbsp;version: 2</p>
+<p>&nbsp;renderer: networkd</p>
+<p>&nbsp;ethernets:</p>
+<p>&nbsp; &nbsp;eth0:</p>
+<p>&nbsp; &nbsp; &nbsp;dhcp4: no</p>
+<p>&nbsp; &nbsp; &nbsp;dhcp6: yes</p>
+<p>&nbsp; &nbsp; &nbsp;addresses:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;- 192.168.5.252/24</p>
+<p>&nbsp; &nbsp; &nbsp;nameservers:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;addresses: [1.1.1.1, 8.8.8.8]</p>
+<p>&nbsp; &nbsp; &nbsp;routes:</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;- to: default</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;via: 192.168.5.1</p>
+<p>&nbsp;</p>
+<p>sudo netplan apply</p>
+<p>ip addr show eth0</p>
+<p>ip route show</p>
+<p>&nbsp;</p>
+<hr>
+<h1>UBUNTU SERVER einrichten:</h1>
+<p>&nbsp;</p>
+<h2>Updates manuell installieren:</h2>
+<p>sudo apt-get update &amp;&amp; sudo apt-get dist-upgrade</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>sudo apt install net-tools</p>
+<p>ifconfig</p>
+<p>&nbsp;</p>
+<h2>CLI CLPU und MEMORY Auslastung anzeigen lassen:</h2>
+<p>sudo apt-get install htop</p>
+<p>htop</p>
+<p>&nbsp;</p>
+<h2>SWAP anlegen wenn RAM nicht ausreicht:</h2>
+<p>Kontrolle ob was vorhanden ist:</p>
+<p>sudo swapon -s</p>
+<p>free -m</p>
+<p>df -h</p>
+<p>&nbsp;</p>
+<h2>SWAP löschen:</h2>
+<p>sudo rm /swapfile</p>
+<p>&nbsp;</p>
+<p>Methode 1 anlegen:</p>
+<p>sudo dd if=/dev/zero of=/swapfile bs=1G count=8</p>
+<p>ls -lh /swapfile</p>
+<p>&nbsp;</p>
+<p>Methode 2 anlegen:</p>
+<p>sudo fallocate -l 8G /swapfile</p>
+<p>ls -lh /swapfile</p>
+<p>&nbsp;</p>
+<p>Enabling the Swap File:</p>
+<p>sudo chmod 600 /swapfile</p>
+<p>ls -lh /swapfile</p>
+<p>sudo mkswap /swapfile</p>
+<p>sudo swapon -s</p>
+<p>&nbsp;</p>
+<p>free -m</p>
+<p>&nbsp;</p>
+<p>Make the Swap File Permanent:</p>
+<p>sudo nano /etc/fstab</p>
+<p>&nbsp;</p>
+<p>Füge ein:</p>
+<p>/swapfile &nbsp; none &nbsp; &nbsp;swap &nbsp; &nbsp;sw &nbsp; &nbsp;0 &nbsp; 0</p>
+<p>&nbsp;</p>
+<p>Swap Settings:</p>
+<p>cat /proc/sys/vm/swappiness</p>
+<p>Wert könnte 60 sein muss aber runter mit:</p>
+<p>sudo sysctl vm.swappiness=10</p>
+<p>&nbsp;</p>
+<p>sudo nano /etc/sysctl.conf</p>
+<p>Füge ein:</p>
+<p>vm.swappiness=10</p>
+<p>&nbsp;</p>
+<p>cat /proc/sys/vm/vfs_cache_pressure</p>
+<p>wert könnte bei 100 liegen, muss aber runter mit:</p>
+<p>sudo sysctl vm.vfs_cache_pressure=50</p>
+<p>&nbsp;</p>
+<p>sudo nano /etc/sysctl.conf</p>
+<p>füge ein:</p>
+<p>vm.vfs_cache_pressure = 50</p>
+<p>&nbsp;</p>
+<p>fertig.</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<h2>sudo passwd root</h2>
+<p>&nbsp;</p>
+<p>---</p>
+<h2>Ports finden und killen:</h2>
+<p>&nbsp;</p>
+<p>netstat -ltnp | grep -w '80'</p>
+<p>&nbsp;</p>
+<p>sudo kill -9 `sudo lsof -t -i:80` &nbsp;</p>
+<p>oder: kill -9 LISTEN-PID-Nummer-hier-einfuegen</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<h2>openSSH-Server installieren</h2>
+<p>&nbsp;</p>
+<p>sudo apt-get install openssh-server</p>
+<p>sudo apt update</p>
+<p>sudo apt upgrade</p>
+<p>sudo systemctl enable ssh</p>
+<p>sudo systemctl enable ssh --now</p>
+<p>sudo systemctl start ssh</p>
+<p>&nbsp;</p>
+<p>sudo systemctl status ssh</p>
+<p>&nbsp;</p>
+<p>auf wsl: sudo service ssh start ... restart ... status</p>
+<p>oder wsl: sudo /usr/sbin/service ssh start</p>
+<p>oder mit powershell: New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd) for WSL' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<h2>UFW Firewall:</h2>
+<p>sudo apt install ufw</p>
+<p>&nbsp;</p>
+<p>#sudo ufw default deny incoming &lt;-- ich weiß nicht ob das okay ist.</p>
+<p>sudo ufw default allow outgoing</p>
+<p>&nbsp;</p>
+<p>sudo ufw allow ssh</p>
+<p>sudo ufw allow 9443/tcp</p>
+<p>sudo ufw allow http</p>
+<p>sudo ufw allow https</p>
+<p>sudo ufw default allow routed</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>ufw port forwarding:</p>
+<p>&nbsp;</p>
+<p>sudo nano /etc/default/ufw</p>
+<p>&nbsp;</p>
+<p>DEFAULT_FORWARD_POLICY="ACCEPT"</p>
+<p>&nbsp;</p>
+<p>sudo service ufw restart</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<p>sudo ufw enable</p>
+<p>sudo ufw status</p>
+<p>&nbsp;</p>
+<p>sudo nano /etc/ssh/sshd_config</p>
+<p>Kontrolliere ob dies so gesetzt ist, ansonsten ändere es so:</p>
+<p>PasswordAuthentication yes</p>
+<p>#ChallengeResponseAuthentication no</p>
+<p>&nbsp;</p>
+<p>sudo nano /etc/ssh/sshd_config</p>
+<p>&nbsp;</p>
+<p>füge hinzu:</p>
+<p>PermitRootLogin yes</p>
+<p>&nbsp;</p>
+<p>sudo systemctl restart sshd</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>bei firewall problemen:</p>
+<p>&nbsp;</p>
+<p>sudo ufw enable</p>
+<p>sudo ufw disable</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>Auf ofene Ports prüfen:</p>
+<p>&nbsp;</p>
+<p>sudo ufw status numbered &nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<p>&nbsp;</p>
+<h2>Fail2Ban /mögliche Angreifer abwehren:</h2>
+<p>&nbsp;</p>
+<p>sudo apt install fail2ban</p>
+<p>sudo fail2ban-client status</p>
+<p>&nbsp;</p>
+<p>---</p>
+<h2>Docker installieren:</h2>
+<p>&nbsp;</p>
+<p>sudo apt update</p>
+<p>sudo apt install apt-transport-https ca-certificates curl software-properties-common</p>
+<p>sudo apt-get install ca-certificates curl gnupg lsb-release</p>
+<p>&nbsp;</p>
+<p>sudo mkdir -p /etc/apt/keyrings</p>
+<p>&nbsp;</p>
+<p>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg</p>
+<p>oder:</p>
+<p>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg</p>
+<p>falls das nicht geht, dann:</p>
+<p>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg</p>
+<p>curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg</p>
+<p>&nbsp;</p>
+<p>nur für arm64:</p>
+<p>sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'</p>
+<p>echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null</p>
+<p>&nbsp;</p>
+<p>normal:</p>
+<p>echo \</p>
+<p>&nbsp;"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \</p>
+<p>&nbsp;$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null</p>
+<p>&nbsp;</p>
+<p>Bei GPG Fehler:</p>
+<p>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys *key nummer eingeben* und weiter machen!</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>sudo apt update oder sudo apt-get update</p>
+<p>&nbsp;</p>
+<p>sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin</p>
+<p>&nbsp;</p>
+<p>alt:</p>
+<p>apt-cache policy docker-ce</p>
+<p>sudo apt install docker-ce</p>
+<p>&nbsp;</p>
+<p>fertig mit:</p>
+<p>sudo systemctl status docker</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>sudo usermod -aG docker ${USER}</p>
+<p>su - ${USER}</p>
+<p>id -nG</p>
+<p>&nbsp;</p>
+<p>sudo usermod -aG docker root</p>
+<p>&nbsp;</p>
+<p>docker info</p>
+<p>&nbsp;</p>
+<p>sudo systemctl enable docker.service</p>
+<p>sudo systemctl enable containerd.service</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>---</p>
+<h2>Portainer installieren</h2>
+<p>sudo docker volume create portainer_data</p>
+<p>&nbsp;</p>
+<p>sudo docker run -d -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest</p>
+<p>&nbsp;</p>
+<p>---</p>
+<h2>CapRover Installation:</h2>
+<p>&nbsp;</p>
+<p>sudo docker run -p 80:80 -p 443:443 -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover</p>
+<p>&nbsp;</p>
+<p>lokale installation bitte ip rechner hinterlegen:</p>
+<p>&nbsp;</p>
+<p>echo &nbsp;"{\"skipVerifyingDomains\":\"true\"}" &gt; &nbsp;/captain/data/config-override.json</p>
+<p>docker run -e MAIN_NODE_IP_ADDRESS=192.168.X.XX -p 80:80 -p 443:443 -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover</p>
+<p>&nbsp;</p>
+<p>https://caprover.com/docs/run-locally.html</p>
+<p>&nbsp;</p>
+<p>PW: captain42</p>
+<p>&nbsp;</p>
+<p>---</p>
