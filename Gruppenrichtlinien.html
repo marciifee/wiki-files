@@ -2,14 +2,30 @@
 title: Gruppenrichtlinien
 description: 
 published: true
-date: 2023-03-15T16:23:36.444Z
+date: 2023-04-13T11:18:28.146Z
 tags: 
-editor: undefined
-dateCreated: 2023-03-01T14:25:42.287Z
+editor: ckeditor
+dateCreated: 2023-03-29T20:22:40.606Z
 -->
 
 <h1>Gruppenrichtlinien</h1>
 <p>&nbsp;</p>
+<h2><strong>Lokale Gruppenrichtlinien </strong>übertragen</h2>
+<p>Um&nbsp;die lokalen Richtlinien auf eine andere Maschine zu übertragen, gehen wir wie folgt vor:</p>
+<p>Source System:</p>
+<p><strong>Zuerst kopieren wir die lokalen Gruppenrichtlinien in den Ordner C:\Export</strong></p>
+<p>%windir%\System32\GroupPolicy</p>
+<p><strong>Erstellen ein Backup der Sicherheitsrichtlinien nach C:\Export</strong></p>
+<p>secedit /export /cfg C:\Export\Security.csv</p>
+<p><strong>Erstellen ein Backup der Auditrichtlinien&nbsp;nach C:\Export</strong></p>
+<p>Auditpol /backup /file:C:\Export\Audit.ini</p>
+<p>Destination System:</p>
+<p><strong>Kopieren der Gruppenrichtlinien auf das Zielsystem, die alten vorher löschen.</strong></p>
+<p>%windir%\System32\GroupPolicy</p>
+<p><strong>Import der Sicherheitsrichtlinien</strong></p>
+<p>secedit /configure /cfg C:\Import\Security.csv /db defltbase.sdb /verbose</p>
+<p><strong>Import der&nbsp;Auditrichtlinien&nbsp;</strong></p>
+<p>Auditpol /restore /file:C:\Import\audit.ini</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <hr>
