@@ -2,15 +2,49 @@
 title: Linux
 description: 
 published: true
-date: 2023-03-26T20:53:16.094Z
+date: 2023-04-13T13:16:49.902Z
 tags: 
-editor: undefined
-dateCreated: 2023-03-03T22:33:26.866Z
+editor: ckeditor
+dateCreated: 2023-03-29T20:24:34.708Z
 -->
 
 <h1>Linux</h1>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
+<h2><strong>How to Remove Files</strong></h2>
+<p>To remove (or delete) a file in Linux from the command line, use either the <code>rm</code> (remove) or <code>unlink</code> command.</p>
+<p>The <code>unlink</code> command allows you to remove only a single file, while with <code>rm</code>, you can remove multiple files at once.</p>
+<p>Be extra careful when removing files or directories, because once the file is deleted it cannot be easily recovered.</p>
+<p>To delete a single file, use the <a href="https://linuxize.com/post/rm-command-in-linux/"><code><u>rm</u></code></a> or <a href="https://linuxize.com/post/unlink-command-in-linux/"><code><u>unlink</u></code></a> command followed by the file name:</p>
+<pre><code class="language-plaintext">unlink filename</code></pre>
+<pre><code class="language-plaintext">rm filename</code></pre>
+<p>If the file is write-protected, you will be prompted for confirmation, as shown below. To remove the file type <code>y</code>, and hit <code>Enter</code>. Otherwise, if the file is not write-protected, it will be deleted without prompting.</p>
+<pre><code class="language-plaintext"> 
+rm: remove write-protected regular empty file 'filename'?</code></pre>
+<p>To delete multiple files at once, use the <code>rm</code> command followed by the file names separated by space.</p>
+<pre><code class="language-plaintext">rm filename1 filename2 filename3</code></pre>
+<p>You can also use a wildcard (<code>*</code>) and regular expansions to match multiple files. For example, to remove all <code>.pdf</code> files in the current directory, use the following command:</p>
+<pre><code class="language-plaintext">rm *.pdf</code></pre>
+<p>When using regular expansions, first list the files with the <a href="https://linuxize.com/post/how-to-list-files-in-linux-using-the-ls-command/"><code><u>ls</u></code></a> command so that you can see what files will be deleted before running the <code>rm</code> command.</p>
+<p>Use the <code>rm</code> with the <code>-i</code> option to confirm each file before deleting it:</p>
+<pre><code class="language-plaintext">rm -i filename(s)</code></pre>
+<p>To remove files without prompting, even if the files are write-protected, pass the <code>-f</code> (force) option to the <code>rm</code> command:</p>
+<pre><code class="language-plaintext">rm -f filename(s)</code></pre>
+<p>You can also combine <code>rm</code> options. For example, to remove all <code>.txt</code> files in the current directory without a prompt in verbose mode, use the following command:</p>
+<pre><code class="language-plaintext">rm -fv *.txt</code></pre>
+<h2><strong>How to Remove Directories (Folders)</strong></h2>
+<p>In Linux, you can <a href="https://linuxize.com/post/remove-directory-linux/"><u>remove/delete directories</u></a> with the <code>rmdir</code> and <code>rm</code>.</p>
+<p><code>rmdir</code> is a command-line utility for deleting empty directories, while with <code>rm</code> you can remove directories and their contents recursively.</p>
+<p>To remove an empty directory, use either <code>rmdir</code> or <code>rm -d</code> followed by the directory name:</p>
+<pre><code class="language-plaintext">rm -d dirname</code></pre>
+<pre><code class="language-plaintext">rmdir dirname</code></pre>
+<p>To remove non-empty directories and all the files within them, use the <code>rm</code> command with the<code>-r</code> (recursive) option:</p>
+<pre><code class="language-plaintext">rm -r dirname</code></pre>
+<p>If a directory or a file within the directory is write-protected, you will be prompted to confirm the deletion.</p>
+<p>To remove non-empty directories and all the files without being prompted, use <code>rm</code> with the <code>-r</code> (recursive) and <code>-f</code> options:</p>
+<pre><code class="language-plaintext">rm -rf dirname</code></pre>
+<p>To remove multiple directories at once, use the <code>rm -r</code> command followed by the directory names separated by space.</p>
+<pre><code class="language-plaintext">rm -r dirname1 dirname2 dirname3</code></pre>
+<p>Same as with files, you can also use a wildcard (<code>*</code>) and regular expansions to match multiple directories.</p>
 <h1>ODROID einrichten:</h1>
 <p>Befehle:</p>
 <p>udhcpc</p>
