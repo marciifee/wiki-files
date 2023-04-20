@@ -2,14 +2,31 @@
 title: File Server / Ordner-Freigabe
 description: 
 published: true
-date: 2023-03-15T16:22:56.710Z
+date: 2023-04-20T13:27:53.830Z
 tags: 
-editor: undefined
-dateCreated: 2023-02-28T12:13:06.157Z
+editor: ckeditor
+dateCreated: 2023-03-29T20:00:42.075Z
 -->
 
+<h1>&nbsp;</h1>
 <h1>File Server / Ordner-Freigaben</h1>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2>Zugriffsrechte überprüfen</h2>
 <figure class="image"><img src="/überprüfen_welche_berechtigungen_gesetzt_sind.jpg"></figure>
+<p>&nbsp;</p>
+<h1><strong>Nur Ordner mit Berechtigung anzeigen und andere Ordner in Freigaben ausblenden</strong></h1>
+<p>&nbsp;</p>
+<p>Wenn die Ordnerstruktur einer Netzwerkfreigabe mit der Zeit immer weiter anwächst, wird es für die Benutzer schwer den Überblick zu behalten. Auf manche Ordner ist der Zugriff auch mangels Berechtigung gar nicht möglich („Zugriff verweigert“). Schöner wäre es, den Benutzern nur die Ordner anzeigen zu lassen, auf die er auch Zugriff hat. Genau das lässt sich mit Windows Bordmitteln sehr leicht umsetzen: Ordner in Freigaben ausblenden, auf die der Benutzer keine Berechtigungen hat.</p>
+<p>&nbsp;</p>
+<h2>Keine Berechtigung = Ordner in Freigaben ausblenden</h2>
+<p>Auf einem Fileserver ist es keine Seltenheit, dass Verzeichnisse sehr viele Unterordner enthalten, auf welche wiederum verschiedene Berechtigungen angewendet werden. Damit der Benutzer den Überblick behalten kann, sollte er nur die Ordner sehen können, auf die er auch zugreifen kann. Diese Option kann ab <a href="https://msdn.microsoft.com/de-de/library/hh831487(v=ws.11).aspx">Windows Server 2012</a> für jede Freigabe einzeln aktiviert werden.</p>
+<p>Um <strong>Ordner in Freigaben ausblenden</strong> zu können, musst Du lediglich den <a href="https://www.amazon.de/dp/3836266571?tag=techfaq-21&amp;linkCode=ogi&amp;th=1&amp;psc=1">Server Manager</a>&nbsp; öffnen und die Datei- und Speicherdienste öffnen. Dort findest Du den Eintrag „<i>Freigaben</i>„, welcher Dir alle Freigaben des Servers auflistet.</p>
+<figure class="image"><img src="http://www.tech-faq.net/wp-content/uploads/2017/07/Ordner-in-Freigabe-ausblenden.jpg" alt="Ordner in Freigabe ausblenden"></figure>
+<p>Die Eigenschaften der angelegten Freigabeordner lassen sich über den Server Manager konfigurieren.</p>
+<p>Wenn Du nun eine Freigabe mit der rechten Maustaste anklickst, kannst Du deren Eigenschaften aufrufen. Die gewünschte Option findest Du anschließend im Punkt „Einstellungen“ und nennt sich „Zugriffsbasierte Aufzählung aktivieren“:</p>
+<blockquote>
+  <p><i>Bei der zugriffsbasierten Aufzählung werden nur Dateien und Ordner angezeigt, für die ein Benutzer zugriffsberechtigt ist. Verfügt ein Benutzer nicht über Leseberechtigungen (oder entsprechende Berechtigungen) für einen Ordner, wird dieser Ordner ausgeblendet.</i></p>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
