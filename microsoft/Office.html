@@ -2,7 +2,7 @@
 title: Microsoft Office
 description: 
 published: true
-date: 2023-04-20T13:43:01.536Z
+date: 2023-04-20T13:46:50.251Z
 tags: office, m365
 editor: ckeditor
 dateCreated: 2023-04-04T15:09:46.668Z
@@ -94,6 +94,46 @@ dateCreated: 2023-04-04T15:09:46.668Z
 <p>&nbsp;</p>
 <p>(Bilder)</p>
 <p>&nbsp;</p>
+<h3>Microsoft Deleve deaktivieren-</h3>
+<p>Um Microsoft Deleve zu deaktivieren loggt man sich mit dem Microsoft 365-Administratorbenutzer&nbsp; unter&nbsp;<a href="https://admin.microsoft.com/">admin.microsoft.com</a>&nbsp;ein und Klickt in der linken Navigationsleiste, unter der Kategorie&nbsp;<i>Admin Center</i>, auf&nbsp;<i>Sharepoint.&nbsp;</i>Dort dann auf Einstellungen und die Option&nbsp;<i>Deleve und verwandte Funktionen deaktivieren</i></p>
 <p>&nbsp;</p>
+<p><i>(Bild)</i></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>Windows 10 stilllegen-</h3>
+<p>In den ersten Schritten wurde Office 365 konfiguriert. Nun ist es noch nötig Windows 10 so zu konfigurieren, damit keine oder nur wenige Telemetriedaten verschickt werden. Dazu hat das BSI ein Paper veröffentlicht, welches mehrere Schritte erläutert und diese bewertet. Das Dokument ist unter folgendem Link erhältlich:&nbsp;<a href="https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Cyber-Sicherheit/SiSyPHus/Analyse_Telemetriekomponente_1_2.pdf?__blob=publicationFile&amp;v=1">https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Cyber-Sicherheit/SiSyPHus/Analyse_Telemetriekomponente_1_2.pdf?__blob=publicationFile&amp;v=1</a></p>
+<p>&nbsp;</p>
+<h3>Customer Experience Improvement Program deaktivieren-</h3>
+<p>Das Customer Experience Improvement Program, kurz CEIP, lässt sich per Gruppenrichtlinie über den Domaincontroller deaktivieren. Dazu erstellt man im Gruppenrichtlinieneditor auf dem Domaincontroller eine neue Richtlinie oder fügt die Deaktivierung einer bereits vorhandenen Richtlinie hinzu. Die Einstellung zur Deaktivierung findet man unter&nbsp;<i>Computerkonfiguration -&gt; Administrative Vorlagen -&gt; System -&gt; Internetkommunikationsverwaltung -&gt; Internetkommunikationseinstellungen -&gt; Programm zur Verbesserung der Benutzerfreundlichkeit deaktivieren</i>. Diese Einstellung muss auf&nbsp;<i>Aktiviert</i>&nbsp;gesetzt werden.&nbsp;</p>
+<p>&nbsp;</p>
+<p>8Bild)</p>
+<p>&nbsp;</p>
+<h3>LinkedIn-Integration deaktivieren-</h3>
+<p>Die LinkedIn-Integration kann über eine Gruppenrichtlinie deaktiviert werden. Die Einstellung wird im Gruppenrichtlinieneditor auf dem Domaincontroller in einer neuen Richtlinie gesetzt oder einer bereits vorhandenen Richtlinie hinzugefügt. Dazu setzt man in der Richtlinie die Einstellung&nbsp;<i>LinkedIn Funktionen in Office-Anwendungen anzeigen&nbsp;</i>unter&nbsp;<i>Benutzerkonfiguration -&gt; Administrative Vorlagen -&gt; Microsoft Office 2016 -&gt; Verschiedenes</i>&nbsp;auf&nbsp;<i>Deaktiviert.</i></p>
+<p>&nbsp;</p>
+<p><i>(Bild)</i></p>
+<p>&nbsp;</p>
+<h3>Externes Teilen in Sharepoint regulieren-</h3>
+<p>In Sharepoint können Inhalte extern geteilt werden. Das ist nicht immer erwünscht, denn in der Standardeinstellung können Inhalte für jeden, auch ohne Anmeldung, vom Benutzer freigegeben werden. Um das zu Ändern geht man in das Sharepoint Admin Center (erreichbar über das Microsoft 365 Admin Center oder direkt per&nbsp;<a href="https://admin.sharepoint.com/">admin.sharepoint.com</a>). Sollte Ihnen mitgeteilt werden, dass Sie sich im klassischen Admin Center befinden, so klicken Sie auf den angezeigt Link, um in das neue Admin Center zu gelangen. Dort klicken Sie dann auf&nbsp;<i>Richtlinien</i>&nbsp;-&gt;&nbsp;<i>Teilen</i>. Sie sehen nun folgende Regler, mit denen Sie die entsprechenden Freigaberechte für die Benutzer steuern können. Dabei gibt es die Möglichkeiten Inhalte jedem zu teilen bis hin dazu, dass nur innerhalb der Organisation geteilt werden kann.</p>
+<p>(Bild)</p>
+<p>&nbsp;</p>
+<h3>Positionsdaten in OWA vermeiden-</h3>
+<p>OWA kann Wetter und Standortinformationen anzeigen lassen. Das muss aus Gründen des Datenschutzes verhindert werden. Dazu öffnet man das klassische Exchange Online Admin Cente runter&nbsp;<a href="https://outlook.office.com/">outlook.office.com</a>&nbsp;und wechselt dort in&nbsp;<i>Berechtigungen</i>&nbsp;und&nbsp;<i>Outlook Web App-Richtlinie.</i>&nbsp;Anschließend bearbeitet man die Regel und klickt auf&nbsp;<i>Funktionen.&nbsp;</i>Nun wählt man&nbsp;<i>Wetter</i>,&nbsp;<i>Orte</i>&nbsp;und&nbsp;<i>lokale Ereignisse</i>&nbsp;ab.&nbsp;</p>
+<p>(Bild)</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>Liveübersetzung in Teams unterbinden-</h3>
+<p>Microsoft Teams bietet die Möglichkeit die gesprochene Sprache live durch eine KI übersetzen zu lassen. Die Funktion ist zu deaktivieren. Hierzu wechselt man zunächst ins Teams Admin Center&nbsp;<a href="https://admin.teams.microsoft.com/">admin.teams.microsoft.com.</a>&nbsp;Anschließend klickt man links in der Auswahl auf&nbsp;<i>Besprechungen</i>,&nbsp;<i>Besprechungsrichtlinien</i>&nbsp;und klickt auf&nbsp;<i>Bearbeiten</i>&nbsp;der für die Benutzer angewendeten Richtlinie (meist ist das die Richtlinie&nbsp;<i>Global</i>). Im Bereich&nbsp;<i>Audio und Video&nbsp;</i>legt man den Regler bei&nbsp;<i>Transkription zulassen</i>&nbsp;dann auf&nbsp;<i>Aus</i>.&nbsp;</p>
+<p>&nbsp;</p>
+<p>(Bild)</p>
+<p>&nbsp;</p>
+<h3>Cloud-Aufnahmen in Teams unterbinden-</h3>
+<p>Teams bietet die Möglichkeit Meetings aufzunehmen, die dann in der Microsoft Cloud gespeichert werden. Das muss unterbunden werden. Hierzu wechselt man zunächst ins Teams Admin Center&nbsp;<a href="https://admin.teams.microsoft.com/">admin.teams.microsoft.com.</a>&nbsp;Anschließend klickt man links in der Auswahl auf&nbsp;<i>Besprechungen</i>,&nbsp;<i>Besprechungsrichtlinien</i>&nbsp;und klickt auf&nbsp;<i>Bearbeiten</i>&nbsp;der für die Benutzer angewendeten Richtlinie (meist ist das die Richtlinie&nbsp;<i>Global</i>). Im Bereich&nbsp;<i>Audio und Video&nbsp;</i>legt man den Regler bei&nbsp;<i>Cloudaufnahmen zulassen</i>&nbsp;dann auf&nbsp;<i>Aus</i>.&nbsp;</p>
+<p>(Bild)</p>
+<p>&nbsp;</p>
+<h3>Wartebereich in Teams konfigurieren-</h3>
+<p>Teams bietet die Möglichkeit einen Wartebereich zu erstellen. Das ist sinnvoll, damit nur berechtigte und gewollte Personen dem Meeting beitreten können. Um den Wartebereich anzupassen wechselt man zunächst ins Teams Admincenter&nbsp;<a href="https://admin.teams.microsoft.com/">admin.teams.microsoft.com.</a>&nbsp;Anschließend klickt man links in der Auswahl auf&nbsp;<i>Besprechungen</i>,&nbsp;<i>Besprechungsrichtlinien</i>&nbsp;und klickt auf&nbsp;<i>Bearbeiten</i>&nbsp;der für die Benutzer angewendeten Richtlinie (meist ist das die Richtlinie&nbsp;<i>Global</i>). Im Bereich&nbsp;<i>Teilnehmer und Gäste&nbsp;</i>werden die Einstellungen angepasst. Hierbei sollte mindestens die Restriktion bei&nbsp;<i>Personen automatisch zulassen</i>&nbsp;auf&nbsp;<i>Personen in meiner Organisation&nbsp;</i>stehen. Damit ist gewährleistet, dass Gäaste nciht einfach so plötzlich im Meeting sind, sondern durch einen bereits konnektierten Meetingteilnehmer akzeptiert werden müssen. Außerdem ist der Regel bei&nbsp;<i>Einwahlbenutzern das Umgehen des Wartebereichs gestatten&nbsp;</i>auf&nbsp;<i>Aus</i>&nbsp;zu setzen.</p>
+<p>&nbsp;</p>
+<p>(Bild)</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
