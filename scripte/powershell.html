@@ -2,7 +2,7 @@
 title: Powershell
 description: 
 published: true
-date: 2023-04-20T12:55:26.598Z
+date: 2023-04-20T13:09:56.710Z
 tags: powershell
 editor: ckeditor
 dateCreated: 2023-04-20T12:40:27.065Z
@@ -68,5 +68,49 @@ function Set-RecordingInputLevel {
 <p>Muten und Unmuten lässt sich damit auch</p>
 <p><code>Set-RecordingInputLevel -mute</code></p>
 <p><code>Set-RecordingInputLevel -unmute</code></p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<pre><code class="language-plaintext"># Autor:
+# Script nur aktiv wenn wir im aktuellen Jahr nach dem 31. März sind.
+# Datum: 19.04.2023
+# Beschreibung:
+# Dieses Skript zeigt ZIP-Dateien, die älter als der 31. Dezember des Vorjahres sind. Die Ablageort ist definierbar.
+# Der Anzeigevorg erstreckt sich auf alle Unterordner. Alle Operationen werden in einem Logfile im Quellordner gespeichert.
+# !!! Benutzung auf eigene Gefahr !!!
+#
+# Hier können Sie den Quellordner und die Dateierweiterungen festlegen
+$Source = "c:\windows\temp\" # Wichtig: muss mit "\" enden
+$ext = "*.zip"
+$log = "$Source$(get-date -format yymmddHHmmss).txt"
+$currYear = Get-Date -Year (Get-Date).Year
+$mar31 = Get-Date -Month 3 -Day 31 -Year (Get-Date).Year
+if ($currYear -lt $mar31) {
+Write-Host "Das Datum ist vor dem 31. März des aktuellen Jahres. Das Skript wird beendet."
+Exit
+}
+
+$vorjahr = (Get-Date).AddYears(-1).Year
+$ende_jahr = Get-Date -Day 31 -Month 12 -Year $vorjahr
+
+# Start Script
+start-transcript $log
+write-host "--------------------------------------------------------------------------------------"
+write-host "Anzeigen aller ZIP-Dateien ($ext) im Ordner $Source, die älter als der 31. Dezember des Vorjahres ($vorjahr) sind."
+write-host "--------------------------------------------------------------------------------------"
+
+$folders = Get-ChildItem $Source -Directory
+foreach ($folder in $folders) {
+$files = get-childitem $folder.FullName -include $ext -recurse | where {$_.lastwritetime -lt $ende_jahr -and -not $_.psiscontainer}
+$totallength = ($files | Measure-Object -Sum Length).Sum / 1GB
+$totalfilescount = ($files | Measure-Object).count
+$files | select FullName, LastWriteTime, @{n="Size (GB)";e={$_.length / 1GB}} | format-table -AutoSize
+
+Write-Host "Gesamtgroesse (GB) $($totallength.ToString("F")) ($totalfilescount Files) werden von $folder gelöscht." -ForegroundColor Green
+$files
+}
+
+stop-transcript</code></pre>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
