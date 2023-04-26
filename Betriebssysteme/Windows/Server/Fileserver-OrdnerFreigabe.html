@@ -2,15 +2,28 @@
 title: File Server / Ordner-Freigabe
 description: 
 published: true
-date: 2023-04-20T13:29:42.554Z
+date: 2023-04-26T13:32:55.983Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-03-29T20:00:42.075Z
 -->
 
-<h1>&nbsp;</h1>
 <h1>File Server / Ordner-Freigaben</h1>
 <p>&nbsp;</p>
+<h1><strong>SMB-Freigabe: Ordner ohne Berechtigungen ausblenden</strong></h1>
+<p>Seit Windows Server 2012 gibt es eine tolle Funktion für Netzwerkfreigaben: Ab sofort lassen sich bei einer SMB-Freigabe Ordner, für die ein Nutzer keine Zugriffsberechtigung besitzt, automatisch ausblenden.</p>
+<p>Dies bedeutet, dass der Nutzer nur noch für ihn relevante Ordner und Dateien sieht. Damit beschleunigt man die Arbeitsweise und erleichtert das Erfassen von komplexen Ordnerstrukturen. Einzige Voraussetzung ist, dass die Freigabe auf einem System mit mindestens Windows Server 2012 als Betriebssystem liegt.</p>
+<p>So kannst du die Funktion aktivieren:</p>
+<ol>
+  <li>Rufe den <strong>Server Manager</strong> auf dem Serversystem mit der SMB-Freigabe auf</li>
+  <li>Navigiere anschließend zu den<strong> Datei- und Speicherdiensten</strong></li>
+  <li>Klicke daraufhin darin auf den Punkt <strong>Freigaben</strong></li>
+  <li>Rufe danach durch einen Rechtsklick die <strong>Eigenschaften</strong> der Freigabe auf</li>
+  <li>Setze nun im Punkt <strong>Einstellungen</strong> den Haken bei <strong>Zugriffsbasierte Aufzählung aktivieren</strong></li>
+  <li>Bestätige abschließend das Fenster mit <strong>OK</strong></li>
+</ol>
+<p>&nbsp;</p>
+<hr>
 <p>&nbsp;</p>
 <h2>Zugriffsrechte überprüfen</h2>
 <figure class="image"><img src="/überprüfen_welche_berechtigungen_gesetzt_sind.jpg"></figure>
