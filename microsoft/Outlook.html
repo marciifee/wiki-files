@@ -2,7 +2,7 @@
 title: Microsoft Outlook
 description: 
 published: true
-date: 2023-04-26T12:20:45.865Z
+date: 2023-04-26T15:39:29.787Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-03-29T19:59:40.513Z
@@ -81,7 +81,7 @@ dateCreated: 2023-03-29T19:59:40.513Z
 <p>Die Funktion <strong>AutoArchivierung</strong> steht in Outlook für macOS nicht zur Verfügung. Microsoft empfiehlt die Nutzung der Sicherungsfunktion <strong>Time Machine</strong>, die in macOS enthalten ist.</p>
 <hr>
 <p>&nbsp;</p>
-<h2>Fix: GMail in Outlook</h2>
+<h1>Fix: GMail in Outlook</h1>
 <h3>Fehler "Dieser Webbrowser unterstützt JavaScript nicht, oder Skripts werden blockiert" beim Hinzufügen eines Google Workspace-Kontos</h3>
 <p><i>Outlook für Microsoft 365</i></p>
 <p><i>Letzte Aktualisierung: 26. Mai 2022</i></p>
@@ -102,7 +102,7 @@ dateCreated: 2023-03-29T19:59:40.513Z
   <p><strong>Hinweis:&nbsp;</strong>Bei Verwendung dieser Problem Umgehung zeigt das <strong>Outlook Today-Feature</strong> möglicherweise keine Informationen ordnungsgemäß an.</p>
 </blockquote>
 <p>&nbsp;</p>
-<h2>Add-Ins aktiviert lassen</h2>
+<h1>Add-Ins aktiviert lassen</h1>
 <p>Programme in Office 2013 und höheren Versionen bieten Add-In-Resilienz, was bedeutet, dass Apps ein Add-In deaktivieren, wenn es langsam ist. Sie können Add-Ins jedoch erneut aktivieren und verhindern, dass Add-Ins von anderen Office-Programmen automatisch deaktiviert werden.</p>
 <h3><strong>Verhindern der Deaktivierung von Add-Ins</strong></h3>
 <p>Auch wenn die meisten Add-Ins nicht durch das Add-In-Deaktivierungsfeature deaktiviert werden, möchten Sie nicht, dass Ihr Add-In ständig deaktiviert wird.</p>
@@ -251,7 +251,7 @@ dateCreated: 2023-03-29T19:59:40.513Z
   <p><strong>Note:</strong> Storing user profiles on a virtual file system for use with the networked Roaming User Profile feature is supported.</p>
 </blockquote>
 <hr>
-<h2>AutoDiscover</h2>
+<h1>AutoDiscover</h1>
 <h3>Autodiscover für Office 365 deaktivieren</h3>
 <p>Die zwei Autodiscover Einstellungen von Outlook, welche in der Standardeinstellung aktiv sind, verursachen gerne Probleme bei der Einrichtung von Outlook Konten. In der Standardeinstellung versucht Outlook immer auch Autodiscover Einstellungen von Microsoft 365 abzurufen, dies führt bei On-Prem Exchange Servern gerne zu Problemen. Des Weiteren versucht Outlook die Autodiscover Einstellungen auch von der Root Domain abzurufen (beispielsweise https://frankysweb.de/autodiscover/autodiscover.xml), dies schlägt in der Regel ebenfalls fehl und verzögert den Prozess nur unnötig.</p>
 <p>&nbsp;</p>
@@ -368,7 +368,7 @@ dateCreated: 2023-03-29T19:59:40.513Z
 <figure class="image"><img src="https://learn.microsoft.com/de-de/outlook/troubleshoot/client/profiles-and-accounts/media/unexpected-autodiscover-behavior/log-file.png" alt="Der Screenshot zeigt die Protokolldatei, in der ExcludeScpLookup und ExcludeHttpsAutoDiscoverDomain beide aktiviert sind."></figure>
 <hr>
 <p>&nbsp;</p>
-<h2>Windows-Suchmodul ist deaktiviert</h2>
+<h1>Windows-Suchmodul ist deaktiviert</h1>
 <h3>Fehlermeldung auch, wenn der HyperW7Svc-Dienst aktiviert ist</h3>
 <p>In Microsoft Outlook möglicherweise die folgende Fehlermeldung angezeigt werden.</p>
 <p>Das Windows-Suchmodul ist zurzeit deaktiviert. Outlook wird nicht in der Lage sein, schnelle Suchergebnisse mithilfe der Funktionalität zur Sofortsuche zu liefern, wenn dieser Dienst nicht ausgeführt wird.</p>
@@ -379,4 +379,34 @@ dateCreated: 2023-03-29T19:59:40.513Z
 <h3>Problem Umgehung</h3>
 <p>Um dieses Problem zu umgehen, deinstallieren Sie die Software, die den HyperW7Svc-Dienst installiert hat. Oder Sie können versuchen, die Einstellung für den <strong>Starttyp </strong>des HyperW7Svc-Dienstes in <strong>deaktiviert </strong>zu ändern, anstatt ihn zu deinstallieren.</p>
 <hr>
+<p>&nbsp;</p>
+<h1><strong>Outlook: Aus freigegebenem Postfach versandte Mails landen nicht im Ordner "Gesendete Elemente"</strong></h1>
+<p>Wenn mehrere Per­sonen in Outlook auf ein freige­gebenes Exchange-Postfach zu­greifen und von dort E-Mails ­senden dürfen, dann finden sich die ver­schickte Nach­richten stets im Post­fach der Benutzer unter "Gesendete Elemente". Dies ist häufig jedoch nicht erwünscht und lässt sich über die Registry ändern.</p>
+<p>Dieses standard­mäßige Verhalten von Outlook macht es für Mitarbeiter einer Abteilung oder die Mitglieder eines Teams schwer nachvoll­ziehbar, was von wem auf welche E-Mail geant­wortet wurde. Auch der aktuelle Bearbeitungs­stand der Nachrichten ist dann nicht ohne weiteres erkennbar.</p>
+<h2>Outlook-Konfiguration über Registry</h2>
+<p>&nbsp;In den Einstellungen von Outlook gibt es keine Möglichkeit, diesen Zustand zu verändern. Aber durch das Setzen eines Registry-Schlüssels lässt sich verhindern, dass Outlook solche Nachrichten immer in das Postfach verschiebt, das die Nachricht abgeschickt hat. Die folgende Anleitung ist gültig für Microsoft Outlook 2007 bis 2016.</p>
+<p>Öffnen Sie den Editor für die Registrierung (regedit.exe) und navigieren Sie zu folgendem Ordner:</p>
+<p><code>HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Preferences</code></p>
+<p>Der Ordner 14.0 steht für die Office-Version, allgemein gelten hier folgende Werte:</p>
+<ul>
+  <li>13.0 = 2007</li>
+  <li>14.0 = 2010</li>
+  <li>15.0 = 2013</li>
+  <li>16.0 = 2016</li>
+</ul>
+<p>&nbsp;</p>
+<p>Erstellen Sie hier einen neuen DWORT-Wert mit dem Namen <i>DelegateSentItemsStyle</i>. Weisen Sie diesem neu erstellten Eintrag den Wert 1 zu und schließen Sie danach den Registry-Editor.</p>
+<figure class="image"><img src="/outlook-shared-mailbox-registry.png"></figure>
+<p>Outlook über Registry-Schlüssel so anpassen, dass gesendete Mails aus freigegebenen Postfächern dort gespeichert werden.</p>
+<p>Alternativ kann man folgenden Inhalt in einer Datei mit der Endung .reg speichern und diese dann mit einem Doppelklick starten:</p>
+<p>&nbsp;</p>
+<p>Die Versionsnummer im Pfad zu Outlook sollte man natürlich wie oben beschrieben anpassen. In zentral verwalteten Umgebungen lässt sich der <a href="https://www.windowspro.de/wolfgang-sommergut/registry-schluessel-group-policy-preferences-erstellen-loeschen">Registry-Schlüssel auch über GPOs verteilen</a>.</p>
+<p>Jetzt sollte Outlook in der Lage sein, die gesendeten E-Mails in den Ordnern der freige­gebenen Postfächer zu speichern.</p>
+<p>Für öffentliche Ordner gibt es leider keine solche schnelle Lösung. Hier kann bzw. muss man entweder die Transport-Rollen auf dem Exchange-Server konfigurieren, oder Sie setzen Software eines Drittherstellers ein.</p>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
