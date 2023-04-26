@@ -1,0 +1,39 @@
+<!--
+title: Terminalserver Standalone
+description: 
+published: true
+date: 2023-04-26T15:36:17.990Z
+tags: terminalserver, standalone, windows server
+editor: ckeditor
+dateCreated: 2023-04-26T15:36:17.990Z
+-->
+
+<h1><strong>STAND-ALONE TERMINALSERVER installieren</strong></h1>
+<h1><strong>Installation der benötigten Rollen und Features</strong></h1>
+<ul>
+  <li>Den „Server-Manager“ starten.</li>
+  <li>„Rollenbasierte oder featurebasierte Installation“ auswählen.</li>
+  <li>Den Ziel-Server auswählen bzw. bestätigen.</li>
+  <li>Bei „Serverrollen“ die „Remotedesktopdienste“ auswählen.</li>
+  <li>Bei „Features“ alles so belassen wie es ist.</li>
+  <li>Bei „Remotedesktopdienste – Rollendienste“ die „Remotedesktoplizenzierung“ und den „Remotedesktop-Sitzungshost“ auswählen.</li>
+  <li>Nach Abschluss der Installation den Server neustarten.</li>
+</ul>
+<h1><strong>Lizenzierung einrichten und konfigurieren</strong></h1>
+<p>Direkt nach dem Neustart und der Anmeldung als Administrator wird man per Sprechblase darauf hingewiesen, das die Remotedesktop-Lizenzierung nicht konfiguriert ist.</p>
+<ul>
+  <li>Über den „Remotedesktoplizenzierungs-Manager“ den Server aktivieren und die RDS-CALs eintragen.</li>
+</ul>
+<p>Damit der Terminalserver den Lizenzserver erreichen kann, wie folgt vorgehen:</p>
+<ul>
+  <li>Die lokale Gruppenrichtlinie via „gpedit.msc“ aufrufen.</li>
+  <li>Zu „Computerkonfiguration – Administrative Einstellungen – Windows-Komponenten – Remotedesktopdienste – Remotedesktopsitzungs-Host – Lizenzierung“ wechseln.</li>
+  <li>Den Lizenzserver mit der IP-Adresse „127.0.0.1“ angeben.</li>
+  <li>Den Lizenz-Modus gemäss der erworbenen RDS-CALs konfigurieren.</li>
+</ul>
+<h1><strong>Lizenzierung prüfen</strong></h1>
+<ul>
+  <li>Via „Remotedesktop-Lizenzierungsdiagnose“ den Status prüfen.</li>
+</ul>
+<h1><strong>Benutzer hinzufügen</strong></h1>
+<p>Nun kann man z.B. über die Computerverwaltung lokale Benutzer hinzufügen. Damit sich diese über eine Remotedesktopverbindung anmelden können ist eine Mitgliedschaft in der Benutzergruppe „Remotedesktopbenutzer“ notwendig.</p>
