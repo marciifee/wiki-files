@@ -2,7 +2,7 @@
 title: Exchange Server
 description: 
 published: true
-date: 2023-04-19T11:58:36.990Z
+date: 2023-04-26T15:46:48.465Z
 tags: exchange
 editor: ckeditor
 dateCreated: 2023-04-19T11:58:36.990Z
@@ -14,7 +14,32 @@ dateCreated: 2023-04-19T11:58:36.990Z
 <p>get-globaladdresslist | update-globaladdresslist</p>
 <p>get-adresslist | update-addresslistget</p>
 <p>get-offlineaddressbook | update-offlineaddressbook</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<hr>
+<h1><strong>Exchange Mailbox in PowerShell reparieren oder prüfen</strong></h1>
+<p>New-MailboxRepairRequest -Mailbox f.damerow@wackler-group.de -CorruptionType ProvisionedFolder,SearchFolder,AggregateCounts,Folderview -DetectOnly</p>
+<h2>Examples</h2>
+<p><strong>Beispiel&nbsp;1</strong></p>
+<p>PowerShellKopieren</p>
+<pre><code class="language-plaintext">New-MailboxRepairRequest -Mailbox tony@contoso.com -CorruptionType FolderView</code></pre>
+<p>In diesem Beispiel werden alle Ordneransichten für das Postfach Tony@contoso.com erkannt und repariert.</p>
+<p><strong>Beispiel&nbsp;2</strong></p>
+<p>PowerShellKopieren</p>
+<pre><code class="language-plaintext">New-MailboxRepairRequest -Mailbox ayla -CorruptionType ProvisionedFolder,SearchFolder -DetectOnly</code></pre>
+<p>In diesem Beispiel werden nur ProvisionedFolder-und SearchFolder-Beschädigungsprobleme für das Postfach von Ayla Kol erkannt und gemeldet. Mit diesem Befehl wird das Postfach nicht repariert.</p>
+<p><strong>Beispiel&nbsp;3</strong></p>
+<p>PowerShellKopieren</p>
+<pre><code class="language-plaintext">New-MailboxRepairRequest -Database MBX-DB01 -CorruptionType AggregateCounts</code></pre>
+<p>In diesem Beispiel wird AggregateCounts für alle Postfächer in der Postfachdatenbank "mbx-DB01" erkannt und repariert.</p>
+<p><strong>Beispiel 4</strong></p>
+<p>PowerShellKopieren</p>
+<pre><code class="language-plaintext">New-MailboxRepairRequest -Mailbox ayla -CorruptionType ProvisionedFolder,SearchFolder,AggregateCounts,Folderview -Archive</code></pre>
+<p>In diesem Beispiel werden alle Beschädigungstypen für das Postfach und das Archiv von Ayla Kol erkannt und repariert.</p>
+<p><strong>Beispiel&nbsp;5</strong></p>
+<p>PowerShellKopieren</p>
+<pre><code class="language-plaintext">$Mailbox = Get-MailboxStatistics annb; New-MailboxRepairRequest -Database $Mailbox.Database -StoreMailbox $Mailbox.MailboxGuid -CorruptionType ProvisionedFolder,SearchFolder,AggregateCounts,Folderview</code></pre>
+<p>In diesem Beispiel wird eine Variable erstellt, die das Postfach von Ann Beebe identifiziert, und anschließend wird die Variable verwendet, um die Werte für die Parameter Database und Store Mailbox anzugeben, um eine Anforderung zum erkennen und reparieren aller Beschädigungstypen zu erstellen.</p>
+<hr>
 <p>&nbsp;</p>
 <h1>Exchange Online</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
