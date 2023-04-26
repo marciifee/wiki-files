@@ -2,7 +2,7 @@
 title: Exchange Server
 description: 
 published: true
-date: 2023-04-26T15:46:48.465Z
+date: 2023-04-26T15:48:30.510Z
 tags: exchange
 editor: ckeditor
 dateCreated: 2023-04-19T11:58:36.990Z
@@ -14,6 +14,12 @@ dateCreated: 2023-04-19T11:58:36.990Z
 <p>get-globaladdresslist | update-globaladdresslist</p>
 <p>get-adresslist | update-addresslistget</p>
 <p>get-offlineaddressbook | update-offlineaddressbook</p>
+<hr>
+<h1><strong>exchange postfach zugriff auslesen mit Shell</strong></h1>
+<p>Das ganze so anzugehen sieht interessant aus. Wie kann ich dieses Script umgestalten das ich nicht jeweils einen User angeben muss sondern das dies den ganzen Exchange durchgeht und diejenigen welche Postfachberechtigungen ins Excel oder CSV schreibt?&nbsp;</p>
+<p>&nbsp;</p>
+<p>get-mailbox -identity $user| Get-MailboxPermission | ?{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)}<br><br># Below powershell commming will export all the user mailbox permission of the mailbox to the CSV file.&nbsp;<br># It exports all the mailbox permission which are explicit permission<br><br>Get-mailbox | Get-MailboxPermission | ?{($_.IsInherited -eq $False) -and -not ($_.User -match “NT AUTHORITY”)} |Select User,Identity,@{Name=”AccessRights”;Expression={$_.AccessRights}} | Export-csv C:\mailboxPermission.csv</p>
+<p>beim punkt -identity muss ja jeweils der Benutzer angegeben werden. Für Administrator aufgaben Perfekt wenn ich einen user überprüfen muss. Aber ich muss alle überprüfen..&nbsp;</p>
 <hr>
 <h1><strong>Exchange Mailbox in PowerShell reparieren oder prüfen</strong></h1>
 <p>New-MailboxRepairRequest -Mailbox f.damerow@wackler-group.de -CorruptionType ProvisionedFolder,SearchFolder,AggregateCounts,Folderview -DetectOnly</p>
