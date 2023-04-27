@@ -1,0 +1,23 @@
+<!--
+title: Bitlocker
+description: 
+published: true
+date: 2023-04-27T13:37:08.233Z
+tags: bitlocker
+editor: ckeditor
+dateCreated: 2023-04-27T13:37:08.233Z
+-->
+
+<h1>Bitlocker</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1><strong>Bitlocker Laufwerksverschlüsselung aufheben</strong></h1>
+<p>diskpart</p>
+<p>list vol</p>
+<p>sel volume x</p>
+<p>detail volume</p>
+<p>Da sieht man, ob Bitlocker-verschlüsselt Ja ist oder Nein</p>
+<p>&nbsp;</p>
+<p>JETZT ERST WIEDER AUS DISKPART RAUS! (oder CMD nochmal neu starten)</p>
+<p>manage-bde -off c:</p>
+<p>Entschlüsselt c: und hebt damit Bitlocker auf</p>
