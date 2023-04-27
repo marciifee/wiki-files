@@ -2,7 +2,7 @@
 title: Microsoft Teams
 description: 
 published: true
-date: 2023-04-21T10:28:43.358Z
+date: 2023-04-27T13:35:38.712Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-03-29T20:00:00.722Z
@@ -38,5 +38,29 @@ dateCreated: 2023-03-29T20:00:00.722Z
 <p><strong>com.squirrel.Teams.Teams</strong></p>
 <p>oder</p>
 <figure class="image"><img src="/microfot-teams-anwendung-automatisch-starten.png"></figure>
+<hr>
+<h1><strong>Microsoft Teams Autostart deaktivieren bzw. hinzufügen über GPO</strong></h1>
+<h2>Teams Option “Anwendung automatisch starten” deaktivieren</h2>
+<p>Den Autostart kann sogar in Teams direkt ausschalten, allerdings nur wenn der Benutzer angemeldet ist. Erst dann kann man rechts oben die Teams Einstellungen öffnen und somit den Haken zum Autostart abschalten, beziehungsweise deaktivieren.</p>
+<p>Teams Anwendung automatisch starten ausschalten:</p>
+<ol>
+  <li>In Microsoft Teams <strong>anmelden</strong></li>
+  <li>Rechts oben auf die Initialen klicken</li>
+  <li>Teams <strong>Einstellungen öffnen</strong></li>
+  <li>Haken <strong>Anwendung automatisch starten </strong>entfernen</li>
+</ol>
+<h2>Teams aus Autostart entfernen (GPO)</h2>
+<p>Notwendig ist die Erstellung und Verknüpfung einer Gruppenrichtlinie, die den unerwünschten RUN-Eintrag aus der Registry der Benutzern entfernt.</p>
+<p>GPO erstellen, dann unter Benutzerkonfiguration &gt; Einstellungen &gt; Windows-Einstellungen &gt; Registrierung &gt; Neu:</p>
+<p>Aktion: &nbsp; &nbsp; &nbsp; &nbsp; Löschen
+  Struktur: &nbsp; &nbsp; &nbsp; HKEY_CURRENT_USER
+  Schlüsselpfad: &nbsp;SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+  Wertname: &nbsp; &nbsp; &nbsp; com.squirrel.Teams.Teams&nbsp;</p>
+<h2>Teams zu Autostart hinzufügen</h2>
+<p>Das Hinzufügen funktioniert genauso – nur mit der Aktion „Erstellen“. Der zugehörige Befehl lautet allerdings anders als das original.</p>
+<p>Original (funktioniert <strong>NICHT</strong>)
+  C:\Users\%username%\AppData\Local\Microsoft\Teams\Update.exe --processStart "Teams.exe" --process-start-args <strong>"--system-initiated" So funktioniert es:</strong>
+
+  C:\Users\%username%\AppData\Local\Microsoft\Teams\Update.exe --processStart "Teams.exe" --process-start-args <strong>"--user-initiated"</strong></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
