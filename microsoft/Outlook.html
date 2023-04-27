@@ -2,13 +2,21 @@
 title: Microsoft Outlook
 description: 
 published: true
-date: 2023-04-27T13:33:38.698Z
+date: 2023-04-27T13:42:26.065Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-03-29T19:59:40.513Z
 -->
 
 <h1>Outlook</h1>
+<p>&nbsp;</p>
+<h1><strong>OST Datei in Outlook ist auf 50 GB begrenzt. Grenze vergrößern.</strong></h1>
+<p>Setzen der Begrenzungen auf rund 100GB:</p>
+<ul>
+  <li>WIN+R -&gt; CMD -&gt; STRG +SHIFT +ENTER</li>
+  <li>Beispiel für Outlook 2016/2019:<br><strong>REG ADD HKCU\Software\Microsoft\Office\16.0\Outlook\PST /v WarnLargeFileSize /t REG_DWORD /d 102400 /f</strong><br><strong>REG ADD HKCU\Software\Microsoft\Office\16.0\Outlook\PST /v MaxLargeFileSize /t REG_DWORD /d 107520 /f</strong></li>
+</ul>
+<hr>
 <p>&nbsp;</p>
 <h1>AutoArchivierung mit Outlook</h1>
 <p>Mit der AutoArchivierung von Outlook können E-Mails automatisch gelöscht oder in ein lokales Archiv sortiert werden. Diese Funktion ist seit Outlook 2010 standardmäßig deaktiviert und kann bei Bedarf aktiviert werden. Es können keine E-Mails im Archiv-IMT-IMAP-Ordner abgelegt werden. Das aktivieren der AutoArchivierung ist <strong>keine hinreichende Sicherung</strong> des E-Mail Postfachs. Dafür sind zusätzliche regelmäßige Backups auf einem externen Datenträger nötig!</p>
