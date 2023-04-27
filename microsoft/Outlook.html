@@ -2,7 +2,7 @@
 title: Microsoft Outlook
 description: 
 published: true
-date: 2023-04-26T15:39:29.787Z
+date: 2023-04-27T12:54:33.290Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-03-29T19:59:40.513Z
@@ -405,7 +405,37 @@ dateCreated: 2023-03-29T19:59:40.513Z
 <p>Für öffentliche Ordner gibt es leider keine solche schnelle Lösung. Hier kann bzw. muss man entweder die Transport-Rollen auf dem Exchange-Server konfigurieren, oder Sie setzen Software eines Drittherstellers ein.</p>
 <p>&nbsp;</p>
 <hr>
-<p>&nbsp;</p>
+<h1><strong>Reparieren einer PST Datei</strong></h1>
+<h2>Reparieren einer Outlook-Datendatei (PST-Datei)</h2>
+<p>Beenden Sie Outlook, und navigieren Sie zu einem der folgenden Dateispeicherorte:</p>
+<p>Outlook 2019: C:\Program Files (x86) \Microsoft Office\stamm\office16 "</p>
+<p>Outlook 2016: C:\Program Files (x86)\Microsoft Office\root\Office16</p>
+<p>Outlook 2013: C:\Program Files (x86)\Microsoft Office\Office15</p>
+<p>Outlook 2010: C:\Program Files (x86)\Microsoft Office\Office14</p>
+<p>Outlook 2007: C:\Program Files (x86)\Microsoft Office\Office12</p>
+<p>Öffnen Sie <strong>SCANPST.EXE</strong>.</p>
+<p>Wählen Sie <strong>Durchsuchen</strong> aus, um die Outlook-Datendatei (PST) auszuwählen, die Sie überprüfen möchten. Wenn Sie Hilfe beim Auffinden Ihrer Outlook-Datendatei benötigen, lesen Sie suchen der Outlook-Datendateien.</p>
+<p><strong>Hinweis:</strong>&nbsp;Während der Überprüfung wird standardmäßig eine neue Protokolldatei erstellt. Sie können <strong>Optionen</strong> auswählen und angeben, dass kein Protokoll erstellt werden soll, oder Sie können festlegen, dass die Ergebnisse an eine vorhandene Protokolldatei angefügt werden.</p>
+<p>Wählen Sie <strong>Starten</strong> aus, um mit der Überprüfung zu beginnen.</p>
+<p>Wenn die Überprüfung Fehler findet, wählen Sie <strong>Reparieren</strong> aus, um den Reparaturprozess zu deren Behebung zu starten.</p>
+<figure class="image"><img src="/uploads/tool-pst-repair.png"></figure>
+<p><strong>Hinweis:</strong>&nbsp;Bei der Überprüfung wird während des Reparaturvorgangs eine Sicherungsdatei erstellt. Wenn Sie den Standardnamen oder den Speicherort dieser Sicherungsdatei ändern möchten, geben Sie im Feld <strong>Name der Sicherungsdatei eingeben</strong> einen neuen Namen ein, oder wählen Sie <strong>Durchsuchen</strong> aus, um die Datei auszuwählen, die Sie verwenden möchten. Möglicherweise müssen Sie das Tool mehrmals ausführen, um Ihre Outlook-Datendatei zu reparieren. In einigen Fällen werden Elemente möglicherweise nicht wiederhergestellt, wenn Sie dauerhaft gelöscht oder über Reparatur beschädigt wurden.</p>
+<p>Starten Sie nach Abschluss der Reparatur Outlook erneut mit dem Profil, das der soeben reparierten Outlook-Datendatei zugeordnet ist.</p>
+<p><strong>Was geschieht nach dem Reparieren einer Outlook-Datendatei?</strong></p>
+<p>Im Ordnerbereich wird möglicherweise ein Ordner namens <strong>Wiederhergestellte Persönliche Ordner</strong> mit den Standardordnern von Outlook oder ein Ordner mit dem Namen <strong>Elemente ohne Zuordnung</strong> angezeigt. Obwohl der Reparaturprozess möglicherweise einige der Ordner neu erstellt, können diese leer sein. Der Ordner <strong>Elemente ohne Zuordnung</strong> enthält alle Ordner und Elemente, die vom Reparaturtool wiederhergestellt wurden und die Outlook nicht in die ursprüngliche Struktur einordnen kann.</p>
+<p><strong>Erstellen einer neuen Datendatei</strong></p>
+<p>Sie können eine neue Outlook-Datendatei erstellen und die Elemente im <strong>verlorenen und gefundenen </strong>Ordner in die neue Datendatei ziehen. Nachdem Sie alle Elemente verschoben haben, können Sie die <strong>wiederhergestellte Persönliche Ordner </strong>-Datei (PST), einschließlich des Ordners " <strong>Lost and Found</strong> ", entfernen. Informationen zum Erstellen einer neuen Outlook-Datendatei finden Sie unter <a href="https://support.office.com/de-de/article/erstellen-einer-outlook-datendatei-pst-zum-speichern-von-informationen-17a13ca2-df52-48e8-b933-4c84c2aabe7c">Erstellen einer Outlook-Datendatei</a>.</p>
+<p><strong>Wiederherstellen von Elementen aus der Sicherungsdatei (BAK)</strong></p>
+<p>Wenn sich die ursprüngliche Outlook-Datendatei öffnen lässt, können Sie möglicherweise weitere Elemente wiederherstellen. Das Tool zum Reparieren des Posteingangs erstellt eine Sicherungsdatei mit dem gleichen Namen wie das Original, aber mit einer BAK-Erweiterung, und speichert sie in demselben Ordner. Möglicherweise enthält die Sicherungsdatei Elemente, die Sie selber wiederherstellen können, was dem Tool zum Reparieren des Posteingangs nicht möglich war.</p>
+<p>Navigieren Sie zu dem Ordner, in dem die PST-Datei gespeichert ist. Dort finden Sie die BAK-Datei (z. B. "lenimartin01@outlook.com.bak"), die vom Tool zum Reparieren des Posteingangs erstellt wurde.</p>
+<p>Erstellen Sie eine Kopie der BAK-Datei, und benennen Sie sie mit der Erweiterung "bak.pst" um. Beispiel: "lenimartin01@outlook.com.bak.pst".</p>
+<p>Importieren Sie die BAK.PST-Datei in Outlook, und verwenden Sie den Import-/Export-Assistenten, um alle zusätzlichen wiederhergestellten Elemente in die neu erstellte PST-Datei zu importieren.</p>
+<p><strong>Hinweis:</strong>&nbsp;Im Artikel <a href="https://support.office.com/de-de/article/importieren-von-e-mails-kontakten-und-kalendern-aus-einer-outlook-pst-datei-431a8e9a-f99f-4d5f-ae48-ded54b3440ac">Importieren von E-Mails, Kontakten und Kalendern aus einer Outlook-PST-Datei </a>erfahren Sie, wie eine PST-Datei importiert wird.</p>
+<h2>Suchen der Outlook-Datendateien</h2>
+<p>Sie können den Speicherort Ihrer Outlook-Datendateien in Outlook Überprüfung.</p>
+<p>Wählen Sie <strong>Datei </strong>&gt; <strong>Kontoeinstellungen </strong>&gt; <strong>Kontoeinstellungen </strong>aus.</p>
+<p>Wählen Sie die Registerkarte <strong>Datendateien </strong>aus.</p>
+<p>Alle Outlook-Datendateien (PST) und Offline Datendateien (Ost) werden zusammen mit dem Namen des Kontos aufgelistet, dem die Dateien zugeordnet sind.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
