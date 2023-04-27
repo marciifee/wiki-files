@@ -2,13 +2,19 @@
 title: Exchange Server
 description: 
 published: true
-date: 2023-04-26T15:48:30.510Z
+date: 2023-04-27T13:50:09.430Z
 tags: exchange
 editor: ckeditor
 dateCreated: 2023-04-19T11:58:36.990Z
 -->
 
 <h1>Exchange Server</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1><strong>Exchange Shell Mailbox Größen in Excel Dokument ausgeben.</strong></h1>
+<p>get-mailbox|Get-MailboxStatistics| Select-Object Displayname, TotalItemSize, Database,TotalDeletedItemSize,ItemCount, StorageLimitStatus,LastLogonTime|Sort-Object Displayname|Export-Csv -Path C:\_admin\Mailboxstats.csv</p>
+<hr>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <h2>exchange shell</h2>
 <p>get-globaladdresslist | update-globaladdresslist</p>
