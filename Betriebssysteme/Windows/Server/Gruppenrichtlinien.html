@@ -2,7 +2,7 @@
 title: Gruppenrichtlinien
 description: 
 published: true
-date: 2023-04-13T11:18:28.146Z
+date: 2023-04-27T13:01:17.349Z
 tags: 
 editor: ckeditor
 dateCreated: 2023-03-29T20:22:40.606Z
@@ -10,7 +10,7 @@ dateCreated: 2023-03-29T20:22:40.606Z
 
 <h1>Gruppenrichtlinien</h1>
 <p>&nbsp;</p>
-<h2><strong>Lokale Gruppenrichtlinien </strong>übertragen</h2>
+<h1><strong>Lokale Gruppenrichtlinien </strong>übertragen</h1>
 <p>Um&nbsp;die lokalen Richtlinien auf eine andere Maschine zu übertragen, gehen wir wie folgt vor:</p>
 <p>Source System:</p>
 <p><strong>Zuerst kopieren wir die lokalen Gruppenrichtlinien in den Ordner C:\Export</strong></p>
@@ -26,10 +26,13 @@ dateCreated: 2023-03-29T20:22:40.606Z
 <p>secedit /configure /cfg C:\Import\Security.csv /db defltbase.sdb /verbose</p>
 <p><strong>Import der&nbsp;Auditrichtlinien&nbsp;</strong></p>
 <p>Auditpol /restore /file:C:\Import\audit.ini</p>
-<p>&nbsp;</p>
+<hr>
+<h1><strong>Anzeigen der angewendeten Gruppenrichtlinien am Client</strong></h1>
+<p>cmd</p>
+<p>rsop.msc</p>
 <p>&nbsp;</p>
 <hr>
-<h2>Gruppenrichtlinien überprüfen</h2>
+<h1>Gruppenrichtlinien überprüfen</h1>
 <p style="text-align:justify;"><strong>Problem:</strong></p>
 <p style="text-align:justify;">Wie kann ich erkennen, welche Gruppenrichtlinien mein Client vom Server erhält?</p>
 <p style="text-align:justify;"><strong>Lösung:</strong></p>
@@ -43,12 +46,12 @@ dateCreated: 2023-03-29T20:22:40.606Z
 <p style="text-align:justify;"><strong>Problem:</strong></p>
 <p style="text-align:justify;">Auch Gruppenrichtlinien können fehlerhaft auf Clients ankommen. Wie kann man dies entdecken und wie bereinigt man diesen Fehler?</p>
 <p style="text-align:justify;"><strong>Lösung:</strong></p>
-<p style="text-align:justify;">Der Guppenrichtlininieneditor beinhaltet die Möglichkeit, Clients abzufragen, ob die Gruppenrichtlinien dort sauber angekommen sind. Im folgenden Bild liefert der Computer C01PC06 drei Fehler im Bereich einer Computerrichtlinie zurück:</p>
+<p style="text-align:justify;">Der Gruppenrichtlinien-Editor beinhaltet die Möglichkeit, Clients abzufragen, ob die Gruppenrichtlinien dort sauber angekommen sind. Im folgenden Bild liefert der Computer C01PC06 drei Fehler im Bereich einer Computerrichtlinie zurück:</p>
 <figure class="image"><img src="/fehler-ausführen-gpos1.png"></figure>
 <p style="text-align:justify;"><strong>Vorarbeiten:</strong></p>
-<p style="text-align:justify;">Damit ein Client bei eingeschalteter Firewall Gruppenrichtlinienergebnisse an den Server zurückliefern kann, müssen bestimmte Firewall Einstellungen verändert werden.<br>Öffnen Sie zunächst den Gruppenrichtlinieneditor und bewegen Sie sich in den Bereich "Starter-Gruppenrichtlinienobjekte". Klicken Sie auf "Ordner für Starter-Gruppenrichtlinienobjekte erstellen":</p>
+<p style="text-align:justify;">Damit ein Client bei eingeschalteter Firewall Gruppenrichtlinienergebnisse an den Server zurück liefern kann, müssen bestimmte Firewall Einstellungen verändert werden.<br>Öffnen Sie zunächst den Gruppenrichtlinieneditor und bewegen Sie sich in den Bereich "Starter-Gruppenrichtlinienobjekte". Klicken Sie auf "Ordner für Starter-Gruppenrichtlinienobjekte erstellen":</p>
 <figure class="image"><img src="/fehler-ausführen-gpos2.png"></figure>
-<p style="text-align:justify;">Dadurch werden vorkonfigurierte Gruppenrichtlinienobjekte freigegeben:</p>
+<p style="text-align:justify;">Dadurch werden Vor konfigurierte Gruppenrichtlinienobjekte freigegeben:</p>
 <figure class="image"><img src="/fehler-ausführen-gpos3.png"></figure>
 <p style="text-align:justify;">Erstellen und verknüpfen Sie auf der Ebene Ihrer Domäne eine neue GPO (z.B. "GPO-Bericht"), die mit der "Gruppenrichtlinie für Berichte - Firewall Ports" verbunden ist:</p>
 <p style="text-align:justify;">Schritt 1:</p>
@@ -62,7 +65,7 @@ dateCreated: 2023-03-29T20:22:40.606Z
 <p style="text-align:justify;">Schritt 4.</p>
 <figure class="image"><img src="/fehler-ausführen-gpos7.png"></figure>
 <p style="text-align:justify;">&nbsp;</p>
-<p style="text-align:justify;">Erzwingen Sie die Ausführung dieser Gruppenrichthtinie auf dem Client, den Sie untersuchen möchten, indem Sie den Client entweder neu starten oder in einer DOS-Box "gpupdate /force" ausführen.</p>
+<p style="text-align:justify;">Erzwingen Sie die Ausführung dieser Gruppenrichtlinie auf dem Client, den Sie untersuchen möchten, indem Sie den Client entweder neu starten oder in einer DOS-Box "gpupdate /force" ausführen.</p>
 <p style="text-align:justify;">Durchführung der Untersuchung des Clients:</p>
 <p style="text-align:justify;">Bewegen Sie sich in den Bereich "Gruppenrichtlinienergebnisse" und starten Sie den "Gruppenrichtlinienergebnis-Assistenten":</p>
 <figure class="image"><img src="/fehler-ausführen-gpos8.png"></figure>
