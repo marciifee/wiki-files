@@ -1,0 +1,88 @@
+<!--
+title: Linux Container
+description: 
+published: true
+date: 2023-04-28T13:43:43.538Z
+tags: linux container, container, linux
+editor: ckeditor
+dateCreated: 2023-04-28T13:43:43.538Z
+-->
+
+<h1>Container</h1>
+<p>&nbsp;</p>
+<h1>Linux Container &amp; Active Directory - Teil 1</h1>
+<p>Diese Blogeintrag-Serie erläutert, wie einzelne LXC Container einer Domäne beitreten können. Außerdem wird aufgeführt, wie Nutzerbeschränkungen, Superuser-Rechte und SSH aktiviert und konfiguriert werden kann.</p>
+<p>Blogserie:</p>
+<p><a href="https://www.escde.net/blog/linux-container-active-directory-teil-1-bersicht">Übersicht</a></p>
+<p><a href="https://www.escde.net/blog/linux-container-active-directory-teil-2-einbinden-eines-containers-ins-ad">Einbinden eines Containers in das Active Directory</a></p>
+<p>Rechteverwaltung und Fernzugriff</p>
+<p>In dem ersten Teil der Blogserie schauen wir uns die Unterschiede zwischen Windows Container, Hyper-V Container und Linux Container an. Außerdem wird erklärt, weshalb es vorteilhaft ist, einen Linux Container unter Linux auszuführen.<br>&nbsp;</p>
+<h2>Windows Container</h2>
+<p>Windows Container (Prozess-Isolation) baut auf Docker auf und nutzt den Kernel des Host-Systems für seine Container. Aufgrund dieser Restriktion ist es nicht möglich, einen Linux Container direkt auf dem Host-System auszuführen. Hierzu ist es notwendig, zuerst eine komplette virtuelle Linux Maschine zu erstellen und anschließend Linux Container in dieser auszuführen. Dadurch muss hier mit den Leistungseinbußen einer normalen virtuellen Maschine gerechnet werden.</p>
+<h2>Hyper-V Container</h2>
+<p>Auch Microsofts eigene Virtualisierungstechnik Hyper-V stellt seit Windows Server 2016 Hyper-V Container (Hyper-V Isolation) bereit. Hier wird Docker genutzt, um den Container zu verwalten. Verglichen mit Windows Container wird bei Hyper-V Container nicht der Kernel des Host-Systems, sondern ein eigener Kernel je Container genutzt. Da hier der Linux-Kernel im Container genutzt wird, müssen Linux-Kernel Befehle des Containers in Windows-Kernel Befehle umgewandelt werden. Um dies zu erreichen, wird auch hier eine komplette virtuelle Linux Maschine erstellt, in welcher die Linux Container ausgeführt werden. Wiederum bringt dies die gewohnten Leistungseinbußen mit sich.</p>
+<h2>Linux Container unter Linux</h2>
+<p>Um möglichst wenig Leistung aufgrund der Virtualisierung eines Linux Betriebssystem zu verlieren, wird empfohlen Linux Container auf einem Linux Host-System auszuführen. Zur Container-Verwaltung gibt es zwei weit verbreitete Systeme. Zum einen bietet sich hier Docker und zum anderen LXC an. Im weiteren Verlauf dieser Blogserie wird LXC als Container-Verwaltung genutzt, da Docker Container noch minimalistischer sind als LXC. Folglich muss mehr Aufwand betrieben werden, um den Container ins AD aufzunehmen. Des Weiteren löst sich eine solch tiefgründige Modifikation des Docker Containers von dem Anwendungscontainer-Prinzip.</p>
+<h2>LXC</h2>
+<p>LXC steht für Linux Containers und ist eine Virtualisierungstechnik, die mehrere voneinander isolierte Linux-Systeme auf einem Host-System ausführen kann. In seiner Betriebsweise ist LXC vergleichbar mit Linux-vServer, da bei beiden Virtualisierungsverfahren der Linux-Kernel des Host-Systems genutzt wird. Das Nutzen des gleichen Kernels bietet einen geringeren Overhead im Vergleich zur konventionellen Hardware-Virtualisierung. Durch diese Eigenschaft werden LXC und andere Container-Virtualisierungstechniken, wie Docker, für kleinere und spezifische Anwendungen der Hardware-Virtualisierung vorgezogen.<br>LXC Container lassen sich ganz leicht anhand eines Befehls (<strong>$lxc launch &lt;Distribution&gt;:&lt;Version&gt; &lt;ContainerName&gt;</strong>) erstellen und gleichzeitig starten. Hierbei gibt der Nutzer an, welche Version seiner gewünschten Linux-Distribution (ubuntu, alpine, …) genutzt werden soll und benennt den neuerstellten Container wie gewünscht. Folglich lädt LXC das benötigte Image und die benötigten Konfigurationsdateien herunter und erstellt den Container.<br>Um anschließend auf die Shell des Containers zugreifen zu können, kann <strong>$lxc exec &lt;ContainerName&gt; -- /bin/&lt;ShellName&gt;</strong> genutzt werden. LXC führt dann den angegebenen Befehl im Container aus und startet die angegebene Shell (bash, zsh, …), sofern diese im Container vorliegt.</p>
+<p>&nbsp;</p>
+<h1>Linux Container &amp; Active Directory - Teil 2</h1>
+<p>Diese Blogeintrag-Serie erläutert wie einzelne LXC Container einer Domäne beitreten können. Außerdem wird aufgeführt, wie Nutzerbeschränkungen, Superuser-Rechte und SSH aktiviert und konfiguriert werden kann.</p>
+<p>Blogserie:</p>
+<p><a href="https://www.escde.net/blog/linux-container-active-directory-teil-1-bersicht">Übersicht</a></p>
+<p><a href="https://www.escde.net/blog/linux-container-active-directory-teil-2-einbinden-eines-containers-ins-ad">Einbinden eines Containers in das Active Directory</a></p>
+<p>Rechteverwaltung und Fernzugriff</p>
+<p>In diesem Teil der Blogserie gehen wir auf die Anforderungen für ein erfolgreiches Beitreten des Active Directories ein. Auch wird ausführlich auf die Vorgehensweise eingegangen.</p>
+<h2>Voraussetzungen</h2>
+<p>Einen Container erfolgreich in eine Active Directory Domäne aufzunehmen, benötigt einige Voraussetzungen sowohl an das Host-System als auch an LXC und den LXC-Container selbst. Zum einen muss LXC auf dem Host-System installiert (<strong>$sudo apt install LXC</strong>) und vorzugsweise mit den Standardwerten initialisiert (<strong>$lxc init</strong>) sein. Zum anderen muss der DNS-Server als auch die Domäne des Host-Systems manuell gesetzt werden. Erreichbar ist das unter Ubuntu basierten Linux-Distributionen durch das Ändern des Systemd-Resolvers (<strong>$sudo nano /etc/systemd/resolved.conf</strong>). In der Konfigurationsdatei sollen <strong>DNS</strong>, <strong>FallbackDNS</strong> und <strong>Domains</strong> auskommentiert sowie die für Ihre Umgebung korrekten Einstellungen eingetragen werden.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/9a94bdaa-820c-4252-bc4e-5000f9192599/Abbildung_1_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=300w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 1: Inhalt von /etc/systemd/resolved.conf</p>
+<p>Zuletzt stellt man sicher, dass die Systemzeit des Host-Systems korrekt eingestellt ist (<strong>$timedatectl</strong>) und ändert diese gegebenenfalls (<strong>$sudo timedatectl set-timezone &lt;Zeitzone&gt;</strong>). Eine Liste aller verfügbaren Zeitzonen kann mit <strong>$timedatectl list-timezones</strong> ausgegeben werden. Nach diesen Änderungen ist ein Systemneustart empfohlen.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/f55c1d71-8659-4a5f-8513-41e93cb9e267/Abbildung_2_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=500w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 2: Ausgabe vom Befehl $timedatectl einer korrekt eingestellten Systemzeit</p>
+<p>Damit in unserer Umgebung ein Beitreten der Domäne möglich war, musste sichergestellt werden, dass <strong>IPv4 NAT</strong> für die LXC-Netzwerkbrücke aktiviert ist. Aufgrund des abgeschotteten Netzes von LXC und der Domäne, kann die Netzwerkbrücke zwischen LXC-Container und Intranet eine Netzwerkadressübersetzung durchführen. Dies ermöglicht es außerdem lokale IPs des Intranets in einem Container zu erreichen.<br>Ob <strong>IPv4 NAT</strong> aktiviert ist, kann anhand der Netzwerkbrücke von LXC überprüft werden, hierzu wird der Name dieser benötigt. Die Ausgabe von <strong>$lxc network list</strong> gibt den Namen der Brücke aus (meist lxdbr0).</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/86f1198a-b424-4d80-9775-d67a6af10f30/Abbildung_3_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 3: Ausgabe von $lxc network list</p>
+<p>Um die Konfiguration der Brücke zu überprüfen, kann sie mit <strong>$lxc network edit &lt;NetzwerkBrückenName&gt;</strong> geöffnet werden. In der geöffneten Textdatei finden sich weitere, für diesen Blogeintrag, nicht relevante Einstellungen wieder. Überprüft werden soll, dass unter <strong>config:</strong><br><strong>ipv4.nat </strong>auf „<strong>true</strong>“ gesetzt ist. Wird mit IPv6 gearbeitet, muss dementsprechend <strong>ipv6.nat</strong> auch auf „<strong>true</strong>“ gesetzt werden.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/9445c0d9-4caa-41a4-925c-923c815cd6a8/Abbildung_4_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=500w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 4: Einstellungen der LXC Netzwerkbrücke</p>
+<p>Nun sind das Host-System und LXC bereit, aber der LXC-Container muss noch entsprechend modifiziert werden. Wechselt man in die Shell eines neu installierten Containers, sollen auch hier, wie vorhin am Host-System ausgeführt, die gleichen <strong>DNS</strong>, <strong>FallbackDNS</strong> und <strong>Domains</strong> Einstellungen in <strong>/etc/systemd/resolved.conf</strong> vorgenommen werden. Außerdem muss auch die Systemzeit des Containers mit <strong>$timedatectl</strong> überprüft und gegebenenfalls angepasst werden. Wie auch beim Host-System ist nach diesen Änderungen ein Neustart des Containers empfohlen. Hierzu kann mit <strong>$exit</strong> die Container-Shell verlassen und anschließend mit <strong>$lxc restart &lt;ContainerName&gt;</strong> der Container neugestartet werden. Zuletzt wechselt man wieder in den Container, um dort die weitere Konfiguration vorzunehmen.<br>Ab diesem Zeitpunkt sollte der Domain Controller der Domäne aus dem Container heraus erreichbar sein. Der Befehl <strong>$nslookup –type=srv _ldap._tcp.&lt;Domäne&gt;</strong> sollte eine Ausgabe mit einer Antwort, als auch der URL des DCs erzeugen.<br>&nbsp;</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/38fad8bb-d86b-457e-bd6d-93b528601a40/Abbildung_5_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 5: Ausgabe des $nslookup Befehls mit der URL des DCs</p>
+<p>Um mit einem Linux-System einer Domäne beizutreten, müssen vorerst einige Pakete installiert werden. Zuvor muss jedoch die Liste aller verfügbaren Pakete erstellt/heruntergeladen werden <strong>($apt update</strong>). Das Installieren der Pakete kann anschließend mit <strong>$apt install -y sssd sssd-ad sssd-tools realmd adcli samba-common-bin libnss-sss libpam-sss packagekit</strong> angestoßen werden.</p>
+<p>Der Befehl installiert <i>SSSD</i>, der System Security Services Daemon, welcher sich um das Authentisieren von Nutzern mit dem Active Directory, sowie die NutzerID-/GruppenID-Verwaltung im Container kümmert. <i>Realmd</i> wird genutzt, um die Konfiguration von SSSD automatisch auszuführen und gegebene Standards einzuhalten. <i>adcli</i> bietet Active Directoy Befehle wie <strong>$adcli info &lt;Domäne&gt;</strong> unter Linux an, welche unter anderem von Realmd genutzt werden, um der Domäne beizutreten. <i>Packagekit</i> ermöglicht Realmd weitere fehlende und benötigte Pakete beim Beitreten einer Domäne zu installieren.</p>
+<h2>Beitreten der Domäne</h2>
+<p>Da jetzt alle benötigten Pakete installiert sind, kann einer Domäne beigetreten werden. Als Erstes kann die korrekte Funktionalität der Pakete und die Erreichbarkeit des ADs mit <strong>$realm discover &lt;Domäne&gt;</strong> überprüft werden. Die Ausgabe des Befehls sollte den Domänennamen sowie den Authentisierungstyp und die benötigten Pakete angeben.<br>&nbsp;</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/1ef8573a-84d2-47f6-9730-2a331660ea84/Abbildung_6_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=500w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 6: Domänen Informationen ausgegeben von $realm discover &lt;Domäne&gt;</p>
+<p>Jetzt ist gesichert, dass eine Verbindung mit dem DC erfolgreich hergestellt und Informationen der Domäne abgefragt werden können als auch, dass die installierten Pakete korrekt funktionieren. Der Domäne kann anschließend mit <strong>$realm -join &lt;Domäne&gt; -U &lt;DomänenAdmin&gt;</strong> beigetreten werden. Hier ermöglicht der Schalter -U das Angeben eines Nutzernamens, welcher ein Domänenadministrator sein sollte.</p>
+<p>In der Standardkonfiguration wird kein Nutzerverzeichnis für neue Nutzer erstellt, dies kann jedoch mit dem Befehl <strong>$pam-auth-update –enable mkhomdir</strong> aktiviert werden. Nach Aktivieren dieser Option wird beim Login eines noch nie am Container angemeldeten Nutzers automatisch ein Nutzerverzeichnis für diesen erstellt.</p>
+<h2>SSSD ID Umwandlung</h2>
+<p>Linux weist wie Windows, jedem Nutzer und Gruppe zur Benutzer- und Gruppenverwaltung eine eindeutige Identifikationsnummer zu. Hier muss beachtet werden, dass sich die Handhabung der beiden Betriebssysteme leicht unterscheidet. So muss die vom Active Directory gesendete Identifikationsnummer eines Nutzers in eine für Linux verständliche Identifikationsnummer durch SSSD umgewandelt werden. Hierbei entsteht jedoch ein Problem in LXC-Container. In der Standardkonfiguration von SSSD werden die Windows-IDs in sehr große Linux-IDs umgewandelt und ein Login ist nicht mehr möglich. Das Abrufen von AD-Nutzer ist über <strong>$getend passwd &lt;Nutzer&gt;@&lt;Domäne&gt;</strong> möglich. Zu erkennen sind hier zwei große Nummern, die NutzerID und die GruppenID.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/c0c35fc2-96d8-461d-b54b-20166013a47a/Abbildung_7_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 7: Gruppen- und Nutzer-ID des Nutzers ist riesig</p>
+<p>Um diesem Problem entgegenzuwirken, kann SSSD so konfiguriert werden, dass Windows-IDs auf kleinere Linux-IDs umgewandelt werden. Hierzu müssen 3 Zeilen in <strong>/etc/sssd/sssd.conf</strong> hinzugefügt werden und überprüft werden, dass <strong>ldap_id_mapping</strong> auf <strong>true</strong> gesetzt ist.<br>&nbsp;</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/94e787d0-bc63-4349-8af5-4a4b2ee68de5/Abbildung_8_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=300w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 8: SSSD Einstellungen, um IDs auf einen kleineren Bereich zu beschränken</p>
+<p>Diese 3 Zeilen beschränken die Größe der IDs auf Zahlen von 10.000 bis 50.000. Nach der Änderung muss die Konfigurationsdatenbank von SSSD gelöscht (<strong>$rm -rf /var/lib/sss/db/*</strong>) und SSSD neugestartet werden (<strong>$service sssd restart</strong>). Ruft man nun erneut die Nutzerinformationen mit <strong>$getent passwd &lt;Nutzer&gt;@&lt;Domäne&gt;</strong> auf, besitzt dieser viel kleinere Nutzers- und Gruppen-IDs im konfigurierten Bereich.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/e007e3de-df79-4862-8224-050e314a944d/Abbildung_9_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 9: Nach der Änderung werden dem Nutzer und der Gruppe viel kleinere IDs zugewiesen</p>
+<p>Durch diese Änderung sollte nun der Login eines AD-Nutzers im Container mit dem Befehl <strong>$login</strong> möglich sein. Es muss beachtet werden, dass sich ein Nutzer in der Standardkonfiguration nur mittels <strong>&lt;NutzerName&gt;@&lt;Domäne&gt;</strong> anmelden kann. Dieses Verhalten kann jedoch in <strong>/etc/sssd/sssd.conf</strong> verändert werden und überschreitet den Umfang dieses Blogeintrags.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/7c9be793-a9d6-43c8-a533-c9f7d5c84e40/Abbildung_10_Linux+Container+%26+Active+Directory+-+Teil+2+Einbinden+eines+Containers+ins+AD.png?format=500w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 10: Anmelden im Container mit einem AD-Nutzer durch $login und nutzen des Formats &lt;NutzerName&gt;@&lt;Domäne&gt;</p>
+<h2>Fehlerbehebung</h2>
+<p>Ist eine Anmeldung weiterhin nicht möglich, so muss die Domäne zuerst verlassen werden mit <strong>$realm leave</strong> und anschließend die Schritte zum Beitreten der Domäne und der ID-Umwandlung erneut ausgeführt werden.</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
