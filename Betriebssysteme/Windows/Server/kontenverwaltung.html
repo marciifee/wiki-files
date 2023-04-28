@@ -2,7 +2,7 @@
 title: Kontenverwaltung
 description: 
 published: true
-date: 2023-04-28T13:34:27.102Z
+date: 2023-04-28T13:38:04.122Z
 tags: konten überwachung, konto überwachung, kontenverwaltung
 editor: ckeditor
 dateCreated: 2023-04-28T13:33:49.597Z
@@ -17,9 +17,9 @@ dateCreated: 2023-04-28T13:33:49.597Z
 <p>Hierzu öffnen Sie den Gruppenrichtlinieneditor auf dem Domänen Controller und erstellen eine neue Gruppenrichtlinie.</p>
 <p>Bearbeiten Sie diese Gruppenrichtlinie und navigieren Sie zu <i>Computer Konfiguration &gt; Richtlinien &gt; Windows-Einstellungen &gt; Sicherheitseinstellungen &gt; Lokale Richtlinien &gt; Überwachungsrichtlinien</i>.</p>
 <p>Aktivieren Sie hier die Option <i>Kontenverwaltung überwachen</i>.</p>
-<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/859783dc-5813-4e43-96d3-116c09a6bcdf/Kontenverwaltung+%C3%BCberwachen_1.JPG?format=1000w" alt=""></figure>
-<p>&nbsp;</p>
+<figure class="image"><img src="/uploads/kontenverwaltung+überwachen_1.jpg"></figure>
 <p>Abbildung 1: Aktivieren von Kontenverwaltung überwachen</p>
+<p>&nbsp;</p>
 <p>Nun können Sie zwischen <i>Fehler</i> und/oder <i>Erfolg</i> wählen. Bitte verwenden Sie die untere Tabelle, um herauszufinden, welche Aktionen beim Aktivieren der jeweiligen Option überwacht werden.</p>
 <p><strong>Ereignisliste (Sortiert nach EventID):</strong></p>
 <p>Event ID, Ereignis, Beschreibung</p>
@@ -41,18 +41,21 @@ dateCreated: 2023-04-28T13:33:49.597Z
 <p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-5376">5376</a>, Erfolg, Anmeldeinformationen der Anmeldeinformationsverwaltung wurden gesichert</p>
 <p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-5377">5377</a>, Erfolg, Anmeldeinformationen der Anmeldeinformationsverwaltung wurden von einer Sicherung wiederhergestellt</p>
 <p>Sofern Ereignisse ausgelöst werden, können Sie diese in der Ereignisanzeige unter <i>Windows-Protokolle &gt; Sicherheit</i> einsehen.</p>
-<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/8a5b02f1-3eea-427b-878e-4a0f761537f4/Kontenverwaltung+%C3%BCberwachen_2.JPG?format=1500w" alt=""></figure>
-<p>&nbsp;</p>
+<figure class="image"><img src="/uploads/kontenverwaltung+überwachen_2.jpg"></figure>
 <p>Abbildung 2: Ereignisanzeige der Kontenüberwachung</p>
+<p>&nbsp;</p>
 <p>Jedoch bietet das Überwachen der Kontenverwaltung weitaus mehr als nur das Anzeigen der oben aufgelisteten Ereignisse. Um genauere Informationen eines Ereignisses einzusehen, genügt ein Doppelklick auf ein<strong> </strong>Solches.<strong> </strong>Hier finden Sie unter anderem den Nutzer, welcher die Aktion ausgeführt hat. Und ob diese fehlgeschlagen ist oder erfolgreich war.</p>
-<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/efb29c82-c9ff-4d6f-87c5-96645d2e1ee1/Kontenverwaltung+%C3%BCberwachen_3.JPG?format=750w" alt=""></figure>
-<p>&nbsp;</p>
+<figure class="image"><img src="/uploads/kontenverwaltung+überwachen_3.jpg"></figure>
 <p>Abbildung 3: Nutzer "user1" hat erfolgreich sein Passwort geändert</p>
-<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/c00759e5-4316-4aae-9e73-8debc7a695b9/Kontenverwaltung+%C3%BCberwachen_4.JPG?format=750w" alt=""></figure>
 <p>&nbsp;</p>
+<figure class="image"><img src="/uploads/kontenverwaltung+überwachen_4.jpg"></figure>
 <p>Abbildung 4: Nutzer "user1" hat versucht sein Passwort zu ändern, dies ist jedoch fehlgeschlagen</p>
-<p>So können Sie – sofern Sie LDAP (Lightweight Directory Access Protocol) nach Best Practice nutzen; siehe unten – herausfinden, ob ein Konto mittels LDAP oder über ADUC (Active Directory Users and Computers) erstellt wurde.</p>
-<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/b4bfe707-d80b-4ffb-a506-beb5006278ba/Kontenverwaltung+%C3%BCberwachen_5.JPG?format=750w" alt=""></figure>
 <p>&nbsp;</p>
+<p>So können Sie – sofern Sie LDAP (Lightweight Directory Access Protocol) nach Best Practice nutzen; siehe unten – herausfinden, ob ein Konto mittels LDAP oder über ADUC (Active Directory Users and Computers) erstellt wurde.</p>
+<figure class="image"><img src="/uploads/kontenverwaltung+überwachen_5.jpg"></figure>
 <p>Abbildung 5: Nutzer "Administrator" hat erfolgreich das Passwort von Nutzer "user1" zurückgesetzt</p>
+<p>&nbsp;</p>
 <p>Unter Best Practice nutzt LDAP ein, eigens für ihn erstelltes, Nutzerkonto. Dadurch kann aus dem Ereignis entnommen werden, ob ein Nutzer mittels LDAP oder durch einen Administrator erstellt wurde.</p>
+<hr>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
