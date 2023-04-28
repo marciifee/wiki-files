@@ -1,0 +1,90 @@
+<!--
+title: RDS
+description: 
+published: true
+date: 2023-04-28T15:25:47.663Z
+tags: rds
+editor: ckeditor
+dateCreated: 2023-04-28T15:25:47.663Z
+-->
+
+<h1>RemoteApp Bereitstellung Windows Server 2019/2022 - Schritt für Schritt</h1>
+<p>Oftmals sieht man sich mit dem Problem konfrontiert, dass Nutzer Zugriff auf eine Anwendung benötigen, die nicht auf dem eigenen System verfügbar ist oder serverseitig bereitgestellt werden muss. Gleichzeitig können diese Nutzer aus Datenschutz- und Sicherheitsgründen keinen direkten Zugriff auf den Server erhalten. Eine Lösung für dieses Problem bietet die Funktion RemoteApp.</p>
+<p>In diesem Blogeintrag zeige ich Ihnen, wie Sie die Funktion in Ihrer Umgebung bereitstellen und Anwendungen zur Verfügung stellen, am Beispiel des Server Managers als RemoteApp.</p>
+<h2>Installation</h2>
+<p>Die RemoteApp kann über den Server Manager installiert werden:</p>
+<p>Wählen Sie den Reiter <strong>Manage</strong><i> </i>aus.</p>
+<p>Klicken Sie auf <strong>Add Roles and Features</strong>. Es öffnet sich der Add Roles and Features Wizard.</p>
+<p>Wählen Sie im Bereich des <strong>Installation Types</strong>, anders als sonst, die <strong>Remote Desktop Services installation</strong> aus, da ansonsten keine Verwaltungsmöglichkeit von RDS besteht.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/6c2a8a48-2a82-4322-b6a6-b395d58cc4d7/01_RemoteInstallation.PNG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Im nächsten Schritt können Sie den Deployment Type auswählen. Unterschieden wird, ob der Dienst auf einem (Quick Start) oder auf mehreren (Standard deployment) Servern bereitgestellt werden soll. Ich entscheide mich zu Demonstrationszwecken für den <strong>Quick Start.</strong></p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/10ddf71e-0e0f-4af7-8e66-97557763f396/02_QuickStart.PNG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Im Bereich des Deployment-Szenarios besteht die Auswahl zwischen <i>Virtual machine-based&nbsp; Desktop Deployment</i>, die typischerweise für die Bereitstellung von virtuellen Desktops verwendet wird, und <i>Session-based desktop deployment</i>. Ich entscheide mich für das&nbsp; <strong>Session-based desktop Deployment,</strong> da eine Anwendung und keine virtuellen Desktops bereitgestellt werden sollen.&nbsp;</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/616b165f-e1e0-4fd2-a8da-7050a885711c/03_Sessionbased.PNG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Nun wird der Server, der die RemoteApp bereitstellen soll, ausgewählt. In diesem Beispiel ist das DC2.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/267933d8-08d8-4b35-bba3-6ef159d70bec/04_Serverauswahl.png?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Anschließend bestätige ich die <strong>Zusammenfassung</strong> und führe die Installation wie beschrieben durch. Bitte beachten Sie hierbei, dass der Server <strong>neugestartet</strong> wird. Nach erfolgreicher Installation kann das Fenster geschlossen werden.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/413571eb-5fa3-4fff-b417-7b22e0af1ed7/05_Installation.PNG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Configuration</h2>
+<p>Im Server Manager erscheint in der Navigationsleiste ein neuer Menüpunkt <strong>Remote Desktop Services</strong>. In diesem Bereich befindet sich die <strong>Deployment Overview</strong> in welcher über <strong>Tasks</strong> &gt; <strong>Edit Deployment Properties</strong> die Konfiguration angepasst werden kann.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/31ae20c5-42f8-4ce8-87cc-b11aaddc7e41/06_ServerManagerOverview.PNG?format=1500w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Es öffnet sich ein Fenster zur Konfiguration des RD Gatways, RD Licensing, RD Web Access und Certificates. Zunächst müssen unter <strong>Certificates</strong>, die Zertifikate für die jeweiligen Dienste zur Serverauthentifizierung eingetragen werden. Ich gehe in diesem Fall davon aus, dass die Zertifikate bereits erstellt wurden. Ein einfaches Webserver-Zertifikat ist für die Dienste ausreichend.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/e73a90d7-541e-4beb-a905-1a773ee78f92/07Certificates.PNG?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>&nbsp;Über <strong>Select existing Certificate</strong> kann das Serverzertifikat ausgewählt und hinzugefügt werden.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/02e395db-c338-43d2-a456-bb46eef42ad4/08_Cert.PNG?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Zertifikate werden für die Dienste</p>
+<p>RD Connection Broker – Enable Single Sign On</p>
+<p>RD Connection Broker – Publishing</p>
+<p>RD Web Access</p>
+<p>hinzugefügt. Zwischen jedem Schritt muss das zuletzt hinzugefügte Zertifikat übernommen werden, da ansonsten kein weiteres hinzugefügt werden kann.</p>
+<p>&nbsp;</p>
+<h2>Testen</h2>
+<p>Nach erfolgreicher Installation aller Zertifikate, kann die Konfiguration über den Internet Explorer getestet werden, indem <a href="https://servername/rdweb"><strong>https://servername/rdweb</strong></a> aufgerufen wird. Anschließend sollte es möglich sein, sich bei dem Dienst anzumelden.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/d944e266-9e93-419d-b5ff-e8d21f8fd349/09_WorkRessource.PNG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Jetzt kann bereits eine der zur Verfügung gestellten Apps gestartet werden. In diesem Fall teste ich die Konfiguration mit WordPad.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/bf7719ad-6ca6-4521-8a82-7bb32798df57/10_RemoteApps.PNG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Standardmäßig erscheinen die Anwendungen Calculator, Paint und WordPad. Testweise kann die Anwendung WordPad gestartet werden. Beim Versuch WordPad zu öffnen, wird eine .rdp-Datei heruntergeladen. Nach Bestätigung der Verbindung öffnet sich Wordpad.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/2691fcc0-bfa3-48d6-9cb1-f49df6a62081/11_RemoteVerbindung.PNG?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Remote-Anwendung auf Windows Clients</h2>
+<p>Unter Windows 8 / Windows 10 und neuer kann für den Verbindungsaufbau die Anwendung <strong>RemoteApp and Desktop Connections</strong> verwendet werden.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/f9bbeeec-90cf-4128-af77-87af3ff26205/12_RemoteAppAndDesktopConnections.PNG?format=500w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Vorteil an der Anwendung ist, dass die Remote genutzten Programme als Anwendung auf dem Client angezeigt werden, als wäre die Anwendung lokal verfügbar. Um die Work Ressources hinzuzufügen, öffne ich die Anwendung und wähle die Einstellung <strong>Access RemoteApp and desktops</strong> aus. &nbsp;</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/a69227eb-74b6-4193-8010-487035231c73/13_RemoteAppWin10Bearbeitet.png?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Anschließend trage ich als connection URL <a href="https://servername/rdweb/feed/webfees.apsx"><strong>https://servername/rdweb/feed/webfees.apsx</strong></a> ein. Jetzt ist es auch über diese App möglich, eine Verbindung zu den Anwendungen herzustellen.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/8256c197-7d6a-449c-b760-56f493d2905f/14_RemoteAppVerbindung.PNG?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Die RemoteApps lassen sich wie normale Apps auch an die Startseite anheften. Die RemoteApp ist dadurch erkennbar, dass sie den Zusatz (Work Resource) im Titel trägt.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/042ebf72-a2e2-4e02-b557-b160deb987c8/16_StartMenueBearbeitet.png?format=500w" alt=""></figure>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Anwendungen Bereitstellen</h2>
+<p>Weitere Anwendungen können zu den RemoteApps wie folgt hinzugefügt werden:</p>
+<p>Verbinden Sie sich auf den <strong>Remote Desktop Service Server</strong>.</p>
+<p>Navigieren Sie über den <strong>Server Manager</strong> zu <strong>Remote Desktop Services.</strong></p>
+<p>Auf der linken Seite wählen Sie<i><strong> </strong></i><strong>Collections</strong> &gt;<strong> QuickSessionCollections</strong></p>
+<p>Im mittleren Bereich befinden sich die RemoteApp Programs.</p>
+<p>Wählen Sie in diesem Bereich <strong>Tasks </strong>&gt; <strong>Publish RemoteApp Programs</strong> aus.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/fd80bf7a-c2ef-4030-9aba-0f73debe2e21/17_PublishRemoteAppBearbeitet.png?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Anschließend können Sie aus allen verfügbaren Apps auswählen, welche Sie veröffentlichen möchten.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/eaf8c768-347a-43ad-9a0a-6d887ddd2df6/18_AppAusw%C3%A4hlen.PNG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Da ich für dieses Szenario den Server Manager als RemoteApp bereitstellen möchte, wird hier der Server Manager ausgewählt und mittels <strong>Publish</strong> veröffentlicht.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/70738ab3-892e-4fee-9750-2b7149da65a7/19_ServerManager.PNG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>&nbsp;Der Server Manager ist daraufhin als RemoteApp verfügbar.</p>
