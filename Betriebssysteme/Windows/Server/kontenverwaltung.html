@@ -1,0 +1,58 @@
+<!--
+title: Kontenverwaltung überwachen
+description: 
+published: true
+date: 2023-04-28T13:33:49.597Z
+tags: konten überwachung, konto überwachung, kontenverwaltung
+editor: ckeditor
+dateCreated: 2023-04-28T13:33:49.597Z
+-->
+
+<h1>Kontenverwaltung überwachen</h1>
+<p>Es ist immer ratsam zu überwachen, ob Nutzerkonten bearbeitet werden. So können Sie schnell auf unerwünschte Änderungen, welche unter anderem ein Sicherheitsrisiko darstellen können, reagieren. In diesem Blogeintrag werden wir uns anschauen, wie man die Überwachung der Kontenverwaltung aktiviert und wie man sie nutzt.<br><br>Um die Nutzerkonten eines Active Directory zu überwachen, muss zunächst die Option <i>Kontenverwaltung überwachen</i> in den Gruppenrichtlinien unter <i>Computerkonfiguration &gt; Richtlinien &gt; Windows-Einstellungen &gt; Sicherheitseinstellungen &gt; Lokale Richtlinien &gt; Überwachungsrichtlinie</i> aktiviert werden.</p>
+<p>Diese Funktion ist jedoch inkompatibel mit der <i>Erweiterten Überwachungskonfiguration</i> (zu finden unter <i>Computerkonfiguration &gt; Richtlinien &gt; Windows-Einstellungen &gt; Sicherheitseinstellungen &gt; Erweiterte Überwachungsrichtlinienkonfiguration</i>).<br>Wenn Sie die Erweiterte Überwachungskonfiguration aktiviert haben, müssen Sie diese zunächst deaktivieren. Dies können Sie wie folgt erreichen:</p>
+<p>Setzen Sie alle Unterkategorien der erweiterten Überwachungsrichtlinien auf <i>nicht konfiguriert</i> festlegen.</p>
+<p>Löschen Sie alle <i>Audit.csv</i>-Dateien aus dem Ordner <i>%SYSVOL%</i> auf dem Domänencontroller.</p>
+<p>Anschließend können Sie die Funktion <i>Kontenverwaltung überwachen</i> aktivieren:</p>
+<p>Hierzu öffnen Sie den Gruppenrichtlinieneditor auf dem Domänen Controller und erstellen eine neue Gruppenrichtlinie.</p>
+<p>Bearbeiten Sie diese Gruppenrichtlinie und navigieren Sie zu <i>Computer Konfiguration &gt; Richtlinien &gt; Windows-Einstellungen &gt; Sicherheitseinstellungen &gt; Lokale Richtlinien &gt; Überwachungsrichtlinien</i>.</p>
+<p>Aktivieren Sie hier die Option <i>Kontenverwaltung überwachen</i>.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/859783dc-5813-4e43-96d3-116c09a6bcdf/Kontenverwaltung+%C3%BCberwachen_1.JPG?format=1000w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 1: Aktivieren von Kontenverwaltung überwachen</p>
+<p>Nun können Sie zwischen <i>Fehler</i> und/oder <i>Erfolg</i> wählen. Bitte verwenden Sie die untere Tabelle, um herauszufinden, welche Aktionen beim Aktivieren der jeweiligen Option überwacht werden.</p>
+<p><strong>Ereignisliste (Sortiert nach EventID):</strong></p>
+<p>Event ID, Ereignis, Beschreibung</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4720">4720</a>, Erfolg, Ein Benutzerkonto wurde erstellt</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4722">4722</a>, Erfolg, Ein Benutzerkonto wurde aktiviert</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4723">4723</a>, Erfolg oder Fehler, Es wurde versucht, das Kennwort eines Kontos zu ändern</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4724">4724</a>, Erfolg oder Fehler, Es wurde versucht, das Kennwort eines Kontos zurückzusetzen</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4725">4725</a>, Erfolg, Ein Benutzerkonto wurde deaktiviert</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4726">4726</a>, Erfolg, Ein Benutzerkonto wurde gelöscht</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4738">4738</a>, Erfolg, Ein Benutzerkonto wurde geändert</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4740">4740</a>, Erfolg, Ein Benutzerkonto wurde gesperrt</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4765">4765</a>, Erfolg, Ein sid-Protokoll wurde einem Konto hinzugefügt</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4766">4766</a>, Fehler, Das Hinzufügen eines SID-Verlaufs zu einem Konto ist fehlgeschlagen</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4767">4767</a>, Erfolg, Ein Benutzerkonto wurde gesperrt</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4780">4780</a>, Erfolg, Die ACL wurde für Konten eingerichtet, die Mitglieder von Administratoren Gruppen sind</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4781">4781</a>, Erfolg, Der Name eines Kontos wurde geändert</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4794">4794</a>, Erfolg oder Fehler, Es wurde versucht, das Administratorkennwort für den Verzeichnisdienst Wiederherstellungsmodus einzurichten</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-4798">4798</a>, Erfolg, Die lokale Gruppenmitgliedschaft eines Benutzers wurde aufgelistet</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-5376">5376</a>, Erfolg, Anmeldeinformationen der Anmeldeinformationsverwaltung wurden gesichert</p>
+<p><a href="https://docs.microsoft.com/de-de/windows/security/threat-protection/auditing/event-5377">5377</a>, Erfolg, Anmeldeinformationen der Anmeldeinformationsverwaltung wurden von einer Sicherung wiederhergestellt</p>
+<p>Sofern Ereignisse ausgelöst werden, können Sie diese in der Ereignisanzeige unter <i>Windows-Protokolle &gt; Sicherheit</i> einsehen.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/8a5b02f1-3eea-427b-878e-4a0f761537f4/Kontenverwaltung+%C3%BCberwachen_2.JPG?format=1500w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 2: Ereignisanzeige der Kontenüberwachung</p>
+<p>Jedoch bietet das Überwachen der Kontenverwaltung weitaus mehr als nur das Anzeigen der oben aufgelisteten Ereignisse. Um genauere Informationen eines Ereignisses einzusehen, genügt ein Doppelklick auf ein<strong> </strong>Solches.<strong> </strong>Hier finden Sie unter anderem den Nutzer, welcher die Aktion ausgeführt hat. Und ob diese fehlgeschlagen ist oder erfolgreich war.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/efb29c82-c9ff-4d6f-87c5-96645d2e1ee1/Kontenverwaltung+%C3%BCberwachen_3.JPG?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 3: Nutzer "user1" hat erfolgreich sein Passwort geändert</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/c00759e5-4316-4aae-9e73-8debc7a695b9/Kontenverwaltung+%C3%BCberwachen_4.JPG?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 4: Nutzer "user1" hat versucht sein Passwort zu ändern, dies ist jedoch fehlgeschlagen</p>
+<p>So können Sie – sofern Sie LDAP (Lightweight Directory Access Protocol) nach Best Practice nutzen; siehe unten – herausfinden, ob ein Konto mittels LDAP oder über ADUC (Active Directory Users and Computers) erstellt wurde.</p>
+<figure class="image image_resized" style="width:auto !important;"><img src="https://images.squarespace-cdn.com/content/v1/56f533637da24f30d00403ea/b4bfe707-d80b-4ffb-a506-beb5006278ba/Kontenverwaltung+%C3%BCberwachen_5.JPG?format=750w" alt=""></figure>
+<p>&nbsp;</p>
+<p>Abbildung 5: Nutzer "Administrator" hat erfolgreich das Passwort von Nutzer "user1" zurückgesetzt</p>
+<p>Unter Best Practice nutzt LDAP ein, eigens für ihn erstelltes, Nutzerkonto. Dadurch kann aus dem Ereignis entnommen werden, ob ein Nutzer mittels LDAP oder durch einen Administrator erstellt wurde.</p>
